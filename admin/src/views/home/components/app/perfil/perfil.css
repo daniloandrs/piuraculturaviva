@@ -1,0 +1,10 @@
+.dn-perfil {
+
+}
+.dn-perfil .card .card-plain .card-category {
+    text-transform: initial;
+}
+.dn-perfil .card .card-plain .card-title {
+    font-weight: bold;
+    font-size: 3vh;
+}

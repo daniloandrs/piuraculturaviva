@@ -1,0 +1,328 @@
+<dn-loader ng:if="loader"></dn-loader>
+
+<div class="wrapper" ng:if="!loader">
+    
+    <div class="page-header page-header-small">
+
+        <div 
+            class="page-header-image" 
+            data-parallax="true" 
+            style="background-image: url('./assets/img/PIURA-2032-EVENTO.png');" 
+            d:view-resize="background" imgs="misImgs"
+        >
+        </div>      
+
+        <div class="content-center">
+        
+        </div>
+
+        <div class="contain-donwload">
+
+            <button 
+                ng:disabled="spin_book"
+                class="btn button donwload-book text-center" ng:click="download();"> 
+                Descargar libro
+                <span class="fa-2x fa ml-2 {{ spin_book ? 'fa-spin fa-spinner' : 'fa-download'}}"></span>
+                
+            </button>        
+        
+
+        </div>
+    </div>
+
+    <div class="main-raised">
+
+        <div class="section section-about-us">
+            
+            <div class="container">
+                
+                <div class="row">
+
+                    <div class="col-md-12 text-center">
+                        
+                        <blockquote class="col-md-10 center-block">
+                        
+                            <p class = "title">
+
+                                <i class="fa fa-quote-left"></i> 
+                                
+                                Una buena ciudad es como una buena fiesta, nadie quiere irse, pues lo están pasando bien y lo disfrutan.
+                                
+                                <i class="fa fa-quote-right"></i>
+                                <br>
+                                (Arquitecto Jan Gehl)
+
+                            </p>
+
+                        </blockquote>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="container">
+          
+                <div class="row">
+            
+                    <div class="col-md-10 ml-auto mr-auto text-start">
+                        
+                        
+                        <div class="content-html" ng-bind-html="description"></div>
+                        
+                        <!-- 
+                        <article id="post-6762" class="section-text">
+			
+                            <p class="has-text-align-justify">
+                                    
+                                Pensar en el futuro del lugar dónde vivimos, sin duda es todo un enigma que los ciudadanos en más de una ocasión de seguro se han imaginado. Y es que el presente de una ciudad responde a un pensamiento del ayer, las ciudades no se construyen solas. Ese pensamiento o visión de los ciudadanos, que no son más que representaciones, imágenes de escenarios que se pueden realizar en un futuro, cercano o lejano, y que, planificados y comunicados adecuadamente, pueden impactar en el desarrollo de una ciudad.
+
+                            </p>
+                            
+                            <div class="row">
+                                
+                                <div class="col-md-6">
+
+                                    <figure class="wp-block-image size-large">
+                                        <img src="./assets/img/autor_nuevo.jpeg" alt="author">
+                                    </figure>
+                                </div>
+
+                                
+                                <div class="col-md-6">
+
+                                    <p class="has-text-align-justify">
+                                        Bajo esta premisa, la urbanista y docente de UDEP Stella Schroeder, después de una ardua investigación, ha escrito el libro “Piura al 2032 post-covid. Una visión urbana de los ciudadanos de Piura para Piura”, texto en el cual plantea que la participación ciudadana es cada vez más relevante para el desarrollo urbano.
+                                        Las ciudades necesitan planificarse, sin planificación urbana no se puede aportar al desarrollo. Al respecto, Schroeder señala: “la planificación urbana se entiende como un proceso de aprendizaje colectivo en el que se comparten y discuten los posibles métodos y 
+                                        modelos para la realización de los deseos y necesidades formulados por los usuarios.”
+
+                                        La obra tiene su origen y motivación a raíz de los golpes y estragos producto del fenómeno del Niño Costero 2017, que azotó a Piura e inició un proceso de reconstrucción, el cual despertó en la población el deseo de participar. A partir de allí surgen iniciativas que buscan mejorar la ciudad y la calidad urbana.
+
+                                        Schroeder afirma que los piuranos han empezado a reclamar sus derechos y a preocuparse por su ciudad. Para el futuro es importante explotar este potencial de las iniciativas ciudadanas y articularlo con la formación de redes profesionales.
+                                
+                                    </p>
+                                </div>
+
+                            </div>
+                            
+                            <p class="has-text-align-justify">
+
+                                La investigación de Stella Schroeder, que da origen a su libro, se sustenta en un primer mapeo colectivo realizado el año 2018 durante las celebraciones por el 486 aniversario de la ciudad de Piura en la Plaza de Armas los días 10 y 11 de agosto. Más de 300 piuranos participaron en dicho mapeo, nombrando sus lugares preferidos, parques que visitan, dónde juegan los niños, qué lugares evitan, por qué los encuentran peligrosos y cuáles son los puntos de conflicto en la ciudad.
+
+                            </p>
+                            
+                        </article>
+
+                        -->
+
+                    </div>
+
+                    <div class="col-md-10 ml-auto mr-auto text-start" ng:hide ="true">
+                    
+                        <div d:youtube code="LrgXMvPdnF0"></div>
+                    
+                    </div>
+
+
+                    <div class="col-md-10 ml-auto mr-auto text-start" ng:show="!inMobile">
+
+                        <div class="container">
+
+                            <div id="galeria">
+
+                                <article class="article" ng:repeat = "photo in photos" lightgallery data-src="{{photo.fullres}}" style="cursor:pointer">
+                                    
+                                        <figure>
+
+                                            <img class="figure" ng-src="{{photo.thumbnail}}" >
+                                            
+                                        </figure>
+                                
+                                </article>
+
+                            </div>
+                            
+                        </div>
+
+                    </div>  
+
+
+                    <div class="col-md-10 ml-auto mr-auto text-start" ng:show="inMobile">
+
+
+                        <div class="owl-carousel" id="loop">
+
+                            <div class="item" ng:repeat = "photo in photos" lightgallery data-src="{{photo.fullres}}" style="cursor:pointer">
+                                    <img class="figure" style="width: 80%; margin:auto" ng-src="{{photo.thumbnail}}" >
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-10 ml-auto mr-auto text-start">
+
+                        <div class="container">
+
+                            <div class="row mb-5">
+
+                                <div class="col-md-7 text-center mx-auto">
+                                
+                                    <span class="subtitle">
+                                        El futuro de la ciudad esta en todos nosotros.
+                                    </span>
+                                
+                                    <h2 class="title">
+                                        Déjanos tus sugerencias para volver a Piura un lugar mejor.
+                                    </h2>
+                                
+                                </div>
+
+                            </div>
+
+                            <div class="comments">
+
+                                <ul id="comments-list" class="comments-list"  ng:if = "listcomments.length > 0 ">
+
+                                    <li ng:repeat = "comment in listcomments | orderBy : '-date' ">
+                                    
+                                        <div class="comment-main-level">
+                                            
+                                            <div class="comment-avatar">
+                                                <img ng:src="{{defaultProfile}}" alt="">
+                                            </div>
+                                            
+                                            <div class="comment-box">
+                                            
+                                                <div class="comment-head">
+                                                    <h6 class="comment-name">
+                                                        <a ng:bind="comment.name"></a>
+                                                    </h6>
+                                                    <span ng:bind = "timeAgo(comment.date);"></span>
+                                                    
+                                                    <div class="wpd-unapproved mt-1" ng:if="!comment.status">
+                                                        <i class="fas fa-exclamation-circle"></i>
+                                                        Esperando aprobación
+                                                    </div>
+
+                                                </div>
+                                                <div class="comment-content pt-0" ng:bind = "comment.content"></div>
+                                            </div>
+                                        </div>
+                                    
+                                    </li>
+                                
+                                </ul>
+
+                                <div ng:if = "listcomments.length == 0 ">
+                                    <h5 class="text-center" style="color: var(--color-red);">
+                                        <i class="far fa-frown"></i>
+                                        No tiene ningún comentario. 
+                                    </h5>
+                                </div> 
+                            
+                            </div>
+                            
+                            <br>
+
+                            <div class="media-body">
+
+                                <div class="comment-respond">
+
+                                    <h3 class="text-center">
+                                        Dejar un comentario 
+                                        </small>
+                                    </h3> 
+                                    
+                                    <form  autocomplete="off" name="formComment" class="form form-group" ng:submit="newComment();">
+                           
+                                        <div class="row"> 
+        
+                                            <div class="col-md-6"> 
+                                                <div class="form-group">
+                                                    <label class="control-label">
+                                                        Nombre <span class="required">*</span>
+                                                    </label>
+                                                    
+                                                    <input 
+                                                        name="name" 
+                                                        class="form-control" 
+                                                        type="text" required="true"
+                                                        ng:model = "commentObject.name"
+                                                    > 
+                                                    <span class="hestia-input"></span> 
+                                                </div> 
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">
+                                                        Email <span class="required">*</span>
+                                                    </label>
+                                                    
+                                                    <input  
+                                                        name="email" 
+                                                        class="form-control" 
+                                                        type="email" required="true"
+                                                        ng:model = "commentObject.email"
+                                                    > 
+                                                    <span class="hestia-input"></span>
+                                                </div>
+                                            </div>
+                                        
+                                        </div>
+
+                                        <div class="form-group">
+                                            
+                                            <label class="control-label">
+                                                ¿Qué estas pensando? 
+                                            </label>
+
+                                            <textarea 
+                                                name="content" 
+                                                class="form-control" 
+                                                rows="6" 
+                                                required="true"
+                                                ng:model = "commentObject.content"
+                                            >
+                                            </textarea>
+                                            
+                                        </div>
+                            
+                                        <p class="form-submit text-center">
+                                            
+                                            <button 
+                                                type="submit" 
+                                                class="btn btn-primary"
+                                                ng:disabled = "formComment.$invalid || spin_form "
+                                            > 
+
+                                            <div class="spinner">
+
+                                                {{ spin_form ? 'ENVIANDO ... ' : 'ENVIAR COMENTARIO' }}
+
+                                            </button>
+                                        </p>
+                                    </form>
+
+                                </div>
+                            </div>
+
+                            
+                        </div>
+
+                    </div> 
+
+                </div>
+            
+            </div>
+
+            <div class="separator separator-primary"></div>
+
+        </div>
+        
+    </div>
+
+  </div>

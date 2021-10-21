@@ -1,0 +1,12 @@
+{
+    "name": "Beli/Auth",
+    "description": "paquete de authenticación",
+    "authors": [
+        {
+            "name": "Miguel Eca",
+            "email": "miguelecainf94@hotmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

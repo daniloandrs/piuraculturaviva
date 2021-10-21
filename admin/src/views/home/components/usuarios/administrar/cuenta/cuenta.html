@@ -1,0 +1,124 @@
+<div class="dn-cuenta" ng:init="onInit()">
+    <div class="container-fluid no-padding">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">
+                    <i class="fa fa-users"></i> Administrar Cuenta de Usuario</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="card card-plain">
+                            <div class="card-image text-center">
+                                <img class="img img-raised" ng:src="{{profile_image}}" alt="profile_image">
+                            </div>
+                            <div class="card-body text-center">
+                                <a href="">
+                                    <h4 class="card-title">
+                                        <i class="fa fa-user"></i>
+                                        <span ng:bind="user.nick"></span>
+                                    </h4>
+                                </a>
+                                <h6 class="card-category text-info">
+                                    <i class="fa fa-envelope"></i>
+                                    <span ng:bind="user.email"></span>
+                                </h6>
+                                <div class="card-footer">
+                                    <button class="btn btn-simple btn-warning" ng:click="changePassword()">
+                                        <i class="fa fa-undo"></i> cambiar contraseña</button>
+                                    <button class="btn btn-simple" ng:click="closeEvent(2)" ng:if="visible">
+                                        <i class="fa fa-ban"></i> suspender cuenta</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 fix-col">
+                        <div class="card card-plain">
+                            <div class="card-body text-center">
+                                <div class="icono">
+                                    <i class="fa fa-users"></i>
+                                </div>
+                                <div class="card-footer" ng:click="openModal(0)">
+                                    <button class="btn btn-info">roles</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 fix-col">
+                        <div class="card card-plain">
+                            <div class="card-body text-center">
+                                <div class="icono">
+                                    <i class="fa fa-desktop"></i>
+                                </div>
+                                <div class="card-footer" ng:click="openModal(1)">
+                                    <button class="btn btn-info">sesiones</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<dn-modal name="cuenta-roles" title-modal="{{titleModal}}" size="md">
+    <div class="table-responsive">
+        <table class="table">
+            <tr ng:repeat="row in list_data_modal">
+                <th ng:bind="row.nombre"></th>
+                <td>
+                    <div class="beli-switch">
+                        <input id="check-item{{row.id}}" type="checkbox" ng:checked="row.check" ng:click="changeStateItem(row)">
+                        <label for="check-item{{row.id}}" ng:class="{ 'badge-success': row.check }"></label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</dn-modal>
+<dn-modal name="cuenta-sessions" title-modal="{{titleModal}}" scale="10">
+    <div class="table-responsive">
+        <table class="table table-andheuris table-hover">
+            <thead>
+                <tr>
+                    <th>Dispositivo</th>
+                    <th>Dirección IP</th>
+                    <th>Fecha de Conexión</th>
+                    <th>Fecha de última iteración</th>
+                    <th>Cerrar sesión</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng:repeat="row in list_data_modal">
+                    <td ng:bind="row.dispositivo"></td>
+                    <td ng:bind="row.ip"></td>
+                    <td ng:bind="row.created_at | amDateFormat:'dddd, DD MMMM YYYY, h:mm:ss a'"></td>
+                    <td ng:bind="row.updated_at | amDateFormat:'dddd, DD MMMM YYYY, h:mm:ss a'"></td>
+                    <td>
+                        <button class="btn btn-warning btn-sm btn-icon" ng:click="closeEvent(0, row)">
+                            <i class="fa fa-sign-out-alt"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</dn-modal>
+<dn-modal name="modal-change-password" title-modal="Cambiar contraseña" scale="6">
+    <form ng:submit="savePassword()">
+        <fieldset>
+            <div class="form-group">
+                <label for="">*Nueva Contraseña</label>
+                <input type="password" class="form-control" required="" ng:model="main_object.password">
+            </div>
+             <div class="form-group">
+                <label for="">*Repita Contraseña</label>
+                <input type="password" class="form-control" required="" ng:model="main_object.password_confirm">
+            </div>
+        </fieldset>
+        <div class="text-center">
+            <dn-button-submit label="GUARDAR NUEVA CONTRASEÑA" icon="fa fa-save" 
+            spinner="loading_modal"></dn-button-submit>
+        </div>
+    </form>
+</dn-modal>

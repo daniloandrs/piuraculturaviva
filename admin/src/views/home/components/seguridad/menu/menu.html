@@ -1,0 +1,122 @@
+<div class="dn-menus" ng:init="onInit()">
+    <div class="container-fluid no-padding">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="card-title">
+                            <i class="fa fa-th"></i> Menús del Sistema</h4>
+                    </div>
+                    <div class="col text-right">
+                        <button class="btn btn-simple" ng:click="toggleView()">
+                            <div ng:show="normalView">
+                                <i class="fa fa-eye"></i>
+                                <span>registros inhabilitados</span>
+                            </div>
+                            <div ng:hide="normalView">
+                                <i class="fa fa-arrow-left"></i>
+                                <span>volver</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="btn btn-success" ng:click="openModal(0)">
+                            <i class="fa fa-plus"></i> agregar menú</button>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <input type="text" placeholder="Buscar" ng:model="search" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng:if="normalView">
+                    <div class="container-fluid">
+                        <br>
+                        <div class="table-responsive">
+                            <table class="table table-andheuris table-hover">
+                                <thead class="active">
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Rol</th>
+                                        <th>Construir</th>
+                                        <th>Operaciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng:repeat="row in listData | filter: search">
+                                        <td ng:bind="row.nombre"></td>
+                                        <td ng:bind="row.rol.nombre"></td>
+                                        <td>
+                                            <button class="btn btn-info btn-icon btn-sm" ng:click="buildView(row)">
+                                                <i class="fa fa-check"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-warning btn-icon" ng:click="openModal(1, row)">
+                                                <i class="fa fa-pencil-alt"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-icon" ng:click="openModal(2, row)">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng:if="!normalView">
+                    <div class="container-fluid">
+                        <div class="table-responsive">
+                            <table class="table table-andheuris table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Rol</th>
+                                        <th class="text-right">Restaurar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng:repeat="row in listData | filter: search">
+                                        <td ng:bind="row.nombre"></td>
+                                        <td ng:bind="row.rol.nombre"></td>
+                                        <td class="text-right">
+                                            <button class="btn btn-success btn-icon btn-sm" ng:click="openModal(3, row)">
+                                                <i class="fa fa-check"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<dn-modal name="modal-menu-form" title-modal="{{title}}" size="md">
+    <form ng:submit="sendDataEvent()" name="form">
+        <fieldset>
+            <dn-inputtext label="Nombre" name="nombre" model="mainObj.nombre" req="true" form="form.nombre" maxl="50"
+                minl="5" error="errors.nombre">
+            </dn-inputtext>
+
+            <dn-inputselect label="Rol" name="rol_id" model="mainObj.rol_id" list="listRoles" req="true" form="form.rol_id"
+                error="errors.rol_id"></dn-inputselect>
+        </fieldset>
+        <div class="text-center">
+            <button class="btn btn-info" type="submit">
+                <i class="fa fa-save"></i> guardar menú</button>
+            <!-- <button class="btn btn-warning" ng:click="close();form.$setPristine();" type="reset">cancelar</button> -->
+        </div>
+    </form>
+</dn-modal>

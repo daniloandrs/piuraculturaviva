@@ -1,0 +1,202 @@
+<div class="dn-roles" ng:init="onInit()">
+    <div class="container-fluid no-padding">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="card-title">
+                            <i class="fas fa-list"></i>
+                             Categoria
+                        </h4>
+                    </div>
+                </div>
+            </div> 
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="btn btn-success btn-sm" ng:click="openModal(0);"> 
+                            <i class="fas fa-plus"></i> Añadir 
+                        </button>
+                    </div>   
+
+                    <div class="col-md-6">  
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <input type="text" placeholder="Buscar" ng:model="search" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="note-andheuris">
+                    
+                    <span class="badge badge-primary">
+                        Cantidad de registros : <span ng:bind="listData.length"></span>
+                    </span>
+
+                </div>
+                <br>
+                <div class="row" ng:if="normalView">
+                    <div class="container-fluid">
+                        <div class="table-responsive">
+                            <table class="table table-andheuris table-hover">
+                                <thead class="active">
+                                    <tr>
+                                        <th>Nombre</th>
+                                        
+                                        <th>Tipo de Categoría</th>
+                                        
+                                        <th>Sub categorias </th>
+                                        
+                                        <th class="text-center">Operaciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr dir-paginate="row in listData | filter:search|itemsPerPage: 5" pagination-id="row.id">
+                                        
+                                        <td ng:bind="row.name"></td>
+                                        <td ng:bind="row.category_type.name"></td>
+
+                                        <td  class="text-center">
+                                            <button 
+                                                ng:if="(row.category_type_id == 2)"
+
+                                                class="btn btn-info btn-link btn-sm pt-0 pb-0" ng:click="gotoSubcategories(row)">
+                                                        
+                                                <i class="fas fa-plus-circle" d:tooltip="Añadir Sub categorias"></i>
+
+                                            </button>
+                                        </td>
+
+                                        <td class="text-center">
+                                            
+                                            <button class="btn btn-warning btn-link btn-sm pt-0 pb-0" ng:click="openModal(1, row)">
+                                                        
+                                                <i class="fas fa-pencil-alt" d:tooltip="Editar"></i>
+
+                                            </button>
+                                            
+                                            <button class="btn btn-danger btn-link btn-sm pt-0 pb-0"  ng:click="openModal(2, row)">
+                                                
+                                                <i class="fa fa-trash" d:tooltip="Eliminar"></i>
+                                                
+                                            </button>
+                                            
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div d:spinner="loading"></div>
+                        </div>
+                        <div class="text-center">
+                            <dir-pagination-controls pagination-id="row.id"></dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng:if="!normalView">
+                    <div class="container">
+                        <div class="table-responsive">
+                            <table class="table table-andheuris table-hover">
+                                <thead class="active">
+                                    <tr>
+                                        <th>Nombre</th>
+                                        
+                                        <th>Tipo de Categoría</th>
+                                    
+                                        <th class="text-center">Operaciones</th>
+                                    </tr> 
+                                </thead>
+                                <tbody>
+                                    <tr dir-paginate="row in listData | filter:search|itemsPerPage: 5" pagination-id="row.id">
+                                        
+                                        <td ng:bind="row.name"></td>
+                                        <td ng:bind="row.category_type.name"></td>
+        
+                                        <td class="text-center">
+ 
+                                            <button class="btn btn-warning btn-link btn-sm pt-0 pb-0" ng:click="openModal(1, row)">
+                                                        
+                                                <i class="fas fa-pencil-alt" d:tooltip="Editar"></i>
+
+                                            </button>
+                                            
+                                            <button class="btn btn-danger btn-link btn-sm pt-0 pb-0"  ng:click="openModal(2, row)">
+                                                
+                                                <i class="fa fa-trash" d:tooltip="Eliminar"></i>
+                                                
+                                            </button>
+                                            
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div d:spinner="loading"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<dn-modal name="modal-base-form" title-modal="{{title}}" size="md">
+
+    <form ng:submit="sendDataEvent();" name="forms.crud">
+        
+        <fieldset>
+    
+            <dn-inputtext 
+                label="Nombre" name="name" model="mainObj.name" req="true"
+                form="forms.crud.name" maxl="70" minl="5" error="parent.errors.crud" 
+                regex=".*"
+            >
+            </dn-inputtext>
+
+    
+        </fieldset>
+
+        <fieldset>
+    
+            <dn-inputselect
+                list="listCategoryType" key="name"
+                label="Tipo de Categoría" name="category_type_id" model="mainObj.category_type_id" req="true"
+                form="forms.crud.category_type_id" maxl="70" minl="5" error="parent.errors.crud"
+            >
+            </dn-inputselect>
+
+        </fieldset>
+        
+        <fieldset>
+
+            <dn-inputtext 
+                label="Tag" name="tag_name" model="mainObj.tag_name"
+                form="forms.crud.tag_name" maxl="70" minl="3" error="parent.errors.crud" 
+                regex=".*"
+            >
+            </dn-inputtext>
+        
+        </fieldset>
+
+        <fieldset>
+
+            <div class="">
+
+                <label style="font-size: 12px;">Elija un color para la categoria </label>
+
+                <div md-color-picker="picker.options" value="mainObj.color" ng:model="mainObj.color"></div>
+
+            </div>
+        
+        </fieldset>
+
+        <div class="fix-col justify-content-center">
+
+            <dn-button-submit label="guardar" form="forms.crud" icon="fa fa-save">
+
+            </dn-button-submit>
+        
+        </div>
+    
+        <div dn-spinner="loading_modal"></div>
+    </form>
+</dn-modal>

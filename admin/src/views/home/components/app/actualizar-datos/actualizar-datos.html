@@ -1,0 +1,234 @@
+<div class="dn-actualizar-datos" ng:init="onInit()">
+    <dn-modal name="modal-emails" title-modal="SELECT YOUR RECOVERY MAIL" scale="8">
+        <dn-inputtext model="search" holder="Buscar"></dn-inputtext>
+        <ul class="list-group" style="overflow-y:scroll;max-height:400px;">
+            <div class="list-group-item" ng:repeat="item in list_data__emails|filter: search"
+                ng:class="{'bg-info':item.check,'text-white':item.check}" ng:click="selectEmail(item.email)">
+                <label>
+                    {{item.email}}
+                </label>
+            </div>
+        </ul>
+        <div class="row">
+            <button class="btn btn-block btn-info" ng:click="changeEmail()">
+                <i class="fa fa-save"></i>
+                SAVE
+            </button>
+        </div>
+    </dn-modal>
+
+    <dn-modal name="modal-emails2" title-modal="SELECT MAIL'S" scale="8">
+        <dn-inputtext model="search" holder="Buscar"></dn-inputtext>
+        <ul class="list-group">
+            <div class="list-group-item" ng:repeat="item in list_data__emails|filter: search"
+                ng:class="{'bg-info':item.is_enviar,'text-white':item.is_enviar}" ng:click="selectEmailNuevo(item)">
+                <label>
+                    {{item.email}}
+                </label>
+            </div>
+        </ul>
+        <div class="row">
+            <button class="btn btn-block btn-info" ng:click="changeEmailNuevo()">
+                <i class="fa fa-save"></i>
+                SAVE
+            </button>
+        </div>
+    </dn-modal>
+
+    <dn-modal name="modal-emails3" title-modal="SELECT MAIL'S FOR DOCUMENT'S" scale="8">
+        <dn-inputtext model="search" holder="Buscar"></dn-inputtext>
+        <ul class="list-group">
+            <div class="list-group-item" ng:repeat="item in list_data__emails|filter: search"
+                ng:class="{'bg-info':item.is_enviar_documento,'text-white':item.is_enviar_documento}"
+                ng:click="selectEmailDocumento(item)">
+                <label>
+                    {{item.email}}
+                </label>
+            </div>
+        </ul>
+        <div class="row">
+            <button class="btn btn-block btn-info" ng:click="changeEmailDocumento()">
+                <i class="fa fa-save"></i>
+                SAVE
+            </button>
+        </div>
+    </dn-modal>
+
+    <div class="container-fluid no-padding">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">
+                    <i class="fa fa-lock-open"></i> <span d-translate="actualizar-datos-1"></span></h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="card card-plain">
+                            <div class="card-body">
+                                <ul class="list-unstyled">
+                                    <li class="list-group-item">
+                                        <form class="row" ng:submit="changeFlat(0)">
+                                            <div class="col-sm-4 fix-col">
+                                                <span d-translate="actualizar-datos-2"></span>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" ng:model="main_obj.nick"
+                                                        ng:disabled="flats.nick">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2 text-center">
+                                                <button class="btn btn-warning btn-icon btn-sm">
+                                                    <i class="fa fa-pencil-alt" ng:show="flats.nick"></i>
+                                                    <i class="fa fa-save" ng:hide="flats.nick"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <form class="row" ng:submit="changeFlat(1)">
+                                            <div class="col-sm-4 fix-col">
+                                                <span d-translate="actualizar-datos-3"></span>
+                                            </div>
+                                            <div class="col-sm-6" ng:if="!flats.password">
+                                                <div class="form-group">
+                                                    <label for=""><span d-translate="actualizar-datos-7"></span></label>
+                                                    <input type="password" class="form-control"
+                                                        ng:model="main_obj.password">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for=""><span d-translate="actualizar-datos-8"></span></label>
+                                                    <input type="password" class="form-control"
+                                                        ng:model="main_obj.password_new">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for=""><span d-translate="actualizar-datos-9"></span></label>
+                                                    <input type="password" class="form-control"
+                                                        ng:model="main_obj.password_confirmation">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2 text-center">
+                                                <button class="btn btn-warning btn-icon btn-sm">
+                                                    <i class="fa fa-pencil-alt" ng:show="flats.password"></i>
+                                                    <i class="fa fa-save" ng:hide="flats.password"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <form class="row" ng:submit="changeFlat(2)">
+                                            <div class="col-sm-4 fix-col">
+                                                <span d-translate="actualizar-datos-4"></span>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" ng:model="main_obj.email"
+                                                        ng:disabled="flats.email">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2 text-center">
+                                                <button class="btn btn-warning btn-icon btn-sm">
+                                                    <i class="fa fa-pencil-alt" ng:show="flats.email"></i>
+                                                    <i class="fa fa-save" ng:hide="flats.email"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </li>
+                                    <li class="list-group-item" ng:if="menu.rol_id == 2">
+                                        <form class="row">
+                                            <div class="col-sm-4 fix-col">
+                                                <span d-translate="login-9"></span>
+                                            </div>
+                                            <div class="col-sm-6 fix-col">
+                                                <span
+                                                    ng:bind="(main_obj.recovery_email) ? main_obj.recovery_email : text.no_recovery_email"
+                                                    style="margin-top: 6px;"></span>
+                                            </div>
+                                            <div class="col-sm-2 text-center">
+                                                <button class="btn btn-primary btn-icon btn-sm" type="button"
+                                                    ng:click="openModal(1)">
+                                                    <i class="fa fa-envelope"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </li>
+                                    <li class="list-group-item" ng:show="main_obj.is_maestro">
+                                        <form class="row">
+                                            <div class="col-sm-4 fix-col">
+                                                <span d-translate="login-cliente-9"></span>
+                                            </div>
+                                            <div class="col-sm-6 fix-col">
+                                                <span ng:bind="text.email_message" style="margin-top: 6px;"></span>
+                                            </div>
+                                            <div class="col-sm-2 text-center">
+                                                <button class="btn btn-primary btn-icon btn-sm" type="button"
+                                                    ng:click="openModal(2)">
+                                                    <i class="fa fa-envelope"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </li>
+                                    <li class="list-group-item" ng:show="main_obj.is_maestro">
+                                        <form class="row">
+                                            <div class="col-sm-4 fix-col">
+                                                <span d-translate="login-cliente-8"></span>
+                                            </div>
+                                            <div class="col-sm-6 fix-col">
+                                                <span ng:bind="text.email_document" style="margin-top: 6px;"></span>
+                                            </div>
+                                            <div class="col-sm-2 text-center">
+                                                <button class="btn btn-primary btn-icon btn-sm" type="button"
+                                                    ng:click="openModal(3)">
+                                                    <i class="fa fa-envelope"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </li>
+                                </ul>
+                                <div class="card-footer">
+                                    <div class="stats">
+                                        <span>
+                                            <i class="fa fa-calendar-alt"></i> <span
+                                                d-translate="actualizar-datos-5"></span>
+                                            :
+                                            <span ng:if="!isClient"
+                                                ng:bind="main_obj.updated_at | amDateFormat:'dddd, DD MMMM YYYY, h:mm:ss a'"></span>
+                                            <span ng:if="isClient" ng:bind="main_obj.updated_at"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 fix-col">
+                        <div class="card card-plain">
+                            <div class="card-header">
+                            </div>
+                            <div class="card-body text-center">
+                                <dn-uploaderfile model="main_obj.imagen_perfil" default="profile_image" type="image"
+                                    options="profile_options"></dn-uploaderfile>
+                                <div style="display: block;display: center;justify-content: center;"
+                                    class="text-center">
+                                    <span class="text-success">Maximum size : 400x400 px</span>
+                                </div>
+                                <button class="btn btn-success" ng:click="updateEvent__image()"
+                                    ng:disabled="!main_obj.imagen_perfil">
+                                    <i class="fa fa-save"></i> <span d-translate="cambiar-imagen"></span>
+                                </button>
+                                <div d-spinner="loading_image"
+                                    options="{message:isClient?'Updating your image':'Actualizando su imagen'}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="note-andheuris">
+                        <span class="badge badge-info" d-translate="nota-1"></span>
+                        <span d-translate="actualizar-datos-6"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

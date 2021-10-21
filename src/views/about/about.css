@@ -1,0 +1,30 @@
+
+
+.about-content {
+
+}
+
+.about-content p{
+    text-align: justify;
+}
+
+.title-nosotros {
+    color: #3C4858;
+    text-align: center;
+}
+
+.description p {
+   font-size: 14px !important;
+}
+
+.p-about {
+    padding: 2em 8em;
+}  
+
+
+@media screen and (max-width: 991px) { 
+
+    .p-about {
+        padding: 2em 1em;
+    }  
+}

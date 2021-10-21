@@ -1,0 +1,65 @@
+<div class="dn-administrar" ng:init="onInit()">
+    <div class="container-fluid no-padding">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">
+                    <i class="fa fa-users"></i>
+                    demo editor
+                </h4>
+            </div>
+            <div class="card-body">
+
+                <div class="container-fluid">
+                    <div class="table-responsive">
+                        <table class="table table-andheuris table-hover">
+                            <thead class="active">
+                                <tr>
+                                    <th class="text-center">Nombre</th>
+                                    <th class="text-center">Operaciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng:repeat="row in listData | filter: search">
+                                    <td ng:bind="row.title"></td>
+                                    <td>
+                                        <button class="btn btn-warning" ng:click="loadEdit(row)">
+                                            <i class="fa fa-pencil-alt"></i> modificar
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div d:spinner="loading"></div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <form name="formEditor">
+                    <dn-inputtext label="Titulo" name="titulo" model="object.title" req="true" form="formEditor.title"
+                        maxl="250" minl="2" error="parent.errors.title">
+                    </dn-inputtext>
+                    <fieldset>
+                        <div>
+                            <label for="">Contenido</label>
+                            <div id="toolbar">
+                            </div>
+                            <div id="editor">
+                                <p>Hello World!</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="text-center">
+                        <button class="btn btn-raised btn-info" type="button" ng-click="saveEditor();">
+                            Guardar
+                        </button>
+                        <button class="btn btn-raised btn-warning" type="button">
+                            Cancelar
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+
+<div ng:init="OnInit();">
+
+    <dn-loader ng:show="loader"></dn-loader>
+
+    <div class="wrapper" ng:show="!loader">
+        
+        <div class="main-raised" style="margin-top: 5em;">
+
+            <div class="col-md-12 text-center pt-4">
+                <h4>Recorridos Virtuales</h4>
+            </div>
+
+            <div class="row m-4">
+
+                <div class="col-sm-12 col-md-6 col-lg-4" ng:repeat="item in listVirtualTours">
+
+                    <div class="box imgboxes_style4 kl-title_style_left">
+
+                        <a class="imgboxes4_link imgboxes-wrapper" ng:click="openIframe(item);">
+                        
+                            <img loading="lazy" ng:src="{{ path + item.background_image }}"  
+                                class="img-fluid imgbox_image cover-fit-img" alt="{{item.title}}" title="{{item.title}}">
+                        
+                            <span class="imgboxes-border-helper"></span>
+                        
+                            <h3 class="m_title imgboxes-title">
+                               {{ item.title }}
+                            </h3> 
+                        
+                        </a>
+
+                    </div>
+
+                </div>
+  
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<dn-modal-frame name="modal-base-form" ng:class="{'auto-with' : spinFrame }"> 
+
+    <div class="col-12 text-center spinner-contain bg-blue" ng:show = "spinFrame">
+        <img src="assets/img/recorridos_virtuales/logo-caja-piura.jpeg" alt="logo-caja-piura">
+    </div>
+    
+    <dn-iframe-component ng:show = "!spinFrame"
+        load-frame ="iframeLoadedCallBack();"
+        width = "100%"
+        height = "auto"
+        url="iframe.url"
+    ></dn-iframe-component>
+
+
+</dn-modal-frame>
+

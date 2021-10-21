@@ -1,0 +1,50 @@
+
+dn-modal-frame .modal {
+    background-color: #000000b0;
+}
+
+dn-modal-frame .modal .modal-lg {
+
+    max-width: 81%;
+    margin: auto;
+    padding: 4px;
+    
+}
+
+.bg-blue {
+        background-color: #007bff00;
+}
+
+
+
+.auto-with {
+    width: auto;
+}
+
+.auto-with .modal.show{
+        display: flex !important;
+    margin: auto;
+    height: 100%;
+}
+
+.auto-with .modal.modal-content {
+    width: 20em;
+    /* margin: auto; */
+    margin: 10% auto;
+}
+
+.auto-with  .modal-content .modal-body {
+    padding-top: 16px;
+    background-color: #fff0;
+}
+
+@media screen and (max-width: 414px) {
+    dn-modal-frame .modal .modal-lg {
+        margin: auto !important;
+        padding: 4px;
+        text-align: center;
+        top: 30%;
+        max-width: 100%;
+    }
+    
+}   

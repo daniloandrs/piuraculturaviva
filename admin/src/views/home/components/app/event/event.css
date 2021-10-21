@@ -1,0 +1,19 @@
+#editor {
+    height: 28.5em;
+    overflow: hidden;
+}
+
+
+
+.check-color  md-input-container .md-input {
+    margin-top: 1em;
+}
+
+.check-color .md-color-picker-checkered-bg {
+    margin-top: 1.2em !important;
+}
+
+.bold {
+    font-weight: bold !important;
+    font-size: 10px !important;
+}

@@ -1,0 +1,50 @@
+<div class="dn-perfin" ng:init="onInit()">
+    <div class="container-fluid no-padding">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">
+                    <i class="fa fa-user"></i> <span d-translate="profile-1"></span></h4>
+            </div>
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="col-sm-4">
+                        <div class="card card-plain">
+                            <div class="card-image text-center">
+                                <img class="img img-raised" ng:src="{{profileImage}}" alt="" d-lightbox-open>
+                            </div>
+                            <div class="card-body text-center">
+
+                                <div ng:if="isClient">
+                                    <h4 ng:bind="datos_cliente.razon_social"></h4>
+                                    <!-- <h4 ng:bind="datos_cliente.direccion"></h4> -->
+                                    <hr>
+                                </div>
+
+                                <a href="">
+                                    <h4 class="card-title">
+                                        <i class="fa fa-user"></i> <span ng:bind="mainObj.nick"></span></h4>
+                                </a>
+                                <h6 class="card-category text-info">
+                                    <i class="fa fa-envelope"></i> <span ng:bind="mainObj.email"></span>
+                                </h6>
+                                <div class="card-footer">
+                                    <a href="#/cuenta" class="btn btn-success">
+                                        <i class="fa fa-pencil-alt"></i> <span d-translate="profile-2"></span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                        <span>
+                            <!-- <i class="fa fa-calendar-alt"></i> Registrado desde <span ng:bind="mainObj.created_at | amDateFormat:'dddd, DD MMMM YYYY, h:mm:ss a'"></span> -->
+                            <i class="fa fa-calendar-alt"></i> <span d-translate="profile-3"></span> <span
+                                ng:bind="mainObj.created_at"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

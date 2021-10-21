@@ -1,0 +1,235 @@
+
+<div class="dn-roles" ng:init="onInit()">
+    <div class="container-fluid no-padding">
+        <div class="card">
+            <div class="card-header pt-0 pb-0">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="card-title">
+                            <i class="fa fa-images"></i> Slider</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="btn btn-success btn-sm" ng:click="openModal(0)">
+                            <i class="fa fa-plus"></i> Agregar Slider</button>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <input type="text" placeholder="Buscar" ng:model="search" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="note-andheuris">
+                    <span class="badge badge-primary">Cantidad de registros : <span ng:bind="listData.length"></span></span>
+                </div>
+                
+                <div class="row" ng:if="normalView">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 "> 
+                                <div class="row">
+                                    <div 
+                                        ng-model="listData" 
+                                        class="col-md-4 col-sm-6 mb-2" 
+                                        style="margin-bottom: 1em !important;"
+                                        data-drop="true" jqyoui-droppable="{index:{{$index}} }"
+                                        dir-paginate="item in listData|filter:search|itemsPerPage:20" pagination-id="item.id"
+                                    >
+                                        <div
+                                            ng-model="listData"  
+                                            class="card bg-dark text-white mb-0" 
+                                            data-drag="true" 
+                                            data-jqyoui-options="{revert: 'valid'}" 
+                                            jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true, onStop: 'stopCallback(item,$index)'}"
+                                        >
+                                        
+                                            <img 
+                                                class="card-img slider-img" 
+                                                loading="lazy" 
+                                                ng:src="{{ path + item.src_imagen }}" 
+                                                alt="{{ item.src_imagen }}" 
+                                                d-lightbox-open
+                                            >
+                                        
+                                            <div class="card-img-overlay">
+
+                                                <p ng:if="item.titulo" class="card-text titulo" ng:bind="item.titulo"></p>
+                                                <p class="card-text">
+                                                    Estado : 
+                                                    <span ng:class="{'text-success':item.show,'text-danger':!item.show }" 
+                                                        ng:bind="estadoItem(item.show)">
+                                                </span>
+                                                </p>
+                                                <div class="text-center">
+                                                    <button d:tooltip="Editar" class="btn btn-warning btn-sm" ng:click="openModal(1,item)">
+                                                        <i class="fa fa-pencil-alt"></i>
+                                                    </button>
+                                                    
+                                                    <button d:tooltip="Eliminar" class="btn btn-danger btn-sm" ng:click="openModal(2,item)">
+                                                        <i class="fa fa-trash-alt"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                 
+                        
+                        <div d:spinner="loading"></div>
+
+                        <div class="text-center">
+                            <dir-pagination-controls pagination-id="item.id"></dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row" ng:if="!normalView">
+                    <div class="container">
+                        <div class="table-responsive">
+                            <table class="table table-andheuris table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th class="text-right">Restaurar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng:repeat="row in listData | filter: search">
+                                        <td ng:bind="row.nombre"></td>
+                                        <td class="text-right">
+                                            <button class="btn btn-success btn-icon btn-sm"
+                                                ng:click="openModal(3, row)">
+                                                <i class="fa fa-check"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div d:spinner="loading"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<dn-modal name="modal-base-form" title-modal="{{title}}" size="lg" scale="12">
+    <form ng:submit="sendDataEvent()" name="forms.form_base">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-7">
+                    <fieldset>
+                        <div class="col-md-12">
+                            <dn-inputtext 
+                                label="Título" 
+                                model="objectSlider.titulo" 
+                                name="titulo" 
+                                form="forms.form_base.titulo" 
+                                error="parent.errors.titulo"
+                                regex=".*"
+                            >
+                            </dn-inputtext>
+                        </div> 
+                    </fieldset>
+
+                    <fieldset>
+                        <div class="col-md-12">
+                            <dn-inputarea 
+                                label="Texto" 
+                                model="objectSlider.texto" 
+                                name="texto" 
+                                form="forms.form_base.texto" 
+                                error="parent.errors.texto"
+                                regex=".*"
+                            >
+                            </dn-inputarea>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <dn-inputtext 
+                                        label="Título Botón" 
+                                        model="objectSlider.btn_titulo" 
+                                        name="btn_titulo" 
+                                        form="forms.form_base.btn_titulo" 
+                                        error="parent.errors.btn_titulo"
+                                        regex=".*"
+                                    >
+                                    </dn-inputtext>
+                                </div>
+                                
+                                <div class="col-md-8">
+                                    <dn-inputtext 
+                                        label="Redirect To " 
+                                        model="objectSlider.btn_link" 
+                                        name="btn_link" 
+                                        form="forms.form_base.btn_link" 
+                                        error="parent.errors.btn_link"
+                                        maxl="200"
+                                        regex=".*"
+                                    >
+                                    </dn-inputtext>
+                                </div>
+                            </div> 
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class="col-md-12">
+                            <label class="label-fake"> Mostrar en la página</label>
+                            <div class="switch-box">
+                                <switch id="switch" name="show" ng:model="objectSlider.show" class="green"
+                                    on="Mostrar" off="Ocultar" 
+                                ></switch>
+                            </div>
+                        </div>
+                    </fieldset>
+                    
+                </div>
+                <div class="col-md-5">
+                    <fieldset>
+                        <legend style="font-size:12px;" class="legend-border text-center" >Imagen</legend>  
+                        
+                        <dn-uploaderfile model="objectSlider.imagen" default="default_image" type="image" 
+                        options="archivo_options">
+                        </dn-uploaderfile>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend style="font-size:12px;" class="legend-border text-center" >Imagen Mobile </legend>  
+                        
+                        <dn-uploaderfile model="objectSlider.image_mobile" default="default_image_mobile" type="image" 
+                        options="archivo_options">
+                        </dn-uploaderfile>
+                    </fieldset>
+                    <div style="display: block;display: center;justify-content: center;"
+                        class="text-center">
+                        <span class="text-success">
+                            Formatos permitidos: JPG, JPEG, PNG.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fix-col justify-content-center">
+            <dn-button-submit label=" {{ spin ? 'Procesando ... ' : 'Guardar' }}" form="forms.form_base" icon="fa fa-save"></dn-button-submit>
+        </div>
+        <div dn-spinner="loading_modal"></div>
+    </form>
+</dn-modal>

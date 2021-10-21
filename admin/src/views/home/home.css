@@ -1,0 +1,61 @@
+.wrapper {
+    position: absolute;
+    top: 63px;
+    width: 100%;
+}
+.views {
+    position: relative;
+    top: 0;
+    left: 280px;
+    padding: 15px;
+    width: calc(100% - 280px);
+}
+.views.collapsed {
+    left: 0;
+    width: 100%;
+}
+
+.depuration-modal ol {
+    font-family: "Consolas";
+}
+.depuration-modal li {
+    word-break: break-all;
+}
+.depuration-modal li pre code {
+    display: block;
+    margin-left: 40px;
+}
+.depuration-modal .btn-replay-xhr {
+    cursor: pointer;
+}
+.depuration-modal .preview-html-error {
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, .1);
+    border-radius: 3px;
+    font-size: 12px;
+    word-break: break-all;
+}
+.depuration-modal .preview-html-error pre {
+    outline: none;
+}
+
+#sf-resetcontent {
+    width: auto !important;
+}
+
+@media screen and (max-width: 991px) { 
+
+    .views {
+        position: relative;
+        left: 0;
+        top: 0;
+        padding: 10px;
+        width: 100%;
+    }
+
+    .views.collapsed {
+        left: 0;
+        width: 100%;
+    }
+
+}

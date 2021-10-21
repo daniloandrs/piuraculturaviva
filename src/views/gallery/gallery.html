@@ -1,0 +1,53 @@
+
+<div ng:init="OnInit();">
+
+    <dn-loader ng:show="loader"></dn-loader>
+
+    <div class="wrapper" ng:show="!loader">
+        
+        <!-- 
+        <div class="page-header page-header-small">
+   
+            <div 
+                class="page-header-image" 
+                ng:style="getBackgroundStyle();" 
+            >
+            
+            </div>  
+
+            <div class="content-center absolute-left">
+
+            </div>
+
+        </div>     
+        -->
+
+        <div class="main-raised" style="margin-top: 5em;">
+
+            <div class="col-md-12 text-center pt-4">
+                <h4>Galería de Imágenes </h4>
+            </div>
+
+            <div class="row carousel-gallery">
+
+                <div 
+                    class="item-gallery col-md-4  col-sm-6  col-xs-12 mb-4" ng:repeat="gallery in ListGalleries"     
+                >
+                    <a ng:click="goToPhotos(gallery);">
+
+                        <img ng:src="{{path + gallery.url_image}}" alt="{{gallery.name}}">
+                        
+                    
+                            <h5 class="hide-title" ng:bind="gallery.title"></h5>
+                   
+                    </a>
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

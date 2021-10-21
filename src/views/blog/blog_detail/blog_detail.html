@@ -1,0 +1,247 @@
+
+<div ng:init="OnInit();">
+
+    <dn-loader ng:show="loader"></dn-loader>
+
+    <div class="wrapper" ng:show="!loader">
+        
+        <div class="page-header page-header-small">
+   
+            <div 
+                class="page-header-image" 
+                ng:style="getBackgroundStyle();" 
+            >
+            
+            </div>  
+
+            <div class="content-center">
+            
+                <h2 class="negrita mb-2" ng:bind="blog.title"></h2>
+
+                <span class="address"> 
+                    {{ blog.visits + ' vistas' }}
+                </span>
+            </div>
+
+        </div>
+
+        <div class="main-raised">
+
+            <div class="row section section-about-us">
+
+                <div class="col-md-9">
+
+                    <div class="container-fluid" >
+                    
+                        <div class="ods-box">
+                            
+                            <div class="col-md-12">
+                                
+                                <h4 style="color: #3C4858;">
+                                    <em ng:bind="blog.subtitle"></em>
+                                </h4>
+
+                            </div>
+
+                            <div class="col-md-12 mt-3" ng:if="!notFound">
+                                
+                                <div dir-html-compile="blog.content"></div>
+                            
+                            </div>
+                            
+                            <div class="col-md-12 mt-3" ng:if="notFound">
+                                
+                                <h5 class="text-center" style="color: var(--color-red);">
+                                    <i class="far fa-frown"></i>
+                                    Blog no encontrado.
+                                </h5>
+                            
+                            </div>
+                            
+
+                            <div class="col-md-12">
+
+                                <div class="container">
+        
+                                    <div class="comments">
+        
+                                        <ul id="comments-list" class="comments-list"  ng:if = "listcomments.length > 0 ">
+        
+                                            <li ng:repeat = "comment in listcomments | orderBy : '-date' ">
+                                            
+                                                <div class="comment-main-level">
+                                                    
+                                                    <div class="comment-avatar">
+                                                        <img ng:src="{{defaultProfile}}" alt="avatar">
+                                                    </div>
+                                                    
+                                                    <div class="comment-box comment-box-blog">
+                                                    
+                                                        <div class="comment-head">
+                                                            <h6 class="comment-name">
+                                                                <a ng:bind="comment.name"></a>
+                                                            </h6>
+                                                            <span ng:bind = "timeAgo(comment.date);"></span>
+                                                            
+                                                            <div class="wpd-unapproved mt-1" ng:if="!comment.status">
+                                                                <i class="fas fa-exclamation-circle"></i>
+                                                                Esperando aprobación
+                                                            </div>
+        
+                                                        </div>
+                                                        <div class="comment-content pt-0" ng:bind = "comment.content"></div>
+                                                    </div>
+                                                </div>
+                                            
+                                            </li>
+                                        
+                                        </ul>
+        
+                                        <div style="padding-top: 3em;" ng:if = "listcomments.length == 0 ">
+                                            <h5 class="text-center" style="color: var(--color-red);">
+                                                <i class="far fa-frown"></i>
+                                                No tiene ningún comentario. 
+                                            </h5>
+                                        </div> 
+                                    
+                                    </div>
+                                    
+                                    <br>
+        
+                                    <div class="media-body">
+        
+                                        <div class="comment-respond">
+        
+                                            <h3 class="text-center">
+                                                Dejar un comentario 
+                                                </small>
+                                            </h3> 
+                                            
+                                            <form  autocomplete="off" name="formComment" class="form form-group" ng:submit="newComment();">
+                                   
+                                                <div class="row"> 
+        
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">
+                                                                Nombre <span class="required">*</span>
+                                                            </label>
+                                                            
+                                                            <input 
+                                                                name="name" 
+                                                                class="form-control" 
+                                                                type="text" required="true"
+                                                                ng:model = "commentObject.name"
+                                                            > 
+                                                            <span class="hestia-input"></span> 
+                                                        </div> 
+                                                    </div>
+        
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">
+                                                                Email <span class="required">*</span>
+                                                            </label>
+                                                            
+                                                            <input  
+                                                                name="email" 
+                                                                class="form-control" 
+                                                                type="email" required="true"
+                                                                ng:model = "commentObject.email"
+                                                            > 
+                                                            <span class="hestia-input"></span>
+                                                        </div>
+                                                    </div>
+                                                
+                                                </div>
+        
+                                                <div class="form-group">
+                                                    
+                                                    <label class="control-label">
+                                                        ¿Qué estas pensando? 
+                                                    </label>
+        
+                                                    <textarea 
+                                                        name="content" 
+                                                        class="form-control" 
+                                                        rows="6" 
+                                                        required="true"
+                                                        ng:model = "commentObject.content"
+                                                    >
+                                                    </textarea>
+                                                    
+                                                </div>
+                                    
+                                                <p class="form-submit text-center">
+                                                    
+                                                    <button 
+                                                        type="submit" 
+                                                        class="btn btn-primary"
+                                                        ng:disabled = "formComment.$invalid || spin_form "
+                                                    > 
+        
+                                                    <div class="spinner">
+        
+                                                        {{ spin_form ? 'ENVIANDO ... ' : 'ENVIAR COMENTARIO' }}
+        
+                                                    </button>
+                                                </p>
+                                            </form>
+        
+                                        </div>
+                                    </div>
+        
+                                </div>
+                            </div>
+
+                        </div>
+                    
+                    </div>  
+
+                </div>
+
+                <div class="col-md-3" style="padding-left: 3em;">
+                     
+                    <div class="widget widget_siteorigin-panels-postloop" ng:if="others.length > 0">
+                        
+                        <h5>Últimas Entradas </h5>
+
+                        <article class="card-custom" ng:repeat="item in others">
+                            
+                            <div class="row">
+                            
+                                <div class="col-ms-5 col-sm-5">
+                                    <div>
+                                        <a href="#/blog/{{item.url}}" title="{{item.title}}">
+                                            <img style="height: 85px;width: 85px;" width="360" height="240" ng:src="{{path + item.background_image}}" alt="{{item.title}}">
+                                        </a>                                
+                                    </div>
+                                </div>
+                        
+                                <div class="col-ms-7 col-sm-7">
+                                    
+                                    <p>
+                                        <a href="#/blog/{{item.url}}" title="{{item.title}}" rel="bookmark">
+                                            {{item.title}}
+                                        </a>
+                                    </p>			
+
+                                </div>
+                            
+                            </div>
+
+                            <hr>
+
+                        </article>
+
+                    </div>
+
+                </div>
+
+            </div>
+            
+        </div>
+
+    </div>
+
+</div>

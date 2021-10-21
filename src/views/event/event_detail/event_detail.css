@@ -1,0 +1,33 @@
+
+.comments-list .comment-box-event {
+    max-width: 650px;
+}    
+
+
+.icon-box-event {
+    position: relative !important;   
+}
+
+.icon-box-event img {
+    width: 10%;
+}
+
+.facebook-frame {
+    width: 100%;
+}
+.facebook-frame iframe {
+    width: 100%;
+    min-height: 40em;
+}
+@media (max-width: 480px) {
+
+    .comments-list .comment-box-event  {
+        max-width: 120px; 
+    }
+    .icon-box-event img {
+        width: 50%;
+    }
+    .icon-box-event .dn-tooltip .tooltip-container { 
+        left: auto !important;
+    }
+}

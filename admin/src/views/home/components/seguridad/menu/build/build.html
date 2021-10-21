@@ -1,0 +1,213 @@
+<div class="dn-menus" ng:init="onInit()">
+	<div class="container-fluid no-padding">
+		<div class="card">
+			<div class="card-header">
+				<div class="row">
+					<div class="col-sm-4 col-md-4">
+						<h4 class="card-title"><i class="fa fa-list"></i> Menu: {{menu.nombre}} </h4>
+					</div>
+				</div>
+				<div class="text-right" style="margin-top: 10px">
+					<button class="btn btn-simple" ng:click="loadModalCreateOpcion()">
+						<i class="fa fa-eye"></i>
+						<span>Nueva Opcion</span>
+					</button>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-bordered">
+						<tbody>
+							<tr ng-repeat="opcion in opciones">
+								<td class="text-left" style="width: 90%">
+									<div class="col-sm-12">
+										<div class="row" style="margin-left: 5%">
+											<div class="col-sm-6">
+												<h4>
+													{{($index + 1)+". "+opcion.nombre}}
+													<small class="fa fa-{{opcion.icono}}"></small>
+												</h4>
+											</div>
+											<div class="col-sm-6">
+												<div class="text-left">
+													<button class="btn btn-sm btn-warning" ng-click="loadModalUpdateOpcion(opcion)" ng-show="opcion.id != null">
+														<i class="fa fa-pencil-alt"></i>
+														<span>Editar</span>
+													</button>
+													<button class="btn btn-sm btn-success" ng-click="loadModalCreateItem(opcion.id)" valid="create.item">
+														<i class="fa fa-plus"></i>
+														<span>Agregar Item</span>
+													</button>
+													<button class="btn btn-sm btn-danger" ng-show="opcion.items.length == 0 || opcion.id > 2" ng-click="loadDeletedOpcion(opcion)"
+													 valid="delete.opcion">
+														<i class="fa fa-trash"></i>
+														<span>Eliminar</span>
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<i style="margin-left: 15%" ng-show="opcion.items.length == 0">No tiene Items</i>
+									<div ng-if="opcion.items.length > 0">
+										<ul style="margin-left: 15%" class="list-unstyled">
+											<li ng-repeat="item in opcion.items">
+												<div class="row">
+													<div class="col-sm-6">
+														<div class="col-sm-8">
+															<h5>{{item.nombre}} <small>[url: "{{item.url}}"]</small></h5>
+														</div>
+														<div class="col-sm-4">
+															<button class="btn btn-sm btn-icon btn-warning" ng-click="loadModalUpdateItem(item)" icon="pencil" valid="update.item">
+																<i class="fa fa-pencil-alt"></i>
+															</button>
+															<button class="btn btn-sm btn-icon btn-danger" ng-click="loadDeletedItem(item)" icon="remove" valid="delete.item">
+																<i class="fa fa-trash"></i>
+															</button>
+														</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="col-sm-6" beli-permission-element valid="give_item.build_menu">
+														<div class="beli-switch pull-left">
+															<input id="beliSwitch{{item.id}}" type="checkbox" value="1" ng-model="item.check" ng-click="giveItem(item.id)">
+															<label for="beliSwitch{{item.id}}" class="label-success"></label>
+														</div>
+													</div>
+												</div>
+											</li>
+											<div class="clearfix"></div>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal Operación Opcion-->
+<dn-modal name="modal_opcion" title-modal="{{modal_name_opcion}}" scale="12">
+	<form name="forms.form_opcion" ng-submit="registerOrUpdateOpcion(object_opcion)">
+		<fieldset>
+			<dn-inputtext label="Nombre" name="nombre" form="forms.form_opcion.nombre" maxl="30" model="object_opcion.nombre"
+			 error="errors_opcion.nombre" req="true"></dn-inputtext>
+			<dn-inputtext label="Icono" name="icono" form="forms.form_opcion.icono" maxl="20" model="object_opcion.icono" error="errors_opcion.icono"
+			 req="true"></dn-inputtext>
+		</fieldset>
+		<div class="text-center">
+			<button class="btn btn-info" type="submit"><i class="fa fa-save"></i>{{button_name_opcion}}</button>
+			<!-- <button class="btn btn-warning" ng:click="close();form.$setPristine();" type="reset">Cancelar</button> -->
+		</div>
+	</form>
+</dn-modal>
+
+<!-- Modal Operación Item-->
+<dn-modal name="modal_item" title-modal="{{modal_name_opcion}}" scale="6">
+	<form name="form_item" ng-submit="registerOrUpdateItem(object_item)">
+		<fieldset>
+			<dn-inputtext label="Nombre" name="nombre" form="form_item.nombre" maxl="80" model="object_item.nombre" error="errors_item.nombre"
+			 req="true"></dn-inputtext>
+			<dn-inputtext label="Url" name="url" holder="url,url_operacion o vista/url_operacion." form="form_item.url" pat="No se admiten caracteres especiales"
+			 regex="[a-z0-9_/]+" maxl="60" model="object_item.url" error="errors_item.url" req="true"></dn-inputtext>
+			<dn-inputselect list="opciones" model="object_item.opcion_id" name="opcion" form="form_item.opcion" label="Opcion"
+			 ng-show="operation_item==text_update" error="errors_item.opcion_id"></dn-inputselect>
+		</fieldset>
+		<div class="text-center">
+			<button class="btn btn-info" type="submit"><i class="fa fa-save"></i> Guardar</button>
+			<!-- <button class="btn btn-warning" ng:click="close();form.$setPristine();" type="button">Cancelar</button> -->
+		</div>
+	</form>
+</dn-modal>
+
+<!-- Modal Restaurar Item-->
+<div name="modal_restore_item" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header text-center">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Restaurar Items</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-12 col-xs-12" ng-show="deletes_items.length > 0">
+						<dn-selectbox model="searchDeleteItem"></dn-selectbox>
+					</div>
+					<div class="col-xs-12 col-sm-12">
+						<dn-inboxlist list="deletes_items" spin="spin_deleted_item" icon="tasks" name="No se encontraron items eliminados"></dn-inboxlist>
+						<div ng-show="deletes_items.length > 0 && spin_deleted_item==false">
+							<!-- Tabla de Mantenimiento -->
+							<div class="table-responsive">
+								<table class="table table-bordered jambo_table">
+									<thead>
+										<th class="text-center">Nombre</th>
+										<th class="text-center">Url</th>
+										<th class="text-center">Opcion</th>
+										<th class="text-center">Restaurar</th>
+									</thead>
+									<tbody dir-paginate="delete_item in deletes_items|filter:searchDeleteItem|itemsPerPage: 5" pagination-id="delete_item.id">
+										<td class="text-center" ng-bind="delete_item.nombre"></td>
+										<td class="text-center" ng-bind="delete_item.url"></td>
+										<td class="text-center" ng-bind="delete_item.opcion.nombre"></td>
+										<td class="text-center">
+											<button class="btn btn-success btn-sm" ng-click="loadRestoreItem(delete_item)"><small class="fa fa-check-square-o"></small></button>
+										</td>
+									</tbody>
+								</table>
+							</div>
+							<div class="text-center">
+								<dir-pagination-controls pagination-id="delete_item.id"></dir-pagination-controls>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal Reataurar Opciones-->
+<div id="modal_restore_opcion" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header text-center">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Restaurar Opciones</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-12 col-xs-12" ng-show="deletes_opciones.length > 0">
+						<input-search model="searchDeleteOpcion"></input-search>
+					</div>
+					<div class="col-xs-12 col-sm-12">
+						<dn-inboxlist list="deletes_opciones" spin="spin_deleted_opcion" icon="tasks" name="No se encontraron opciones eliminadas"></dn-inboxlist>
+						<div ng-show="deletes_opciones.length > 0 && spin_deleted_opcion==false">
+							<!-- Tabla de Mantenimiento -->
+							<div class="table-responsive">
+								<table class="table table-bordered jambo_table">
+									<thead>
+										<th class="text-center">Nombre</th>
+										<th class="text-center">Icono</th>
+										<th class="text-center">Restaurar</th>
+									</thead>
+									<tbody dir-paginate="delete_opcion in deletes_opciones|filter:searchDeleteOpcion|itemsPerPage: 5"
+									 pagination-id="delete_opcion.id">
+										<td class="text-center" ng-bind="delete_opcion.nombre"></td>
+										<td class="text-center" ng-bind="delete_opcion.icono"></td>
+										<td class="text-center">
+											<button class="btn btn-success btn-sm" ng-click="loadRestoreOpcion(delete_opcion)"><small class="fa fa-check-square-o"></small></button>
+										</td>
+									</tbody>
+								</table>
+							</div>
+							<div class="text-center">
+								<dir-pagination-controls pagination-id="delete_opcion.id"></dir-pagination-controls>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</section>

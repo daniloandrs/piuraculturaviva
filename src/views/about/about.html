@@ -1,0 +1,140 @@
+
+<div ng:init="Init();">
+
+    <dn-loader ng:show="loader"></dn-loader>
+
+    <div class="wrapper" ng:show="!loader">
+        
+        <div class="page-header page-header-small" style="max-height: 260px;">
+   
+            <div class="page-header-image" style="filter: brightness(0.5);
+            background-color: #0041c4;">
+            
+            </div>  
+
+            <div class="content-center">
+            
+                <h2 class="negrita mb-2" ng:bind="'NOSOTROS'"></h2>
+
+            </div>
+
+        </div>  
+        
+        <div class="" style="background-color: white;
+    margin: 0;
+    padding: 2em;
+    width: 100%;">
+
+            <div class="col-md-12 p-about">
+
+                <div class="row">
+
+                    <div class="col-md-12">
+
+                        <h5 class="title-nosotros">¿QUIÉNES SOMOS?</h5>
+
+                        <div class="description" ng:bind:html="about.about_us" style="text-align: justify;"></div>
+
+                    </div>
+                    
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-12">
+
+                        <h5 class="title-nosotros">MISIÓN</h5>
+
+                        <div class="description" ng:bind:html="about.about_us" style="text-align: justify;"></div>
+
+                    </div>
+                    
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-12">
+
+                        <h5 class="title-nosotros">VISIÓN</h5>
+
+                        <div class="description" ng:bind:html="about.vision" style="text-align: justify;"></div>
+
+                    </div>
+                    
+                </div> 
+
+            </div>
+
+            <div class="col-md-12">
+
+                <section class="hestia-team " id="team" data-sorder="hestia_team">
+
+                    <div class="container">
+
+                        <div class="row">
+                        
+                            <div class="col-md-12 text-center">
+
+                            <h3 class="description">
+                               
+                            </h3>
+                            
+                            <h5 class="title-nosotros"> ALIADOS ESTRATÉGICOS </h5>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="">
+                        
+                        <div class="row">
+                            
+                            <div class="col-xs-12 col-ms-4 col-sm-4" ng:repeat="aliado in allies">
+
+                                <div class="card card-profile card-plain" style="box-shadow: none !important;">
+                                    
+                                    <a href="{{aliado.url}}" target="_blank">
+
+                                        <div class="col-md-12 m-auto">
+                                            
+                                            <div class="card-image">
+                                                
+                                                <img 
+                                                    style="    max-height: 120px;"
+                                                    class="img" ng:src="{{path + aliado.logo }}" alt="{{aliado.name}}" title="{{aliado.name}}">
+                                                
+                                            </div>
+                                        
+                                        </div>
+                                        
+                                        <div class="col-md-12">
+                                            
+                                            <div class="content">
+                                                
+                                                <h4 class="card-title" ng:bind="aliado.name"></h4>
+                                                
+                                            </div>
+                                        
+                                        </div>
+                                    
+                                    </a>
+                                    
+                                </div>
+                            
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,85 @@
+
+
+.item-gallery {
+    width: 100%;
+    margin: auto;
+    height: auto;
+}
+
+.item-gallery:hover img {
+    transform: scale3d(1.19,1.19,1.19);
+    -webkit-transform: scale3d(1.19, 1.19, 1.19);
+    -moz-transform: scale3d(1.19, 1.19, 1.19);
+    box-shadow: rgb(0 0 0 / 18%) 0px 7px 38px -12px, rgba(0, 0, 0, 0.12) 0px 4px 15px 0px, rgba(0, 0, 0, 0.2) 0px 6px 10px -5px;
+    filter: brightness(0.8);
+    z-index: 1000;
+}
+
+.item-gallery img {
+    object-fit: cover;
+    display: flex;
+    object-position: center center;
+    height: 10em;
+    margin: auto;
+    width: 90% !important;
+    cursor: pointer;
+    transition: all 0.5s;
+    transform: scale3d(1, 1, 1);
+    border-radius: 5px;
+}
+
+.carousel-gallery {
+    padding:4em;
+    position: relative;
+}
+
+.carousel-gallery .owl-stage-outer {
+    padding-top: 3em;
+    padding-bottom: 3em;
+}
+
+
+.carousel-gallery .owl-nav .owl-prev span {
+    left: 1%;
+    position: absolute;
+    top: 25%;
+    font-size: 6em !important;
+    color: #d0d0d0;
+    margin: auto;
+}
+
+.carousel-gallery .owl-nav .owl-next span {
+    right: 1%;
+    position: absolute;
+    top: 25%;
+    font-size: 6em !important;
+    color: #d0d0d0;
+    margin: auto;
+}
+
+.hide-title {
+    position: absolute;
+    bottom: 0;
+    margin: auto;
+    left: 5%;
+    color: #fff0;
+    
+}
+
+.item-gallery img:hover~.hide-title {
+    position: absolute;
+    margin: auto;
+    width: 100%;
+    color: #ffff;
+}
+
+
+@media (max-width: 480px) {
+
+    .carousel-gallery {
+        padding-top: 6em;
+        padding-left: 3em;
+        padding-right: 3em;
+    }
+
+}

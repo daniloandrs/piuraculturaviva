@@ -1,0 +1,125 @@
+
+<nav class="navbar navbar-expand-lg bg-template fixed-top " color-on-scroll="400" ng:init="Init();">
+    
+    <div class="container">
+        
+        <div class="navbar-translate" style="display: inherit;">
+            
+            <a style="display:inline" class="navbar-brand ml-2" href="#!/" data-placement="bottom">
+                <img class="navbar-logo" ng:src="{{$root.logo_navbar}}" alt="logo">
+            </a>  
+
+            <a  style="display:inline" class="navbar-brand ml-2">
+
+                <a href="https://www.cajapiura.pe/" target="_blank" class="m-auto">
+                    <img class="navbar-logo-muni" ng:src="{{'./assets/img/logo-caja-piura.png'}}" alt="logo">
+                </a>
+
+            </a>
+
+            <button style="margin:auto 5px;"class="navbar-toggler navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-bar top-bar"></span>
+                <span class="navbar-toggler-bar middle-bar"></span>
+                <span class="navbar-toggler-bar bottom-bar"></span>
+            </button>
+
+        </div>
+
+        <div class="collapse navbar-collapse justify-content-end " data-nav-image="./assets/img/blurred-image-1.jpg">
+        
+            <ul class="navbar-nav" >
+               
+                <li class="nav-item m-auto">
+                    <a class="nav-link" 
+                        
+                        ng:class="{live : !disabledLive }"
+
+                        ng:click="gotoEvent();"
+                       > EN VIVO </a>
+                </li>
+                
+                
+                <li class="nav-item m-auto ">
+                    <a class="nav-link" ng:click="toggle('nosotros');"> Nosotros </a>
+                </li>
+                
+                
+                <li class="nav-item m-auto sub-menu">
+
+                    <a class="nav-link" ng:click="toggle('repositorio_cultural');"> REPOSITORIO </a>
+
+                    <div class="sub-menu-contain">
+
+                        <p style="color:gray;padding: 5px 40px;">Categorias</p>
+
+                        <ul class="sub-menu-list p-0 owl-carousel" id="navbar-list-categories">
+                            
+                            <li ng:class="{'border-right' : ($index+1 < ListCategories.length) }" class="item" ng:repeat="category in ListCategories">
+
+                                <div class="container p-0">
+
+                                    <p class="category-title" ng:style="{'color' : category.color }" ng:bind="category.name"></p>
+                                    
+                                    <ul style="list-style: none;" class="p-0">
+                                        
+                                        <li class="title-sub" ng:repeat="sub in category.sub_category">
+
+                                            <a class="sub-category" ng:click="gotoCulturalRepository(category,sub,'repositorio_cultural');"   ng:bind="sub.name"></a>
+
+                                        </li>        
+                                    </ul>
+                                    
+                                </div>
+
+                            </li>
+
+                        </ul>
+
+
+                    </div>
+                    
+                </li>
+
+                
+                <li class="nav-item m-auto">
+                    <a class="nav-link"  ng:click="toggle('agenda');"> AGENDA </a>
+                </li>
+                
+
+                <li class="nav-item m-auto">
+                    <a class="nav-link" ng:click="toggle('noticias');"> NOTICIAS </a>
+                </li>
+
+                
+                <li class="nav-item nav-agente">
+                    <a class="nav-link agente" href="https://forms.gle/zXweE2Lhr2qGe1An8" target="_blank"
+                    style="color: var(--color-primary) !important;    padding: 10px !important;"
+                    > SOY ORGANIZACIÓN CULTURAL </a>
+                </li>
+                
+                <li class="nav-item m-auto" style="padding: 10px 5px;"> 
+                    
+                    <ul class="social-networks" style="padding: 0;">
+
+                        <li ng:repeat="social in $root.business.social_networks">
+                            
+                            <a href="{{social.url}}" target="_blank" >
+                            
+                                <i class="{{social.icon}}" style="font-size: 2.6em;"></i>
+                            
+                            </a>
+                            
+                        </li>
+
+                    </ul>
+
+                </li>
+            
+            </ul>
+
+        </div>
+        
+
+    </div>
+
+</nav>

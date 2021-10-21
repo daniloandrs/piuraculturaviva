@@ -1,0 +1,37 @@
+.switch {
+    width: 92px;
+}
+
+.switch.checked small {
+    left: 62px;
+}
+
+.switch-box {
+    text-align: center;
+    margin-top: 1em;
+    border: 1px solid #E3E3E3;
+    padding: .5em;
+}
+
+.switch .off,.switch .on {
+    top: 15%;
+}
+
+.slider-card {
+    margin: 0em 1em;
+}
+
+.slider-img {
+    height: 10em;
+    width: -webkit-fill-available;
+    cursor: pointer;
+}
+
+.card-img-overlay {
+    position: relative;
+    padding: 1rem;
+}
+.titulo {
+    height: 2em;
+}
+

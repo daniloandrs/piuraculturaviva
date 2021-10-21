@@ -1,0 +1,13 @@
+.page-header-post {
+    margin-top: 5em;
+}
+
+
+@media screen and (max-width: 992px) {
+
+    .page-header-post {
+        margin-top: 4em;
+    }
+    
+}
+    

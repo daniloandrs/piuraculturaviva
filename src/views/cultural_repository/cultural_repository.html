@@ -1,0 +1,164 @@
+
+<div class="wrapper"  ng:init="OnInit();">
+    
+    <dn-loader ng:if="loader"></dn-loader>
+
+    <div class="main-raised" ng:if="!loader">
+        
+        <div class="section-cultural-repository text-center">
+        
+            <div class="container container-cultural">
+
+                <div class="row">  
+                
+                    <nav aria-label="breadcrumb" role="navigation" style="padding-left: 1em;">
+                    
+                        <ol class="breadcrumb">
+                        
+                            <li class="breadcrumb-item"><a href="#!/">Home</a></li>
+                        
+                            <li class="breadcrumb-item active" aria-current="page">Repositorio cultural</li>
+                        
+                        </ol>
+
+                    </nav>
+
+                </div>
+
+                <div class="row">
+                    
+                    <div class="col-md-12 p-0">
+                        <div class="left">
+                            <div class="" style="margin-top:10px;">
+                                <div class="col-md-12 m-0">
+                                    Todos los Emprendimientos.
+                                </div>
+                            </div>
+                              
+                        </div>
+                        
+                        <div class="right">
+                            
+                            <form class="form-inline" name="filterForm">
+
+                                <div class="form-group form-filter">
+                                    <select class="form-control select-filter"  required="true"
+                                        name="category_id" ng:model="filterObject.category_id">
+                                        <option value="">Seleccionar una categoría </option>
+                                        <option value="{{category.id}}" ng:repeat="category in categoryList">
+                                            {{category.name}}
+                                        </option>
+                                    </select>
+                                </div>
+    
+                                <div class="form-group form-filter" ng:show="filterObject.category_id != null">
+                                    
+                                    <select class="form-control select-filter"  required="true"
+                                        name="sub_category_id" ng:model="filterObject.sub_category_id">
+                                        
+                                        <option value="">Seleccionar una Sub Categoría </option>
+                                        
+                                        <option value="{{sub_category.id}}" ng:repeat="sub_category in subCategoryList">
+                                            {{sub_category.name}}
+                                        </option>
+
+                                    </select>
+   
+                                </div>
+
+                                <div class="form-group form-filter">
+                                    <button type="submit" 
+                                       
+                                        class="btn btn-primary btn-filter" ng:click="filterCategory();"
+                                    
+                                        style=""
+                                    >
+                                        <i class="fas fa-sliders-h"></i>
+                                         Filtrar
+                                    </button>
+                                </div>
+                                
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="row">
+
+                    <div class="container text-left">
+                        <span style = "font-size:x-small;" ng:bind="memberList.length + ' resultados'"></span>
+                    </div>
+                
+                </div>
+
+                <div class="container-fluid m-auto" style="min-height: 212px;display: flex;" ng:if="memberList.length == 0">
+
+                    <h5 class="text-center m-auto" style="color: var(--color-red);">
+                        <i class="far fa-frown"></i>
+                        Ningún emprendimiento encontrado.
+                    </h5>
+
+                </div>   
+
+                <div class="row grid-cards" ng:if="memberList.length > 0"> 
+
+                    <div class="lib-item" ng:repeat="item in memberList | orderBy : '-created_at'">
+                        
+                        <div class="lib-panel">
+                        
+                            <div class="row box-shadow">
+                                
+                                <div class="col-md-6 col-sm-6 text-start">
+
+                                    <div class="m-2" style="height: 12em;overflow: hidden;">
+
+                                        <a ng:click="gotoProfile(item);" class="ini">
+
+                                        
+                                            <h3 class="card-title-member mb-2" ng:bind="item.name"></h3>
+                                            
+                                        </a>
+                                        
+                                        <p class="number-visits" ng:bind="item.city + ' . ' + item.visits + ' Visitas'"></p>
+                                            
+                                        <p class="m-0 elipsis-text" ng:bind="item.description"></p>
+
+                                    </div>
+                                    
+                                </div> 
+
+                                <div class="col-md-6 col-sm-6">
+                                    
+                                    <a ng:click="gotoProfile(item);" class="ini">
+
+                                        <img class="lib-img-show" ng:src="{{path + item.thumbnail}}" alt="{{ item.name }}">
+                                 
+                                    
+                                        <div class="contain-logo">
+
+                                            <img style="border-radius: 50%;" ng:src="{{path + item.logo}}" alt="{{ item.name }}">
+                                            
+                                        </div>
+                                    </a>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

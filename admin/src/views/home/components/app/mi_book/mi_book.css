@@ -1,0 +1,8 @@
+
+.badge-success {
+    background-color: #18ce0f !important;
+    border-radius: 1em;
+    padding: 0 4px;
+    font-weight: bold;
+    font-size: 10px !important;
+}

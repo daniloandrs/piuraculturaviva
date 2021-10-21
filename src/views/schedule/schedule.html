@@ -1,0 +1,273 @@
+
+<div ng:init="OnInit();">
+
+    <dn-loader ng:show="loader"></dn-loader>
+
+    <div class="wrapper" ng:show="!loader">
+        
+        <div class="main-raised" >
+
+            <div class="col-md-12 pl-4 pt-4">
+                <h4>Agenda de Eventos</h4>
+            </div>
+
+            <div class="col-md-12">
+                
+                <div class="row">
+
+                    <div class="col-md-8">
+
+                        <div class="normas-container">
+		
+                            <div class="card">
+                    
+                                <div class="card-header card-header-norma">
+                    
+                                    <div class="row">
+                                        
+                                        <div class="col-md-7 m-auto">  
+                                            
+                                            <div class="input-group m-auto row text-center">
+                                            
+                                                <span class="m-auto date-current col-md-8 col-xs-12" style="margin: auto !important;">
+                                                    {{setDate(currentDate)}}
+                                                </span>
+            
+                                                <span class="m-auto col-md-4 col-xs-12">
+                                                    
+                                                    <button style="padding: 5px 10px !important;
+                                                    text-align: center;" class="btn btn-arrow btn-link btn-sm p-0 " ng:click="subtractDay();">
+                                                        
+                                                        <i class="fas fa-angle-left"></i>
+                                                    
+                                                    </button>
+            
+                                                    <button style="padding: 5px 10px !important;
+                                                    text-align: center;" class="btn btn-arrow btn-link btn-sm p-0" ng:click="addDay();">
+                                                        
+                                                        <i class="fas fa-angle-right"></i>
+            
+                                                    </button>
+                                                    
+            
+                                                </span>
+                                            
+                                            </div>  
+            
+                                        </div>
+                                          
+                                        <div class="col-md-5 m-auto text-end">
+                                            
+                                            <div class="btn-group pr-2 btn-filter btn-filter-agenda">
+                                                
+                                                <span style="margin: auto;
+                                                padding: 0px 10px;width:100%"> Ordenar por :</span>
+                                                
+                                                <button type="button" 
+                                                    style="    box-shadow: none !important;
+                                                    background-color: #ffff;
+                                                    color: #000e;
+                                                    border: 1px solid #9e9e9e7a;
+                                                    border-radius: 5px;
+                                                    padding: 10px 2px;width:100%"
+                                                    class="btn  btn-select dropdown-toggle m-auto btn-sm" data-toggle="dropdown" aria-haspopup="true"
+                                                  aria-expanded="false" ng:bind="orderSelect.name">
+                                                </button>
+                                            
+                                                <div class="dropdown-menu dropdown-menu-right" style="box-shadow: none;    border: 1px solid #e4e4e4;">
+                                                  
+                                                    <button class="dropdown-item" style="cursor:pointer" type="button" ng:repeat="item in listOrder" ng:bind="item.name" ng:click="selectOrder(item);"></button>
+                                                
+                                                </div>
+                                            
+                                            </div>
+            
+                                        </div>   
+                    
+                                    </div>
+                                    
+                                </div>
+                    
+                                <div class="card-body">
+                                    
+                                    <dn-spinner-view ng:if="spinner"></dn-spinner-view>
+                                    
+                                    <div ng:if="!spinner">
+                
+                                        <div style="padding:5em;" class="col-md-12 text-center" ng:if="listEvents.length == 0">
+                                            
+                                            <i style=" color: #203c90;" class="far fa-calendar-alt fa-4x"></i>
+                                            
+                                            <p class="m-0 not-found-text"> No se encontraron eventos ...</p>
+            
+                                        </div>
+                                        
+                                        <div class="table-responsive " style="box-shadow:none !important;" ng:if="listEvents.length > 0">
+                
+                                            <table class="table  table-sm table-hover">
+                                                <thead class=""  style="background-color: var(--color-yellow-other) !important; color : black !important">  
+                                                    <tr>
+                                                        <th scope="col" nowrap>HORA</th>
+                                                        <th scope="col">TIPO</th>
+                                                        <th scope="col">EVENTO </th>
+                                                        <th scope="col">CANAL</th>
+                                                        <th scope="col">CIUDAD</th>
+                                                        <th scope="col">PRECIO</th>
+                                                    </tr>
+                      
+                                                </thead>   
+                    
+                                                <tbody>
+                    
+                                                    <tr dir-paginate="row in listEvents | itemsPerPage: 20" pagination-id="row.id">
+                                                        
+                                                        <th ng:bind="setFecha(row.publication_time)" nowrap></th>
+                                                        
+                                                        <td ng:bind="row.sub_category.name"></td>
+
+                                                        <th>
+                                                            <a class="btn-evento-title text-primary"  
+                                                                href="#!/eventos/{{row.url_detail}}"  
+                                                                ng:bind="row.title">
+                                                            </a>
+                                                        </th>
+                                                        
+                                                        <td ng:bind="row.event_type.name"></td>
+
+                                                        <td ng:bind="row.location"></td>
+                                                        
+                                                        <td ng:bind="row.price"></td>
+                                                        
+                                                    </tr>
+                                                
+                                                </tbody>
+                    
+                                            </table>
+                                            
+                                            <div style="float: right;">
+                                                <dir-pagination-controls pagination-id="row.id"></dir-pagination-controls>
+                                            </div>
+                                        </div>
+                
+                                        
+                                        
+                                    </div>
+                
+                                </div>
+                                
+                            </div>
+                
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="col-md-12">
+
+                            <a href="https://forms.gle/umB1aXHE31BNUPLV6" 
+                                target="_blank"
+                                class="btn btn-yellow">
+
+                                ENVÍANOS TU EVENTO
+                            
+                            </a>
+
+                        </div>
+
+                        <div class="col-md-12 pb-4">
+
+                            <calendar ng-model="currentDate_" calendar-mode="mode" event-source="eventSource"
+                                range-changed="reloadSource(startTime, endTime)"
+                                event-selected="onEventSelected(event)"
+                                show-head="true"
+                                time-selected="onTimeSelected(selectedTime, events)" step="30">
+                            </calendar>
+  
+                        </div>
+
+                    </div> 
+
+                </div>
+
+            </div>
+            
+
+        </div>
+
+    </div>
+
+</div> 
+
+
+<dn-modal-frame name="modal-base-form" class="modal-card"> 
+    
+    <dn-spinner-view ng:show="spinModal"></dn-spinner-view>
+    
+                
+    <div class="lib-panel m-0" ng:show="!spinModal">
+    
+        <div class="row">
+            
+            <div class="col-md-6 col-sm-6">
+                
+                <a>
+
+                    <img class="lib-img-show" ng:src="{{path + item.background_image}}" alt="{{ item.title }}">
+                
+                </a>
+            
+            </div>
+            
+            <div class="col-md-6 col-sm-6 text-start">
+
+                <div class="m-0 card-right-events card-right-events-agenda " ng:style="MyStyle(item.color);">
+                    
+                    <div class="m-4">
+                        
+                        <h4 style="margin-bottom: 10px;color: #9E9E9E;" ng:bind="item.title"></h4>
+                        
+                        <p ng:bind="item.description"></p>
+
+                        <ul style="list-style: none; padding:0;">
+
+                            <li>
+
+                                <span class="far fa-clock mr-2"></span>
+
+                                <span ng:bind="setFecha(item.publication_time);"></span>
+
+                            </li>   
+                            
+                            <li>  
+
+                                <span class="fas fa-map-marker-alt mr-2"></span>
+
+                                <span ng:bind="item.location"></span>
+
+                            </li>
+
+                            <li>
+
+                                <span class="fas fa-ticket-alt mr-2"></span>
+
+                                <span ng:bind="item.event_type.name"></span>
+
+                            </li>
+
+                        </ul>
+
+                        <a ng:click="gotoDetail();">Ver más detalles</a>
+                    </div>
+                    
+                </div>
+
+            </div> 
+
+        </div>
+
+    </div>
+
+
+
+</dn-modal-frame>      

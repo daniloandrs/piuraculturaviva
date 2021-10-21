@@ -1,0 +1,358 @@
+
+<div class="dn-roles" ng:init="onInit();">
+
+    <div class="container-fluid no-padding">
+
+        <div class="card">
+            
+            <div class="card-header pt-0 pb-0"> 
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <h4 class="card-title">
+                            <i class="fa fa-users"></i> Lista de Miembros </h4>
+                    </div>
+                </div>
+            </div>
+
+            <dn-spinner-view ng:if ="loading">
+
+            </dn-spinner-view>
+
+            <div class="card-body pt-0" ng:if = "!loading">
+
+                <div class="row">
+                    
+                    <div class="col-md-6">
+                        <button class="btn btn-success " ng:click="openModal();"> 
+                            <i class="fas fa-user-plus"></i> Añadir 
+                        </button>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <input type="text" placeholder="Buscar por nombre" ng:model="search" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                   
+                <div class="row">
+
+                    <div class="note-andheuris">
+                        <span class="badge badge-primary">Cantidad de registros : <span ng:bind="memberList.length"></span></span>
+                    </div>
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="container-fluid" ng:if="memberList.length > 0">
+                                
+                                <div class="table-responsive">
+                                    <table class="table table-andheuris table-hover">
+                                        <thead class="active">
+                                            <tr>
+                                                <th class="text-center"> Nombre </th>
+                                                
+                                                <th class="text-center">Operaciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr dir-paginate="member in memberList|orderBy:'-updated_at' | filter:search|itemsPerPage: 7"
+                                                pagination-id="memberList.id">
+                                                
+                                                <td>
+                     
+                                                    <div class="row">
+                                                        
+                                                        <div class="col-md-3 col-sm-4">
+                        
+                                                            <a ng:clicK = "goTo(member);">
+                        
+                                                                <img class="lib-img-show" d:lightbox-open ng:src="{{path + member.logo}}" alt = "{{ member.name }} ">
+                                                            
+                                                            </a>
+                        
+                                                        </div>
+
+                                                        <div class="col-md-9 col-sm-8 text-start m-auto">
+                        
+                                                            <div class="m-2" style="height: 12em; overflow: hidden;margin: auto !important;display: contents;">
+                        
+                                                                <h3 class="card-title-member mb-2" ng:bind="member.name"></h3>
+                                
+                                                                <p class="number-visits" ng:bind="member.visits + ' Visitas'"></p>
+                                
+                                                                <p class="m-0" ng:bind="member.description"></p>
+                        
+                                                            </div>
+                                                            
+                                                        </div>
+
+                                                    </div>
+                                                    
+                                                </td>
+                                            
+                                                <td>
+                                                    
+                                                    <button class="btn btn-info btn-link btn-sm pt-0 pb-0" ng:click="profile(member);">
+                                                        
+                                                        <i class="fas fa-user" d:tooltip="Administrar Perfil"></i>
+                                                    
+                                                    </button>
+
+                                                    <button class="btn btn-warning btn-link btn-sm pt-0 pb-0" ng:click="editMember(member);">
+                                                        
+                                                        <i class="fas fa-pencil-alt" d:tooltip="Editar"></i>
+
+                                                    </button>
+                                                    
+                                                    <button class="btn btn-danger btn-link btn-sm pt-0 pb-0" ng:click="deleteMember(member);">
+                                                        
+                                                        <i class="fa fa-trash" d:tooltip="Eliminar"></i>
+                                                        
+                                                        <i ng:if="comment.spinner_delete" class=" fa fa-spin fa-spinner"></i>
+
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div d:spinner="loading"></div>
+                                </div>
+
+                                <div class="text-center">
+                                    <dir-pagination-controls pagination-id="memberList.id"></dir-pagination-controls>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-12 text-center" ng:if="memberList.length == 0">
+                                <i class="fas fa-comment-slash"></i>
+                                Ningún miembro registrado.
+                            </div>
+                        </div>              
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<dn-modal name="modal-member" title-modal="{{titleModal}}" size="lg" scale="12">
+
+    <form ng:submit="createMember();" name="forms.formMember">
+    
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <fieldset>
+                        <div class="col-md-12">
+                            <dn-inputtext 
+                                label="Nombre" 
+                                model="ObjectMember.name" 
+                                name="name" 
+                                maxl="500"
+                                form="forms.formMember.name" 
+                                error="parent.errors.name"
+                                regex=".*"
+                                holder="Nombre de su empresa, grupo, emprendimiendo u otros."
+                                req = "true"
+                            >
+                            </dn-inputtext>
+                        </div> 
+                    </fieldset>
+ 
+                    <fieldset>
+                        <div class="col-md-12">
+                            <dn-inputarea 
+                                label="Descripción" 
+                                model="ObjectMember.description" 
+                                name="description" 
+                                form="forms.formMember.description" 
+                                error="parent.errors.description"
+                                regex=".*"
+                                maxl="2000"
+                                holder="Breve descripción de su empresa, grupo, emprendimiendo u otros."
+                                req = "true"
+                                rows="10"
+                            > 
+                            </dn-inputarea>
+                        </div>
+                    </fieldset>
+
+
+                    <fieldset>
+                        <div class="col-md-12">
+                            
+                            <div style="position: relative;">
+
+                                <label style="font-size:12px;">Imagen de fondo </label>
+                                
+                                <span class=" m-0 span-information">*Imagen requerida.</span>
+                                
+                                <span style="float:right" class=" m-0">Dimensiones: 1000 x 667 px </span>
+
+                                <dn-uploaderfile 
+                                    name="thumbnail"
+                                    model="ObjectMember.thumbnail" 
+                                    default="default_thumbnail" type="image" 
+                                    options="thumbnail_options"
+                                
+                                ></dn-uploaderfile>
+
+                                <div class="format-image">
+                                    <span class="text-success">
+                                        Formatos permitidos: JPG, JPEG, PNG.
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </div> 
+                        
+                    </fieldset>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <fieldset>
+
+                        <dn-inputtext 
+                            label="url" 
+                            model="ObjectMember.url" 
+                            name="url" 
+                            form="forms.formMember.url" 
+                            error="parent.errors.url"
+                            regex=".*"
+                            maxl="500"
+                            holder="enlace con el que podrá visualizar su perfil en la página aweb."
+                            req = "true"
+                        >
+                        </dn-inputtext>
+                    
+                    </fieldset>
+
+                    <fieldset>
+  
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <dn-inputtext 
+                                        label="Título Botón" 
+                                        model="ObjectMember.button_text" 
+                                        name="button_text" 
+                                        form="forms.formMember.button_text" 
+                                        error="parent.errors.button_text"
+                                        regex=".*"
+                                    >
+
+                                    </dn-inputtext>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <dn-inputtext 
+                                        label="Redirect To " 
+                                        model="ObjectMember.button_link" 
+                                        name="button_link" 
+                                        form="forms.formMember.button_link" 
+                                        error="parent.errors.button_link"
+                                        maxl="200"
+                                        regex=".*"
+                                    >
+                                    
+                                    </dn-inputtext>
+                                </div>
+                            </div> 
+                        
+                    </fieldset> 
+
+                    
+                    <br>
+
+                    <fieldset style="position: relative;margin-top:1.3em">
+        
+                        <label style="font-size:12px;">Tu logo </label>
+                            
+                        <span class=" m-0 span-information">* Imagen requerida.</span>
+                        
+                        <span style="float:right" class=" m-0">Dimensiones: 150 x 150 px </span>
+                        
+                        <dn-uploaderfile model="ObjectMember.logo" default="default_logo" type="image" 
+                        options="logo_options">
+                        </dn-uploaderfile>
+                        <div class="format-image">
+                            <span class="text-success">
+                                Formatos permitidos: JPG, JPEG, PNG.
+                            </span>
+                        </div>
+
+                    </fieldset>  
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-12">
+
+            <div class="row">
+                
+                <div class="col-md-6">
+
+                    <dn-inputselect 
+                        label="Categorias" 
+                        model="categoriaModel.id" 
+                        name="categoria_model" 
+                        list="categoryList"
+                        key="name"
+                        change="getSubcategories();"
+                        req="true"
+                        >
+                    </dn-inputselect>
+
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                
+                <div class="col-md-12">
+   
+                    <br>
+                    
+                    <label style="margin-right : 1em" ng-repeat="sub in subCategoriesList">
+    
+                        <div class="form-group form-check">
+                            <input type="checkbox" ng:model="sub.select" class="form-check-input" id="{{$index}}">
+                            <label class="form-check-label" for="{{$index}}">{{sub.name }}</label>
+                        </div>
+    
+                    </label>
+                    
+ 
+                </div>
+
+            </div>
+            
+        </div>
+
+        <div class="fix-col justify-content-center">
+
+            <button class="btn btn-info" ng:disabled = " forms.formMember.$invalid || (ObjectMember.thumbnail == undefined) || (ObjectMember.logo == undefined)  || spin_form">
+                
+                <i  class="fa" ng:class="{'fa-save' : !spin_form , 'fa-spin fa-spinner' : spin_form }"></i>
+                
+                <span> {{ spin_form ? 'Registrando ... ' : 'Guardar' }} </span>
+
+            </button>
+
+        </div>
+        
+    </form>
+</dn-modal>

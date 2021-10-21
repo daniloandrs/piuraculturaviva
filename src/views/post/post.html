@@ -1,0 +1,116 @@
+
+<div ng:init="OnInit();">
+
+    <dn-loader ng:show="loader"></dn-loader>
+
+    <div class="wrapper" ng:show="!loader">
+        
+
+        <div class="main-raised">
+
+            <div class="container-fluid">
+
+                <div class="row">  
+                    
+                    <nav aria-label="breadcrumb" role="navigation" style="padding-left: 1em;">
+                    
+                        <ol class="breadcrumb">
+                        
+                            <li class="breadcrumb-item"><a href="#/">Home</a></li>
+                        
+                            <li class="breadcrumb-item active" aria-current="page">noticias</li>
+                        
+                        </ol>
+
+                    </nav>
+   
+                </div>
+
+                <div class="row">
+                        
+                    <div class="col-md-12 p-0">
+
+                        <div class="left">
+                            <div class="" style="margin-top:10px;">
+                                <div class="col-md-12 m-0">
+                                    Todos las noticias
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                    </div>
+
+                </div>
+                
+            
+                <hr>
+
+                <div class="row">
+    
+                    <div class="container text-left">
+                        <span style = "font-size:x-small;" ng:bind="ListPost.length + ' resultados'"></span>
+                    </div>
+                
+                </div>
+
+            </div>
+
+            <div class="container-fluid">
+
+                <div class="row p-4">
+
+                    <div class="container-fluid m-auto" style="min-height: 194px;display: flex;" ng:if="ListPost.length == 0">
+
+                        <h5 class="text-center m-auto" style="color: var(--color-red);">
+                            <i class="far fa-frown"></i>
+                            Ninguna noticia registrada.
+                        </h5>
+
+                    </div>   
+
+                    <div class="col-sm-12 col-md-6 col-lg-4" ng:repeat="post in ListPost" ng:if="ListPost.length > 0">
+
+                        <div class="image-boxes imgboxes_style4 kl-title_style_left">
+
+                            <a class="imgboxes4_link imgboxes-wrapper" ng:click="gotoNotice(post);">
+                            
+                                <img loading="lazy" ng:src="{{ path + post.background_image }}"  
+                                    class="img-fluid imgbox_image cover-fit-img" alt="{{post.title}}" title="{{post.title}}">
+                            
+                                <span class="imgboxes-border-helper"></span>
+                            
+                                <h3 class="m_title imgboxes-title">
+                                {{ post.title }}
+                                </h3> 
+                            
+                            </a>
+                            
+                            <p class="col-12 mt-0 max-lines">
+                            {{post.subtitle}} 
+                            </p>
+
+                            <div class="container notas-assets">
+                                <div class="">
+                                    <em class="latest_posts-acc-details">
+                                        {{setFecha(post.publication_date)}}  {{ (post.author != 'null') ? 'por ' + post.author : '' }}
+                                    </em>
+                                </div>
+                                <div class="mb-2">
+                                    <a ng:click="gotoNotice(post);" class="latest_posts-acc-more">
+                                        LEER MÁS +
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                </div>
+
+            </div>
+            
+        </div>
+
+    </div>
+
+</div>

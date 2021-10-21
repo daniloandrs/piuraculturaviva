@@ -1,0 +1,165 @@
+
+<div ng:init="OnInit();">
+
+    <dn-loader ng:show="loader"></dn-loader>
+
+    <div class="wrapper" ng:show="!loader">
+        
+        <div class="main-raised">
+
+            <div class="section-cultural-repository text-center mt-5 pt-2">
+        
+                <div class="container">
+    
+                    <div class="row">  
+                    
+                        <nav aria-label="breadcrumb" role="navigation" style="padding-left: 2.2em;">
+                        
+                            <ol class="breadcrumb">
+                            
+                                <li class="breadcrumb-item"><a href="#!/">Home</a></li>
+                            
+                                <li class="breadcrumb-item active" aria-current="page">eventos</li>
+                               
+                            </ol>
+    
+                        </nav>
+       
+                    </div>
+    
+                    <div class="row">
+                        
+                        <div class="col-md-12">
+
+                            <div class="left">
+                                <div class="" style="margin-top:10px;">
+                                    <div class="col-md-12 m-0">
+                                        Todos los eventos
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                            <div class="right">
+                
+                                <div class="input-group" style="    min-width: 300px;">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                                    <input type="text" placeholder="Buscar por nombre de evento" ng:model="search" class="form-control">
+                                </div>
+  
+                            </div>
+
+                        </div>
+                        
+                    </div>
+    
+                    <hr>
+    
+                    <div class="row">
+    
+                        <div class="container text-left">
+                            <span style = "font-size:x-small;" ng:bind="listEvents.length + ' resultados'"></span>
+                        </div>
+                        
+                    
+                    </div>
+                    
+                    <div class="container-fluid m-auto" style="min-height: 194px;display: flex;" ng:if="listEvents.length == 0">
+
+                        <h5 class="text-center m-auto" style="color: var(--color-red);">
+                            <i class="far fa-frown"></i>
+                            Ningún evento registrado.
+                        </h5>
+       
+                    </div>
+
+                    <div class="row grid-cards"> 
+    
+                        <div class="lib-item" ng:repeat="item in listEvents | filter : search">
+                            
+                            <div class="lib-panel">
+                            
+                                <div class="row box-shadow">
+                                    
+                                    <div class="col-md-12 col-sm-12 p-0" style="height: 15em;">
+                                        
+                                        <a href="#!/eventos/{{item.url_detail}}" class="ini">
+    
+                                            <img class="lib-img-show" ng:src="{{path + item.background_image}}" alt="{{ item.title }}">
+                                     
+                                        </a>
+    
+                                    </div>
+
+                                    <div class="col-md-12 col-sm-12 text-start">
+    
+                                        <div class="m-2">
+                                            
+                                            <a href="#!/eventos/{{item.url_detail}}">
+
+                                                <h3 class="card-title-member mb-2 elipsis-text-2" style="height: 3em;" ng:bind="item.title"></h3>
+                                            
+                                            </a>
+                                            
+                                            <div class="card-text" style="height:40px;overflow:auto">
+
+                                                <div style="float:left; clear:both">
+
+                                                    <span style="font-weight:400">
+                                                    
+                                                        <i class="fas fa-calendar-alt"></i> 
+                                                    
+                                                        {{ setDate(item.publication_date) }}
+                                                    
+                                                    </span>
+                                                
+                                                </div>
+                                                
+                                                <div style="float:right">
+                                                
+                                                    <i class="fas fa-clock"></i>
+                                                
+                                                    {{ setTime(item.publication_date) }}
+                                                
+                                                </div>
+                        
+                                            </div>
+
+                                            <div class="card-footer card-footer-event">
+
+                                                <div style="float:left; clear:both;padding:5px 0">
+                                                
+                                                    <span style="font-weight:400">Gratuito</span>
+                                                
+                                                </div>
+
+                                                <a title="Storytelling con triple impacto" href="#!/eventos/{{item.url_detail}}">
+
+                                                    <div class="btn-event">Ver</div>
+                                                </a>
+
+                                            </div>
+
+                                        </div>
+                                        
+                                    </div> 
+    
+                                </div>
+    
+                            </div>
+    
+                        </div>
+    
+                    </div>
+    
+                </div>
+    
+            </div>
+
+        </div>
+        
+    </div>
+
+</div>

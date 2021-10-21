@@ -1,0 +1,11 @@
+<dn-notifications></dn-notifications>
+<dn-navbar></dn-navbar>
+<div class="wrapper">
+    <dn-sidebar></dn-sidebar>
+    <div class="views" ng:class="{ 'collapsed': toggleSidebar() }">
+        <section app:view:segment="1"></section>
+    </div>
+    <dn-footer></dn-footer>
+</div>
+
+<div ng:include="'./src/views/home/general-modals.template.html'"></div>

@@ -1,0 +1,116 @@
+/* IMPORT ALL STYLES */
+@import url('assets/css/basic-styles.css');
+@import url('./assets/css/fontawesome.min.css');
+@import url('./assets/css/fontawesome-all.min.css');
+@import url('./assets/css/bootstrap.min.css');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700,200');
+@import url('./assets/css/now-ui-kit.css');
+@import url('./assets/css/spinkit.min.css');
+@import url('./ire-charts/css/export.css');
+@import url('./assets/css/angular-ui-switch.min.css');
+@import url('./assets/css/angular-wizard.css');
+@import url('./assets/css/input-radio.css');
+@import url('./assets/css/textAngular.css');
+@import url('./assets/css/loader.css');
+
+@import url('./assets/css/bootstrap-select.css');
+@import url('./assets/css/select.css');
+@import url('./assets/css/select2.css');
+@import url('./assets/css/selectize.default.css');
+@import url('./assets/css/dropzone.css');
+@import url('./assets/css/ng-dropzone.css');
+@import url('./assets/css//calendar.min.css');
+@import url('./assets/css/toast.css');
+@import url('./assets/css/quill.snow.css');
+
+@import url('./assets/css/angular-material.min.css');
+@import url('./assets/css/mdColorPicker.css');
+
+.list-group-item {
+    user-select: none;
+}
+
+#map { position:relative; top:0; bottom:0; width:100%;     width: 100%;
+    margin: 2em 6em;}
+
+.list-group input[type="checkbox"] {
+    display: none;
+}
+
+.view-loader {
+    margin: auto;
+    padding: 2em
+}
+
+.view-loader-lock {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    top: 0;
+    left: 0;
+}
+
+.list-group input[type="checkbox"] + .list-group-item {
+    cursor: pointer;
+}
+
+.list-group input[type="checkbox"] + .list-group-item:before {
+    content: "\2713";
+    color: transparent;
+    font-weight: bold;
+    margin-right: 1em;
+}
+
+.list-group input[type="checkbox"]:checked + .list-group-item {
+    background-color: #0275D8;
+    color: #FFF;
+}
+
+.list-group input[type="checkbox"]:checked + .list-group-item:before {
+    color: inherit;
+}
+
+.ire-chart {
+    overflow-x: scroll;
+}
+
+.ire-chart-title h4 {
+    text-align: center !important;
+}
+
+.negrita {
+    font-weight: bold;
+}
+
+
+.opacityClass {
+    background-color: #00C1D5
+}
+
+.table.table-andheuris tbody td { 
+    text-transform: initial !important;
+}
+
+
+.md-dialog-container {
+    z-index: 1200;
+}
+
+.md-color-picker-container .md-color-picker-preview .md-color-picker-result {
+    width: 100%;
+}
+
+md-input-container .md-input {
+
+    border: 1px solid #e3e3e3;
+}
+
+[md-color-picker] .md-color-picker-input-container .md-color-picker-preview { 
+    margin: 5px;
+}
+
+md-input-container.md-default-theme:not(.md-input-invalid).md-input-focused .md-input, md-input-container:not(.md-input-invalid).md-input-focused .md-input, md-input-container.md-default-theme:not(.md-input-invalid).md-input-resized .md-input, md-input-container:not(.md-input-invalid).md-input-resized .md-input {
+    border: 1px solid #96d4ff !important;
+}

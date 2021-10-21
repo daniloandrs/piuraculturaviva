@@ -1,0 +1,52 @@
+
+<div style="    background-color: white !important;" ng:init="onInit()"> 
+    <!--
+    <img src="./assets/img/login/avatar.svg">
+    -->
+
+    <img class="wave" src="./assets/img/login/wave.png">
+
+    <div class="wrapper-login fadeInDown">
+    
+        <div id="formContent">
+     
+           <h2 class="active"> Iniciar Sesión </h2>
+       
+           <div class="fadeIn first">
+               <img src="./assets/img/login/avatar.svg" id="icon" alt="User Icon" />
+           </div>
+       
+           <form ng:submit="entry();">
+     
+                <input 
+                    type="text" id="input_login" 
+                    class="fadeIn second"
+                    placeholder="Usuario"
+                    ng:model="login.nick"
+                    required
+                >
+             
+                <input type="password"
+                    id="input_password" class="fadeIn third" 
+                    ng:model="login.password"
+                    placeholder="Contraseña"
+                    required 
+                >
+             
+     
+                <input type="submit" 
+                    ng:if="!loading"
+                    class="fadeIn fourth" 
+                    value="Iniciar Sesión"
+                >
+
+                <button ng:if="loading" class="btn btn-info btn-login" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    cargando ...
+                </button>
+
+            </form>
+           
+        </div>
+    </div>
+</div>

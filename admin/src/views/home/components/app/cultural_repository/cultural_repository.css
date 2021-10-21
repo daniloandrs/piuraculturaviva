@@ -1,0 +1,32 @@
+
+.span-information {
+    font-size: x-small !important;
+    font-weight: bold !important;
+    color: #F44336;
+}
+
+.format-image {
+    position: absolute;
+    bottom: 17%;
+    right: 0px;
+    font-weight: bold;
+}
+
+
+
+.card-title-member {
+    font-size: 16px;
+    color: var(--card-title-color);
+    font-weight: bold;
+}
+
+
+.number-visits {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+
+.lib-img-show {
+    width: 70%;
+}

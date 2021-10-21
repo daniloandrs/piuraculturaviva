@@ -1,0 +1,147 @@
+
+<div class="dn-roles" ng:init="onInit()">
+
+    <div class="container-fluid no-padding">
+
+        <div class="card">
+
+            <div class="card-body">
+
+                <nav class="">
+                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" data-toggle="tab" id="fondo-tab" role="tab"
+                            aria-controls="nav-home" aria-selected="true"
+                            ng:click="showTab('fondo-tab','text-tab',true);">
+                            
+                            Fondos
+
+                        </a>
+            
+                        <a class="nav-item nav-link" data-toggle="tab" id="text-tab" role="tab" aria-controls="nav-home"
+                            aria-selected="true" ng:click="showTab('text-tab','fondo-tab');">
+                            Textos
+                        </a>
+                    </div>
+                </nav>
+
+                <div class="tab-content" id="nav-tabContent">
+
+                    <div class="tab-pane fade show active" id="fondo-tab-content" role="tabpanel" aria-labelledby="nav-home-tab">
+                        
+
+                        <br>
+
+                        <dn-spinner-view ng:if ="loading"></dn-spinner-view>
+
+                        <div class="col-md-12" ng:if ="!loading">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <form name="formBackground">
+    
+                                        <div class="col-md-12">
+                                            <label> Imagen Web </label>
+
+                                            <fieldset>
+                                                <dn-uploaderfile 
+                                                model="objectBackground.image" 
+                                                default="default_background" 
+                                                type="image" 
+                                                options="image_options">
+                                                </dn-uploaderfile>
+                                            </fieldset> 
+                                        </div>
+                                    
+                                        <div class="fix-col justify-content-center">
+            
+                                            <button
+                                                ng:click="createOrUpdateBackground();" 
+                                                class="btn btn-info btn-md" ng:disabled="objectBackground.image == undefined ">
+                                                <i ng:if="spin_background" class=" fa fa-spin fa-spinner"></i>
+                                                {{ spin_background ? 'Guardando ... ' : 'Guardar' }}    
+                                            </button>
+                                            
+                                        </div>
+                                
+                                    </form>
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <form name="formBackgroundMobile">
+    
+                                        <div class="col-md-12">
+                                            <label> Imagen Mobile </label>
+                                            
+                                            <fieldset>
+                                                <dn-uploaderfile 
+                                                model="objectBackgroundMobile.image" 
+                                                default="default_background_mobile" 
+                                                type="image" 
+                                                options="image_options">
+                                                </dn-uploaderfile>
+                                            </fieldset> 
+                                        </div>
+                                    
+                                        <div class="fix-col justify-content-center">
+            
+                                            <button
+                                                ng:click="createOrUpdateBackgroundMobile();" 
+                                                class="btn btn-info btn-md" ng:disabled="objectBackgroundMobile.image == undefined ">
+                                                <i ng:if="spin_background_mobile" class=" fa fa-spin fa-spinner"></i>
+                                                {{ spin_background_mobile ? 'Guardando ... ' : 'Guardar' }}    
+                                            </button>
+                                            
+                                        </div>
+                                
+                                    </form>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade show" id="text-tab-content" role="tabpanel" aria-labelledby="nav-home-tab">
+                        
+                        <div class="col-md-12">
+
+                            <form name="formText">
+
+
+                                <fieldset>
+                                    <div>
+                                        <label for="">Contenido</label>
+                                        <div id="toolbar">
+                                        </div>
+                                        <div id="editor">
+                                            <p>Hello World!</p>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <div class="fix-col justify-content-center">
+        
+                                    <button
+                                        ng:click="saveText();"
+                                        class="btn btn-info btn-md" ng:disabled="post.description == 0">
+                                        <i ng:if="spin_text" class=" fa fa-spin fa-spinner"></i>
+                                        {{ spin_text ? 'Guardando ... ' : 'Guardar' }}    
+                                    </button>
+                                    
+                                </div>
+                                
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

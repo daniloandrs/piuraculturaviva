@@ -1,0 +1,23 @@
+.dn-actualizar-datos {
+
+}
+    .dn-actualizar-datos .img-edit label.uploader {
+        /* border: 2px dashed lightgrey;
+        padding: 20px;
+        height: 23vh;
+        width: 23vh;
+        margin: 0 auto; */
+    }
+    .dn-actualizar-datos .img-edit label.uploader img {
+        
+    }
+
+    @media screen and (max-width: 991px) {
+    
+        .dn-actualizar-datos .img-edit {
+            width: 100%;
+            height: 100%;
+            /*border: 2px dashed lightgrey;*/
+        }
+    
+    }

@@ -1,0 +1,148 @@
+<div class="dn-tablas" ng:init="onInit()">
+    <div class="container-fluid no-padding">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="card-title"><i class="fa fa-users"></i> Tablas</h4>
+                    </div>
+                    <div class="col text-right">
+                        <button class="btn btn-simple" ng:click="toggleView()">
+                            <div ng:show="normalView">
+                                <i class="fa fa-eye"></i>
+                                <span>registros inhabilitados</span>
+                            </div>
+                            <div ng:hide="normalView">
+                                <i class="fa fa-arrow-left"></i>
+                                <span>volver</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="btn btn-success" ng:click="openModal(0)">
+                            <i class="fa fa-plus"></i> agregar tabla</button>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <input type="text" placeholder="Buscar" ng:model="search" class="form-control" ng:model="login.password">
+                        </div>
+                        <div class="note-andheuris">
+                            <span class="badge badge-info">Nota</span>
+                            <i>La búsqueda es sensile a tildes.</i>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="note-andheuris">
+                    <span class="badge badge-primary">Cantidad de registros : <span ng:bind="listData.length"></span></span>
+                </div>
+                <br>
+                <div class="row" ng:if="normalView">
+                    <div class="container-fluid">
+                        <div class="table-responsive">
+                            <table class="table table-andheuris table-hover">
+                                <thead class="active">
+                                    <tr>
+                                        <th rowspan="2" class="text-center">Orden</th>
+                                        <th rowspan="2" class="text-center">Alias</th>
+                                        <th rowspan="2" class="text-center">Nombre</th>
+                                        <th rowspan="2" class="text-center">Procedimiento Almacenado</th>
+                                        <th colspan="2" class="text-center">Sincronización</th>
+                                        <th rowspan="2" class="text-center">Operaciones</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">¿Permitida?</th>
+                                        <th class="text-center">Fecha de la última</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr dir-paginate="row in listData | filter:search|rowsPerPage: 5" pagination-id="row.id">
+                                        <td ng:bind="row.orden"></td>
+                                        <td ng:bind="row.alias"></td>
+                                        <td ng:bind="row.nombre"></td>
+                                        <td ng:bind="row.store_procedure"></td>
+                                        <td ng:bind="row.allow_sync?'Si':'No'"></td>
+                                        <td ng:bind="row.last_sync | amDateFormat:'DD/MM/YYYY, h:mm:ss a'"></td>
+                                        <td>
+                                            <button class="btn btn-warning" ng:click="openModal(1, row)">
+                                                <i class="fa fa-pencil-alt"></i> modificar
+                                            </button>
+                                            <button class="btn btn-danger" ng:click="openModal(2, row)">
+                                                <i class="fa fa-ban"></i> inhabilitar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div d:spinner="loading"></div>
+                        </div>
+                        <div class="text-center">
+                            <dir-pagination-controls pagination-id="row.id"></dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng:if="!normalView">
+                    <div class="container">
+                        <div class="table-responsive">
+                            <table class="table table-andheuris table-hover">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2">Alias</th>
+                                        <th rowspan="2">Nombre</th>
+                                        <th colspan="2">Sincronización</th>
+                                        <th rowspan="2">Restaurar</th>
+                                    </tr>
+                                    <tr>
+                                        <th>¿Permitida?</th>
+                                        <th>Fecha de la última</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng:repeat="row in listData | filter: search">
+                                        <td ng:bind="row.alias"></td>
+                                        <td ng:bind="row.nombre"></td>
+                                        <td ng:bind="row.allow_sync?'Si':'No'"></td>
+                                        <td ng:bind="row.last_sync | amDateFormat:'DD/MM/YYYY'"></td>
+                                        <td class="text-right">
+                                            <button class="btn btn-success btn-icon btn-sm" ng:click="openModal(3, row)">
+                                                <i class="fa fa-check"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div d:spinner="loading"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<dn-modal name="modal-tablas-form" title-modal="{{title}}" size="md">
+    <form ng:submit="sendDataEvent()" name="forms.form_tablas">
+        <fieldset>
+            <dn-inputnumber label="Orden" name="orden" model="mainObj.orden" req="true" form="forms.form_tablas.orden" min="0" error="parent.errors.orden"></dn-inputnumber>
+            <dn-inputtext label="Alias" name="nick" model="mainObj.alias" req="true" form="forms.form_tablas.alias" maxl="50" minl="3" error="parent.errors.alias"></dn-inputtext>
+            <dn-inputtext label="Nombre" name="nombre" model="mainObj.nombre" req="true" form="forms.form_tablas.nombre" maxl="50" minl="3" error="parent.errors.nombre" regex=".*"></dn-inputtext>
+            <dn-inputtext label="Procedimiento almacenado" name="store_procedure" model="mainObj.store_procedure" req="false" form="forms.form_tablas.store_procedure" maxl="50" minl="3" error="parent.errors.store_procedure" regex=".*"></dn-inputtext>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" ng:model="mainObj.allow_sync">
+                    ¿Permitir sincronización?
+                </label>
+            </div>
+        </fieldset>
+        <div class="fix-col justify-content-center">
+            <dn-button-submit label="guardar tabla" form="forms.form_tablas" icon="fa fa-save"></dn-button-submit>
+        </div>
+        <div d:spinner="loading_modal"></div>
+    </form>
+</dn-modal>

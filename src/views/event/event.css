@@ -1,0 +1,28 @@
+
+
+.card-footer-event {
+    background-color: #ffff !important;
+    border: none;
+    margin: 0;
+    padding: 0;
+    height:50px;
+}
+
+.btn-event {
+    float: right;
+    text-align: center;
+    width: 60px;
+    padding: 5px 8px;
+    border-radius: 25px;
+    background: var(--color-primary);
+    color: white;
+}
+
+.elipsis-text-2 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: justify;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}

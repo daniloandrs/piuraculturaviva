@@ -1,0 +1,23 @@
+
+.footer-blue {
+    background-color: var(--color-primary) !important;
+    padding: 50px 22px;
+}
+
+.social-networks-footer li{
+    display: inline;
+    margin:0;
+    color: #fff;
+}
+
+.logo-muni-footer {
+    text-align: center;
+}
+
+
+@media (max-width: 480px) { 
+    .logo-muni-footer {
+        text-align: start;
+    }
+    
+}

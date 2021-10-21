@@ -1,0 +1,141 @@
+
+<div class="dn-roles" ng:init="onInit()">
+
+    <div class="container-fluid no-padding">
+
+        <div class="card">
+            
+            <div class="card-header pt-0 pb-0"> 
+                <div class="row">
+                    <div class="col">
+                        <h4 class="card-title">
+                            <i class="fa fa-images"></i> Comentarios </h4>
+                    </div>
+                </div>
+            </div>
+
+            <dn-spinner-view ng:if ="loading">
+
+            </dn-spinner-view>
+
+            <div class="card-body pt-0" ng:if = "!loading">
+                <div class="row">
+                    
+                    <div class="col-md-6"></div>
+
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <input type="text" placeholder="Buscar" ng:model="search" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-body pt-0">
+                            
+                    <div class="row">
+                        <div class="container-fluid">
+                            
+                            <div class="note-andheuris">
+                                <span class="badge badge-primary">Cantidad de comentarios : <span ng:bind="listComments.length"></span></span>
+                            </div>
+
+                            <div class="row">
+                                <div class="container-fluid" ng:if="listComments.length > 0">
+                                    <div class="table-responsive">
+                                        <table class="table table-andheuris table-hover">
+                                            <thead class="active">
+                                                <tr>
+                                                    <th >nombre</th>
+                                                    <th >comentario</th>
+                                                    <th>¿Aprobado?</th>
+                                                    <th class="text-center">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>  
+                                                <tr dir-paginate="comment in listComments | itemsPerPage : 5 " pagination-id="comment.id">
+                                                    <td ng:bind="comment.name"></td>
+                                                    <td ng:bind="comment.content"></td>
+                                                    <td>
+                                                        <span ng:class = "{'badge-success' : comment.status }"> 
+                                                            {{ comment.status ? 'aprobado' : 'pendiente' }}
+                                                        </span>
+                                                    </td>
+      
+                                                    <td class="text-center">
+                                                        <button ng:if = "!comment.status"
+                                                            class="btn btn-success btn-link btn-sm pt-0 pb-0" 
+                                                            ng:click="approvedComment(comment)"
+                                                        >
+                                                            <i 
+                                                                ng:if="!comment.spinner"
+                                                                class="fas fa-check"
+                                                                d:tooltip="Aprobar comentario"
+                                                            ></i>
+    
+                                                            <i 
+                                                                ng:if="comment.spinner"
+                                                                class=" fa fa-spin fa-spinner"
+                                                            ></i>
+                                                               
+                                                        </button>
+    
+    
+                                                        <button ng:if = "comment.status"
+                                                            class="btn btn-warning btn-link btn-sm pt-0 pb-0" 
+                                                            ng:click="notApprovedComment(comment)"
+                                                        >
+                                                            <i 
+                                                                ng:if="!comment.spinner"
+                                                                class="fas fa-sync-alt"
+                                                                d:tooltip="Deshacer aprobación"
+                                                            ></i>
+     
+                                                            <i 
+                                                                ng:if="comment.spinner"
+                                                                class=" fa fa-spin fa-spinner"
+                                                            ></i>
+                                                               
+                                                        </button>
+                                                        
+                                                        <button class="btn btn-danger btn-link btn-sm pt-0 pb-0" ng:click="deleteComment(comment);">
+                                                            
+                                                            <i class="fa fa-trash"
+                                                            d:tooltip="Eliminar comentario"
+                                                            ></i>
+                                                            
+                                                            <i 
+                                                                ng:if="comment.spinner_delete"
+                                                                class=" fa fa-spin fa-spinner"
+                                                            ></i>
+    
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div d:spinner="loading"></div>
+                                    </div>
+    
+                                    <div class="text-center">
+                                        <dir-pagination-controls pagination-id="comment.id"></dir-pagination-controls>
+                                    </div>
+    
+                                </div>
+    
+                                <div class="col-md-12 text-center" ng:if="listComments.length == 0">
+                                    <i class="fas fa-comment-slash"></i>
+                                    No tiene nigún comentario.
+                                </div>
+                            </div>              
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

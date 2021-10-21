@@ -1,0 +1,48 @@
+<link rel="stylesheet" href="./src/components/external/inputsearch/inputsearch.component.css">
+<div class="inputsearch-app">
+    <div class="inputsearch-panel">
+        <!-- ng:focus="focusButton(true)" ng:blur="focusButton(false)" -->
+        <button type="button" class="btn btn-simple btn-block btn-search" ng:click="togglePanel()"
+            style="text-align: left !important;">
+            <span ng:if="!_model.value || _model.value.length === 0" ng:bind="label"></span>
+            <span style=" color:#000000;" ng:bind="options.itemShow?_model.value[options.itemShow]:_model.value.nombre"></span>
+            <i class="i-sort fa" ng:class="_model.show?'fa-angle-up':'fa-angle-down'"></i>
+            <div ng:if="multiple && _model.value.length > 0">
+                <!-- <hr ng:if="_model.value.length > 0" class="separator"> -->
+                <label class="btn btn-info btn-sm" ng:repeat="one in _model.value track by $index"
+                    ng:click="removeItem($event, $index)">
+                    <span ng:bind="options.itemShow?one[options.itemShow]:one.nombre"></span>
+                    <span class="fa fa-times"></span>
+                </label>
+            </div>
+        </button>
+        <div class="search-container"
+            ng:class="orientation?orientation:'down'; options.relative?'list-relative':'list-absolute'"
+            ng:if="_model.show">
+            <div class="form-group">
+                <input type="text" class="form-control" ng:model="filterElement" ng:mousedown="focusButton(true)">
+            </div>
+            <div class="inputsearch-list" ng:class="">
+                <ul class="list-unstyled">
+                    <li class="list-first-muted" ng:mousedown="select()" ng:show="filterredList.length !== 0">
+                        <small class="text-muted" ng:hide="_model.value">Seleccione un elemento
+                            <i class="fa fa-hand-pointer"></i>
+                        </small>
+                        <small class="text-muted" ng:show="_model.value">Limpiar
+                            <i class="fa fa-trash"></i>
+                        </small>
+                    </li>
+                    <li class="list-search-elements" ng:repeat="item in filterredList = (list | filter: filterElement)"
+                        ng:class="verifyAdded(item)" ng:mousedown="select(item)">
+                        <div dir-html-compile="getTemplate()"></div>
+                    </li>
+                    <li class="list-not-found" ng:if="filterredList.length === 0">
+                        <small class="text-muted">Sin resultados para
+                            <strong ng:bind="filterElement"></strong>
+                        </small>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

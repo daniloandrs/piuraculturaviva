@@ -1,0 +1,112 @@
+.inputsearch-app {
+
+}
+.inputsearch-app .inputsearch-panel {
+    position: relative;
+    display: block;
+    /* padding: 5px; */
+    /* border: 1px solid red; */
+}
+.inputsearch-app .inputsearch-panel .btn-search {
+    margin-top: 0;
+    margin-bottom: 0;
+    white-space: initial;
+    padding: 10px;
+    border: 1px solid #E3E3E3 !important;
+    background-color: white;
+    box-shadow: none !important;
+}
+.inputsearch-app .inputsearch-panel .btn-search .separator {
+    margin-top: 6px;
+}
+.inputsearch-app .inputsearch-panel .btn-search label {
+    margin-top: 0;
+    margin-right: 10px;
+}
+.inputsearch-app .inputsearch-panel .btn-search label span {
+    margin-left: 10px;
+}
+    /* .inputsearch-app .inputsearch-panel .btn-search:focus {
+        border: 1px solid red;
+    } */
+.inputsearch-app .inputsearch-panel .btn-search i.i-sort {
+    float: right;
+    margin-top: 2px;
+}
+.inputsearch-app .inputsearch-panel .form-group input{
+    margin-top: 0 !important;
+}
+.inputsearch-app .search-container.list-absolute { position: absolute; }
+.inputsearch-app .search-container.list-relative { position: relative; }
+.inputsearch-app .search-container {
+    /* position: absolute; */
+    left: 1px;
+    width: calc(100% - 10px);
+    padding: 8px;
+    /* border: 1px solid blue; */
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    z-index: 10;
+    margin: 5px;
+}
+.inputsearch-app .search-container.up {
+    bottom: 100%;
+}
+.inputsearch-app .search-container.down {
+    top: 100%;
+}
+.inputsearch-app .inputsearch-list {
+    display: block;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 5px;
+}
+.inputsearch-app .inputsearch-list ul li small i {
+    float: right;
+    margin-top: 7px;
+}
+.inputsearch-app .inputsearch-list ul,
+.inputsearch-app .inputsearch-list ul li.list-not-found,
+.inputsearch-app .inputsearch-list ul lu.list-first-muted,
+.inputsearch-app .inputsearch-panel .form-group {
+    margin-bottom: 0;
+}
+.inputsearch-app .inputsearch-list ul li div:first-child,
+.inputsearch-app .inputsearch-list ul li.list-not-found,
+.inputsearch-app .inputsearch-list ul li.list-first-muted {
+    margin-right: 8px;
+    margin-bottom: 5px;
+    padding: 5px 10px;
+    cursor: pointer; 
+    border-radius: 3px;
+}
+.inputsearch-app .inputsearch-list ul li.list-not-found,
+.inputsearch-app .inputsearch-list ul li.list-first-muted {
+    background-color: #F4F4F4;
+}
+.inputsearch-app .inputsearch-list ul li small {
+    font-size: 70%;
+    text-transform: uppercase;
+}
+
+.inputsearch-app .inputsearch-list ul li.list-search-elements div:first-child:hover  {
+    background-color: #42cb6f;
+    color: #fff;
+    /* transition: all .2s ease-in-out; */
+}
+.inputsearch-app .inputsearch-list ul li.list-search-elements.disabled {
+    color: #868e96!important;
+    cursor: not-allowed !important;
+}
+.inputsearch-app .inputsearch-list ul li.list-search-elements.disabled div:first-child:hover {
+    background-color: transparent;
+    color: #868e96!important;
+}
+.text-center {
+    text-align: left !important;
+}
+.text-center {
+    text-align: center !important;
+}

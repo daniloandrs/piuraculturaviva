@@ -1,0 +1,241 @@
+<div class="dn-actualizar-datos" ng:init="onInit();">
+
+    <div class="container-fluid no-padding">
+
+        
+        <div class="card">
+        
+            <div class="card-header">
+                <h4 class="card-title">
+                <i class="fa fa-business"></i> Nosotros </h4>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+            
+                    <div class="col-md-4 text-white">
+            
+                        <a class="btn btn-info btn-sm" ng:click="openModal('about');">
+                            ¿Quienes Somos?
+                        </a>
+            
+                    </div>
+            
+                    <div class="col-md-4 text-white">
+            
+                        <a class="btn btn-info btn-sm"  ng:click="openModal('mision');">
+                            Misión
+                        </a>
+            
+                    </div>
+            
+                    <div class="col-md-4 text-white">
+            
+                        <a class="btn btn-info btn-sm"  ng:click="openModal('vision');">
+                            Visión
+                        </a>
+            
+                    </div>
+            
+                </div>   
+
+                <div class="row">
+
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col">
+                    
+                        <h4 class="card-title">
+                            <i class="fas fa-list"></i>
+                             Aliados
+                        </h4>
+                    
+                    </div>
+                    
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                    
+                        <button class="btn btn-success btn-sm" ng:click="openModalAllies();"> 
+                            <i class="fas fa-plus"></i> Añadir 
+                        </button>
+                    
+                    </div>   
+
+                    <div class="col-md-6">  
+                    
+                        <div class="input-group">
+                    
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            
+                            <input type="text" placeholder="Buscar" ng:model="search" class="form-control">
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="container-fluid">
+                    
+                        <div class="table-responsive">
+                    
+                            <table class="table table-andheuris table-hover">
+                    
+                                <thead class="active">
+                                    <tr>
+                                        <th>Nombre</th>
+                                        
+                                        <th>Url</th>
+                                        
+                                        <th>logo</th>
+                                        
+                                        <th class="text-center">Operaciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr dir-paginate="row in listAliados | filter:search|itemsPerPage: 10" pagination-id="row.id">
+                                        
+                                        <td ng:bind="row.name"></td>
+
+                                        <td ng:bind="row.url"></td>
+
+                                        <td >
+                                            <a href="" target="_blank">
+
+                                                <img  style="width: 150px !important;" ng:src="{{path + row.logo}}" class="img-responsive" alt="">
+                                            
+                                            </a>
+                                            
+                                        </td>
+  
+
+                                        <td class="text-center">
+                                            
+                                            <button class="btn btn-warning btn-link btn-sm pt-0 pb-0" ng:click="editImage(row);">
+                                                        
+                                                <i class="fas fa-pencil-alt" d:tooltip="Editar"></i>
+
+                                            </button>
+                                            
+                                            <button class="btn btn-danger btn-link btn-sm pt-0 pb-0"  ng:click="deleteImage(row);">
+                                                
+                                                <i class="fa fa-trash" d:tooltip="Eliminar"></i>
+                                                
+                                            </button>
+                                            
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div d:spinner="loading"></div>
+                        </div>
+                        <div class="text-center">
+                            <dir-pagination-controls pagination-id="row.id"></dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <dn-modal name="modal-aliado" title-modal="{{titleModal}}" size="md">
+
+        <form ng:submit="sendAliado();" name="formAliado">
+        
+            <div class="col-md-12">
+    
+                <dn-inputtext label="Nombre" model="objectAliado.name" 
+                    form="forms.formAliado.name"
+                    name="name" req="true" regex=".*"></dn-inputtext>
+    
+            </div>
+            
+            <div class="col-md-12">
+    
+                <dn-inputtext label="Url" model="objectAliado.url" 
+                form="forms.formAliado.url"
+                name="url" regex=".*"></dn-inputtext>
+    
+            </div>   
+
+            <div class="col-md-12">
+                
+                <fieldset>
+                    <dn-uploaderfile model="objectAliado.logo" default="default_image" type="image" 
+                    options="gallery_options">
+                    </dn-uploaderfile>
+
+                </fieldset> 
+
+            </div>
+    
+            <div class="fix-col justify-content-center">
+            
+                <button class="btn btn-info" ng:disabled = "forms.formAliado.$invalid || (objectAliado.logo == undefined) || spin_form">
+                    
+                    <i  class="fa" ng:class="{'fa-save' : !spin_form , 'fa-spin fa-spinner' : spin_form }"></i>
+                    
+                    <span> {{ spin_form ? 'Registrando ... ' : 'Guardar' }} </span>
+    
+                </button>
+    
+            </div>
+            <div dn-spinner="loading_modal"></div>
+        </form>
+    </dn-modal>
+
+    
+    <dn-modal name="modal-form" title-modal="{{titleModal}}" size="lg" scale="6">
+
+        <form ng:submit="saveData();" name="forms.formPost">
+            
+            <div class="col-md-12">
+
+                <fieldset>
+
+                        <label for="">Contenido</label>
+                        
+                        <div id="toolbar"></div>
+
+                        <div id="editor"></div>
+                    
+                </fieldset>
+
+            </div>   
+
+            <div class="fix-col justify-content-center">
+        
+                <button class="btn btn-info" 
+                    ng:disabled = " forms.formPost.$invalid || spin_form">
+                    
+                    <i  class="fa" ng:class="{'fa-save' : !spin_form , 'fa-spin fa-spinner' : spin_form }"></i>
+                    
+                    <span> {{ spin_form ? 'Registrando ... ' : 'Guardar' }} </span>
+    
+                </button>
+    
+            </div>
+
+        </form>
+
+    </dn-modal>
+
+</div> 
+

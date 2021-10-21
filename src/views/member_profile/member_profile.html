@@ -1,0 +1,441 @@
+
+<div ng:init="OnInit();">
+
+    <dn-loader ng:show="loader"></dn-loader>
+
+    <div class="wrapper" ng:show="!loader">
+        
+        <div  class="page-header page-header-small page-header-post" style=" min-height: 80vh !important;">
+   
+            <div 
+                class="page-header-image" 
+                style="background-image: url('{{path + data.thumbnail}}');"
+
+            >
+            
+            </div>  
+
+            <div class="content-center absolute-left">
+            
+                <h2 class="negrita mb-2" ng:bind="data.name"></h2>
+
+                <span class="address"> 
+                    <i class="fas fa-map-marker-alt"></i> 
+                    {{' ' + data.address + ' | ' + data.visits + ' vistas' }}
+                </span>
+            </div>
+
+            <div class="contain-status" ng:if="data.status">
+                <span class="pulse"></span><span style="font-size:12px;"> En actividad. </span>  
+            </div>
+
+        </div>
+
+        <div class="main-raised">
+
+            <div class="section section-about-us pt-2">
+
+                <div class="col-md-12">
+    
+                    <div class="row">
+           
+                        <div class="col-md-9">
+
+                            <div class="container-fluid p-0">
+                            
+                                <div class="list-tab text-center">
+                                    
+                                    <a class="tab" ng:click="tabselector = 'firsttab'" ng-class="{'activetab' : tabselector == 'firsttab'}">
+                                        Acerca De
+                                    </a>
+                                    
+                                    <a class="tab" ng:click="tabselector = 'secondtab'" ng-class="{'activetab' : tabselector == 'secondtab'}">
+                                        Comentar
+                                    </a>
+                                    
+                                    <a class="tab" ng:click="tabselector = 'thirdtab'" ng-class="{'activetab' : tabselector == 'thirdtab'}">
+                                        Fotos
+                                    </a>
+                                    
+                                    <a class="tab" ng:click="tabselector = 'fourthtab'" ng-class="{'activetab' : tabselector == 'fourthtab'}">
+                                        Datos
+                                    </a>
+                    
+                                </div>
+                                
+                                <div class="ods-box">
+                                    
+                                    <div class="col-md-12 mt-3" ng-show="tabselector == 'firsttab'">
+                                        
+                                        <div dir-html-compile="data.about"></div>
+                                    
+                                    </div>
+                                    
+                                    <div class="col-md-12 mt-3 p-0" ng-show="tabselector == 'secondtab'">
+
+                                        <div class="container p-0">
+                
+                                            <div class="comments">
+                
+                                                <ul id="comments-list" class="comments-list"  ng:if = "listcomments.length > 0 ">
+                
+                                                    <li ng:repeat = "comment in listcomments | orderBy : '-date' ">
+                                                    
+                                                        <div class="comment-main-level">
+                                                            
+                                                            <div class="comment-avatar">
+                                                                <img ng:src="{{defaultProfile}}" alt="">
+                                                            </div>
+                                                            
+                                                            <div class="comment-box comment-box-member">
+                                                            
+                                                                <div class="comment-head">
+                                                                    <h6 class="comment-name">
+                                                                        <a ng:bind="comment.name"></a>
+                                                                    </h6>
+                                                                    <span ng:bind = "timeAgo(comment.date);"></span>
+                                                                    
+                                                                    <div class="wpd-unapproved mt-1" ng:if="!comment.status">
+                                                                        <i class="fas fa-exclamation-circle"></i>
+                                                                        Esperando aprobación
+                                                                    </div>
+                
+                                                                </div>
+                                                                <div class="comment-content pt-0" ng:bind = "comment.content"></div>
+                                                            </div>
+                                                        </div>
+                                                    
+                                                    </li>
+                                                
+                                                </ul>
+                
+                                                <div ng:if = "listcomments.length == 0 ">
+                                                    <h5 class="text-center" style="color: var(--color-red);">
+                                                        <i class="far fa-frown"></i>
+                                                        No tiene ningún comentario. 
+                                                    </h5>
+                                                </div> 
+                                            
+                                            </div>
+                                            
+                                            <br>
+                
+                                            <div class="media-body">
+                
+                                                <div class="comment-respond">
+                
+                                                    <h3 class="text-center">
+                                                        Dejar un comentario 
+                                                        </small>
+                                                    </h3> 
+                                                    
+                                                    <form  autocomplete="off" name="formComment" class="form form-group" ng:submit="newComment();">
+                                            
+                                                        <div class="row"> 
+                
+                                                            <div class="col-md-6"> 
+                                                                <div class="form-group">
+                                                                    <label class="control-label">
+                                                                        Nombre <span class="required">*</span>
+                                                                    </label>
+                                                                    
+                                                                    <input 
+                                                                        name="name" 
+                                                                        class="form-control" 
+                                                                        type="text" required="true"
+                                                                        ng:model = "commentObject.name"
+                                                                    > 
+                                                                    <span class="hestia-input"></span> 
+                                                                </div> 
+                                                            </div>
+                
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">
+                                                                        Email <span class="required">*</span>
+                                                                    </label>
+                                                                    
+                                                                    <input  
+                                                                        name="email" 
+                                                                        class="form-control" 
+                                                                        type="email" required="true"
+                                                                        ng:model = "commentObject.email"
+                                                                    > 
+                                                                    <span class="hestia-input"></span>
+                                                                </div>
+                                                            </div>
+                                                        
+                                                        </div>
+                
+                                                        <div class="form-group">
+                                                            
+                                                            <label class="control-label">
+                                                                ¿Qué estas pensando? 
+                                                            </label>
+                
+                                                            <textarea 
+                                                                name="content" 
+                                                                class="form-control" 
+                                                                rows="6" 
+                                                                required="true"
+                                                                ng:model = "commentObject.content"
+                                                            >
+                                                            </textarea>
+                                                            
+                                                        </div>
+                                            
+                                                        <p class="form-submit text-center">
+                                                            
+                                                            <button 
+                                                                type="submit" 
+                                                                class="btn btn-primary"
+                                                                ng:disabled = "formComment.$invalid || spin_form "
+                                                            > 
+                
+                                                            <div class="spinner">
+                
+                                                                {{ spin_form ? 'ENVIANDO ... ' : 'ENVIAR COMENTARIO' }}
+                
+                                                            </button>
+                                                        </p>
+                                                    </form>
+                
+                                                </div>
+                                            </div>
+                                        
+                                        </div>
+                    
+                                    </div>
+                                    
+                                    <div class="col-md-12 mt-3" ng-show="tabselector == 'thirdtab'">
+                                        
+                                        <div class="col-md-10 ml-auto mr-auto text-start">
+
+                                            <div class="container">
+                    
+                                                <div id="galeria" class="photos">
+                    
+                                                    <article class="article" ng:repeat = "photo in photos" lightgallery data-src="{{photo.fullres}}" style="cursor:pointer">
+                                                    
+                                                        <figure class="none-box-shadow">
+                
+                                                            <img class="figure-profile" ng-src="{{photo.thumbnail}}" >
+
+                                                            <div class="photo-description">
+                                                                <span ng:bind="photo.description"></span>
+                                                            </div>
+
+                                                        </figure>
+
+                                                    </article>
+                    
+                                                </div>   
+                                                
+                                            </div>
+                    
+                                        </div> 
+
+                                    </div>
+
+                                    <div class="col-md-12 mt-3" ng-show="tabselector == 'fourthtab'">
+
+                                        <div class="tab-pane">
+
+                                            <table class="table" style="background-color:#fff;font-size:16px">
+                                            
+                                                <tbody>
+
+                                                    <tr ng:if="data.address">
+
+                                                        <td class="td1">
+                                                        
+                                                            <i class="fas fa-map-marker-alt" aria-hidden="true" style="font-size:24px"></i>
+                                                        
+                                                        </td>
+
+                                                        <td ng:bind="data.address"></td>
+
+                                                    </tr>
+
+                                                    <tr ng:if="data.phone">
+                                                
+                                                        <td class="td1">
+
+                                                            <i class="fas fa-mobile-alt" aria-hidden="true" style="font-size:24px"></i>
+                                                        
+                                                        </td>
+                                                        
+                                                        <td ng:bind="data.phone"></td>
+                                                
+                                                    </tr>
+                                            
+                                                    <tr ng:if="data.email">
+
+                                                        <td class="td1">
+                                                        
+                                                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                                                        
+                                                        </td>
+                                                        
+                                                        <td ng:bind="data.email"></td>
+
+                                                    </tr>
+
+                                                    <tr ng:if="data.website">
+                                                        
+                                                        <td class="td1">
+                                                        
+                                                            <i class="fas fa-globe"></i>
+                                                        
+                                                        </td>
+                                                        
+                                                        <td >
+                                                            <a href="{{data.website}}" ng:bind="data.website" target="_blank"></a>
+                                                        </td>
+
+                                                    </tr>
+
+                                                    <tr ng:if="data.facebook">
+                                                        
+                                                        <td class="td1">
+                                                        
+                                                            <i class="fab fa-facebook-square"></i>
+                                                        
+                                                        </td>
+                                                        
+                                                        <td >
+                                                            <a href="{{data.facebook}}" ng:bind="data.facebook" target="_blank"></a>
+                                                        </td>
+
+                                                    </tr>
+
+                                                    <tr ng:if="data.youtube">
+                                                        
+                                                        <td class="td1">
+                                                        
+                                                            <i class="fab fa-instagram "></i>
+                                                        
+                                                        </td>
+                                                        
+                                                        <td >
+                                                            <a href="{{data.youtube}}" ng:bind="data.youtube" target="_blank"></a>
+                                                        </td>
+
+                                                    </tr>
+
+                                                    <tr ng:if="data.instagram">
+                                                        
+                                                        <td class="td1">
+                                                        
+                                                            <i class="fab fa-youtube"></i>
+                                                        
+                                                        </td>
+                                                        
+                                                        <td >
+                                                            <a href="{{data.instagram}}" ng:bind="data.instagram" target="_blank"></a>
+                                                        </td>
+
+                                                    </tr>
+
+                                            </tbody>
+
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-12 pb-4">
+
+                                        <div class="entry-categories">
+                                            
+                                        <span style="font-weight: bold !important;">Sub Categorías </span>
+                                        <br>
+
+                                        <span class="label label-primary label-cat" 
+                                            ng:style="{ 'background-color' : cat.category.color }"
+                                            ng:repeat="cat in data.sub_category_member">
+                                                
+                                            <a href="#!/repositorio_cultural" ng:bind="cat.name"></a>
+
+                                        </span>
+                                            
+                                        </div>  
+
+                                    </div>
+
+                                </div>
+                            
+                            </div>  
+
+                        </div>
+
+                        <div class="col-md-3">
+                            
+                            <div class="col-md-12" ng:if="others.otherMembers.length > 0">
+                                
+                                <h5>Más</h5>
+
+                                <article class="card-custom" ng:repeat="item in others.otherMembers">
+                                    
+                                    <div class="row">
+                                    
+                                        <div class="col-ms-5 col-sm-5">
+                                            <div>
+                                                <a href="#!/perfil/{{item.url}}" title="{{item.name}}">
+                                                    <img style="height: 85px;width: 85px;" width="360" height="240" ng:src="{{path + item.logo}}" alt="{{item.name}}">
+                                                </a>                                
+                                            </div>
+                                        </div>
+                                
+                                        <div class="col-ms-7 col-sm-7">
+                                            
+                                            <p>
+                                                <a href="#!/perfil/{{item.url}}" title="{{item.name}}" rel="bookmark">
+                                                    {{item.name}}
+                                                </a>
+                                            </p>			
+
+                                        </div>
+                                    
+                                    </div>
+
+                                    <hr>
+
+                                </article>
+
+                            </div>
+
+                            <div class="widget widget_lc_taxonomy">
+                                
+                                <div class="list-custom-taxonomy-widget">
+                                    
+                                    <h5>Categorías</h5>
+                                    
+                                    <ul>
+                                        
+                                        <li class="cat-item cat-item-175" ng:repeat="category in others.categories">
+
+                                            <a href="#!/repositorio_cultural" ng:bind="category.name"></a> {{ '( ' + category.total + ' )' }}
+                                        
+                                        </li>
+
+                                    </ul>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                </div>
+
+                </div>
+
+            </div>
+            
+        </div>
+
+    </div>
+
+</div>

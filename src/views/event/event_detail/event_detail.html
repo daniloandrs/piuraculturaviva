@@ -1,0 +1,279 @@
+
+<div ng:init="OnInit();">
+
+    <update-meta property="og:title" content="{{data.title}}"></update-meta>
+    
+    <update-meta property="og:description" content="{{data.description}}"></update-meta>
+
+    <dn-loader ng:show="loader"></dn-loader>
+ 
+    <div class="wrapper" ng:show="!loader">
+
+        <div class="main-raised">
+
+            <div class="row section section-about-us pt-2" style="margin: auto 2em;">
+
+                <div class="col-md-12">
+                    <h4 class="mt-0"  style="font-weight:bold;color: #7f7f7f;" ng:bind="data.title"></h4>
+                </div>
+
+                <div class="col-md-8 p-0">
+
+                    <div class="container-fluid" ng:show="isEmpty">
+
+                        <h5 class="text-center" style="color: var(--color-red);">
+                            <i class="far fa-frown"></i>
+                            Evento no encontrado.
+                        </h5>
+
+
+                    </div>
+
+                    <div class="container-fluid p-0" ng:show="!isEmpty">
+                            
+                        <div class="col-md-12 p-0">
+
+                            <div ng:show="data.url != null">
+
+                                <div d:youtube  ng:show="!spinFrame" code="{{url}}" load="videoLoad();"></div>
+                            
+                            </div>
+
+                            <br>
+
+                            <div ng:show="data.redirectTo != null " class="facebook-frame" dir-html-compile="data.redirectTo"></div>
+
+                            <br>
+
+                            <h6 style="color: #9E9E9E;text-transform: none;font-size: 16px;line-height: 26px;">
+                                {{data.description}}
+                            </h6>
+
+                            <dn-spinner-view ng:show="spinFrame"></dn-spinner-view>
+
+                            <br>
+                            <br>
+                            <div class="col-md-12">
+                                            
+                                <div class="icon-box icon-box-event m-auto">
+
+                                    <a href="" class="link-yellow text-center m-auto" >
+                                        <img d:tooltip = "{{data.location}}" src="./assets/img/ubicacion-web.png" alt="ubicación">
+                                    </a>
+                                    
+                                    <a href="" class="link-yellow text-center m-auto">
+                                        <img d:tooltip = "{{setFecha(data.publication_time)}}" src="./assets/img/hora-web.png" alt="hora">
+                                    </a>
+                                    
+                                    <a href="" copy-to-clipboard="{{url_copy}}" class="link-yellow text-center m-auto" ng:click="shareModal(data);" >
+                                        <img src="./assets/img/compartir-web.png" alt="share" d:tooltip="Compartir">
+                                    </a>
+                                      
+                                </div>  
+
+                            </div> 
+
+                        </div>  
+                        <hr> 
+
+                        <div class="col-md-12 mt-3 p-0">
+
+                            <div class="container p-0">
+        
+                                <div class="comments">
+    
+                                    <ul id="comments-list" class="comments-list"  ng:if = "listcomments.length > 0 ">
+    
+                                        <li ng:repeat = "comment in listcomments | orderBy : '-date' ">
+                                        
+                                            <div class="comment-main-level">
+                                                
+                                                <div class="comment-avatar">
+                                                    <img ng:src="{{defaultProfile}}" alt="avatar">
+                                                </div>
+                                                
+                                                <div class="comment-box comment-box-event">
+                                                
+                                                    <div class="comment-head">
+                                                        <h6 class="comment-name">
+                                                            <a ng:bind="comment.name"></a>
+                                                        </h6>
+                                                        <span ng:bind = "timeAgo(comment.date);"></span>
+                                                        
+                                                        <div class="wpd-unapproved mt-1" ng:if="!comment.status">
+                                                            <i class="fas fa-exclamation-circle"></i>
+                                                            Esperando aprobación
+                                                        </div>
+    
+                                                    </div>
+                                                    <div class="comment-content pt-0" ng:bind = "comment.content"></div>
+                                                </div>
+                                            </div>
+                                        
+                                        </li>
+                                    
+                                    </ul>
+                                    
+                                    <br>
+                                    
+                                    <div ng:if = "listcomments.length == 0 ">
+                                        <h5 class="text-center" style="color: var(--color-red);">
+                                            <i class="far fa-frown"></i>
+                                            No tiene ningún comentario. 
+                                        </h5>
+                                    </div> 
+                                
+                                </div>
+                                
+                                <br>
+    
+                                <div class="media-body">
+    
+                                    <div class="comment-respond">
+    
+                                        <h3 class="text-center">
+                                            Dejar un comentario 
+                                            </small>
+                                        </h3> 
+                                        
+                                        <form  autocomplete="off" name="formComment" class="form form-group" ng:submit="newComment();">
+                                
+                                            <div class="row"> 
+    
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">
+                                                            Nombre <span class="required">*</span>
+                                                        </label>
+                                                        
+                                                        <input 
+                                                            name="name" 
+                                                            class="form-control" 
+                                                            type="text" required="true"
+                                                            ng:model = "commentObject.name"
+                                                        > 
+                                                        <span class="hestia-input"></span> 
+                                                    </div> 
+                                                </div>
+    
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">
+                                                            Email <span class="required">*</span>
+                                                        </label>
+                                                        
+                                                        <input  
+                                                            name="email" 
+                                                            class="form-control" 
+                                                            type="email" required="true"
+                                                            ng:model = "commentObject.email"
+                                                        > 
+                                                        <span class="hestia-input"></span>
+                                                    </div>
+                                                </div>
+                                            
+                                            </div>
+    
+                                            <div class="form-group">
+                                                
+                                                <label class="control-label">
+                                                    ¿Qué estas pensando? 
+                                                </label>
+    
+                                                <textarea 
+                                                    name="content" 
+                                                    class="form-control" 
+                                                    rows="6" 
+                                                    required="true"
+                                                    ng:model = "commentObject.content"
+                                                >
+                                                </textarea>
+                                                
+                                            </div>
+                                
+                                            <p class="form-submit text-center">
+                                                
+                                                <button 
+                                                    type="submit" 
+                                                    class="btn btn-primary"
+                                                    ng:disabled = "formComment.$invalid || spin_form "
+                                                > 
+    
+                                                <div class="spinner">
+    
+                                                    {{ spin_form ? 'ENVIANDO ... ' : 'ENVIAR COMENTARIO' }}
+    
+                                                </button>
+                                            </p>
+                                        </form>
+    
+                                    </div>
+                                </div>
+                            
+                            </div>
+                            
+                        </div>
+
+                    </div>  
+
+                </div>
+
+                <div class="col-md-4" style="padding-left: 1em;">
+                     
+                    <div class="row">
+
+                        <div class="col-md-12">
+
+                            <img ng:src="{{path + data.background_image}}" class="rounded" alt="detail-event">
+
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="pt-4 widget widget_siteorigin-panels-postloop" ng:if="listEvents.length > 0">
+                        
+                        <div class="col-12">
+                            <h5>Eventos</h5>
+                        </div>
+
+                        <article class="card-custom" ng:repeat="item in listEvents">
+                            
+                            <div class="" style="display: flex;">
+                            
+                                <div class="col-ms-4 col-sm-4" >
+                                    <div>
+                                        <a ng:click="gotoEvent(item);" title="{{item.title}}">
+                                            <img style="width: 100%;" ng:src="{{path + item.background_image}}" alt="{{item.title}}">
+                                        </a>                                
+                                    </div>
+                                </div>
+                        
+                                <div class="col-ms-8 col-sm-8" style="display: contents;">
+                                    
+                                    <p>
+                                        <a ng:click="gotoEvent(item);" title="{{item.title}}" rel="bookmark">
+                                            {{item.title}}
+                                        </a>
+                                    </p>			
+
+                                </div>
+                            
+                            </div>
+
+                            <hr>
+
+                        </article>
+
+                    </div>
+
+                </div>
+
+            </div>
+            
+        </div>
+
+    </div>
+
+</div>

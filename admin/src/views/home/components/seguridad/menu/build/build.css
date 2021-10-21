@@ -1,0 +1,77 @@
+.dn-menus {}
+
+.dn-menus .fix-col .btn {
+    margin: 10px;
+}
+
+.dn-menus .fix-col h6 {
+    margin: 0;
+}
+
+.dn-menus .text-muted {
+    margin-left: 15px;
+}
+
+.beli-switch > input[type="checkbox"] {
+    display: none;
+}
+.label-success{
+    color: green;
+    background: green;
+}
+
+.beli-switch > label {
+    cursor: pointer;
+    height: 0px;
+    position: relative;
+    width: 40px;
+}
+
+.beli-switch > label::before {
+    background: rgb(0, 0, 0);
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    content: '';
+    height: 16px;
+    margin-top: -8px;
+    position: absolute;
+    opacity: 0.3;
+    transition: all 0.4s cubic-bezier(0.215, 0.610, 0.355, 1);
+    width: 40px;
+}
+
+.beli-switch > label::after {
+    background: rgb(255, 255, 255);
+    border-radius: 16px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    content: '';
+    height: 24px;
+    left: -4px;
+    margin-top: -8px;
+    position: absolute;
+    top: -4px;
+    transition: all 0.4s cubic-bezier(0.215, 0.610, 0.355, 1);
+    width: 24px;
+}
+.label-success{
+    color:green;
+    background: green;
+}
+
+.beli-switch > input[type="checkbox"]:checked+label::before {
+    background: inherit;
+    opacity: 0.5;
+}
+
+.beli-switch > input[type="checkbox"]:checked+label::after {
+    background: inherit;
+    left: 20px;
+}
+
+.dn-menus .input-group span {
+    margin: 10px 0;
+}
+
+/* .table-responsive {
+        margin-top: 15px;
+    } */

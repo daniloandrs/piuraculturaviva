@@ -1,0 +1,505 @@
+
+
+<div class="dn-roles" ng:init="onInit()">
+
+    <dn-spinner-view ng:show ="loading">
+
+    </dn-spinner-view>
+
+    <div class="container-fluid no-padding" ng:show ="!loading">
+
+        <div class="card">
+ 
+            <div class="container-fluid"> 
+                    
+                <div class="list-tab text-center">
+                    
+                    <a class="tab" ng:click="tabselector = 'firsttab'" ng-class="{'activetab' : tabselector == 'firsttab'}">
+                        Acerca De
+                    </a>
+                    
+                    <a class="tab" ng:click="tabselector = 'secondtab'" ng-class="{'activetab' : tabselector == 'secondtab'}">
+                        Comentarios
+                    </a>
+                    
+                    <a class="tab" ng:click="tabselector = 'thirdtab'" ng-class="{'activetab' : tabselector == 'thirdtab'}">
+                        Galeria
+                    </a>
+                    
+                    <a class="tab" ng:click="tabselector = 'fourthtab'" ng-class="{'activetab' : tabselector == 'fourthtab'}">
+                        Mis Datos
+                    </a>
+      
+                </div>
+                
+                <div class="ods-box">
+                    
+                    <div class="col-md-12 mt-3" ng-show="tabselector == 'firsttab'">
+                    
+                        <form name="formText">
+
+                            <fieldset>
+                                
+                                <div>
+
+                                    <div id="toolbar"></div>
+
+                                    <div id="editor"></div>
+
+                                </div>
+
+                            </fieldset>
+
+                            <div class="fix-col justify-content-center">
+    
+                                <button ng:click="saveAbout();" class="btn btn-info btn-md" ng:disabled="spin_about">
+                                    
+                                    <i ng:if="spin_about" class=" fa fa-spin fa-spinner"></i>
+
+                                    {{ spin_about ? 'Guardando ... ' : 'Guardar' }}    
+                                
+                                </button>
+                                
+                            </div>
+                            
+                        </form>
+
+                    </div>
+                    
+                    <div class="col-md-12 mt-3" ng:show="tabselector == 'secondtab'" >
+                        
+                        <div class="card-body pt-0">
+                            
+                            <div class="row">
+                                <div class="container-fluid">
+                                    
+                                    <div class="note-andheuris">
+                                        <span class="badge badge-primary">Cantidad de comentarios : <span ng:bind="listComments.length"></span></span>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="container-fluid" ng:if="listComments.length > 0">
+                                            <div class="table-responsive">
+                                                <table class="table table-andheuris table-hover">
+                                                    <thead class="active">
+                                                        <tr>
+                                                            <th >nombre</th>
+                                                            <th >comentario</th>
+                                                            <th>¿Aprobado?</th>
+                                                            <th class="text-center">Acciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>  
+                                                        <tr dir-paginate="comment in listComments | itemsPerPage : 5 " pagination-id="comment.id">
+                                                            <td ng:bind="comment.name"></td>
+                                                            <td ng:bind="comment.content"></td>
+                                                            <td>
+                                                                <span ng:class = "{'badge-success' : comment.status }"> 
+                                                                    {{ comment.status ? 'aprobado' : 'pendiente' }}
+                                                                </span>
+                                                            </td>
+              
+                                                            <td class="text-center">
+                                                                <button ng:if = "!comment.status"
+                                                                    class="btn btn-success btn-link btn-sm pt-0 pb-0" 
+                                                                    ng:click="approvedComment(comment)"
+                                                                >
+                                                                    <i 
+                                                                        ng:if="!comment.spinner"
+                                                                        class="fas fa-check"
+                                                                        d:tooltip="Aprobar comentario"
+                                                                    ></i>
+            
+                                                                    <i 
+                                                                        ng:if="comment.spinner"
+                                                                        class=" fa fa-spin fa-spinner"
+                                                                    ></i>
+                                                                       
+                                                                </button>
+            
+            
+                                                                <button ng:if = "comment.status"
+                                                                    class="btn btn-warning btn-link btn-sm pt-0 pb-0" 
+                                                                    ng:click="notApprovedComment(comment)"
+                                                                >
+                                                                    <i 
+                                                                        ng:if="!comment.spinner"
+                                                                        class="fas fa-sync-alt"
+                                                                        d:tooltip="Deshacer aprobación"
+                                                                    ></i>
+             
+                                                                    <i 
+                                                                        ng:if="comment.spinner"
+                                                                        class=" fa fa-spin fa-spinner"
+                                                                    ></i>
+                                                                       
+                                                                </button>
+                                                                
+                                                                <button class="btn btn-danger btn-link btn-sm pt-0 pb-0" ng:click="deleteComment(comment);">
+                                                                    
+                                                                    <i class="fa fa-trash"
+                                                                    d:tooltip="Eliminar comentario"
+                                                                    ></i>
+                                                                    
+                                                                    <i 
+                                                                        ng:if="comment.spinner_delete"
+                                                                        class=" fa fa-spin fa-spinner"
+                                                                    ></i>
+            
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div d:spinner="loading"></div>
+                                            </div>
+            
+                                            <div class="text-center">
+                                                <dir-pagination-controls pagination-id="comment.id"></dir-pagination-controls>
+                                            </div>
+            
+                                        </div>
+            
+                                        <div class="col-md-12 text-center" ng:if="comments.length == 0">
+                                            <i class="fas fa-comment-slash"></i>
+                                            No tiene nigún comentario.
+                                        </div>
+                                    </div>              
+                                </div>
+                            </div>
+
+                        </div>
+ 
+                    </div>
+
+                    <div class="col-md-12 mt-3 p-0" ng:show="tabselector == 'thirdtab'">
+                        
+                        <div class="container-fluid no-padding">
+    
+                            <div class="card-header pt-0 pb-0"> 
+                                <div class="row">
+                                    <div class="col">
+                                        <h4 class="card-title">
+                                            <i class="fa fa-images"></i> Galeria </h4>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div class="card-body">
+                
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <button class="btn btn-success btn-sm" ng:click="openModalDropzone();">
+                                            <i class="fa fa-plus"></i> Añadir Imágenes
+                                        </button>
+                                    </div>
+                                </div>
+                
+                                <dn-spinner-view ng:show ="loading"></dn-spinner-view>
+                
+                                <br>
+                
+                                <div class="row" ng:show ="!loading">
+                
+                                    <div class="row m-2" ng:if="member.photos.length > 0">
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-md-3 col-sm-6 mb-2" style="margin-bottom: 1em !important;"
+                                                        ng-model="member.photos" 
+                                                        dir-paginate="item in member.photos| orderBy:'-created_at'|itemsPerPage:20" pagination-id="item.id"
+                                                >
+                                                    <div class="card card-libro_galeria-image" ng-model="member.photos">
+                
+                                                        <img
+                                                    
+                                                            class="card-img slider-img" 
+                                                            loading="lazy" 
+                                                            ng:src="{{path + item.url}}" 
+                                                            alt="{{item.name}}" 
+                                                            d-lightbox-open
+                                                        >
+                                                        
+                                                        <div class="text-center actions-card">
+                                                            <button class="btn btn-link btn-warning btn-sm m-1 p-1" ng:click="editImage(item);">
+                                                                <i class="fa fa-pencil-alt" d:tooltip="Cambiar"></i>
+                                                            </button>
+                                                            
+                                                            <button class="btn btn-link btn-danger btn-sm m-1 p-1" ng:click="deleteImage(item);">
+                                                                <i class="fa fa-trash-alt" d:tooltip="Eliminar"></i>
+                                                            </button>
+                                                        </div>
+                
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>  
+                
+                                    <div class="col-md-12 text-center" ng:if="member.photos.length == 0">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        Ninguna imagen
+                                    </div>
+                
+                                </div>
+                
+                            </div>
+                    
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12 mt-3" ng-show="tabselector == 'fourthtab'">
+                        
+                        <div class="container-fluid no-padding">
+
+                            <form name="forms.formInfo" ng:submit="saveInfo();">
+
+                                <div class="row">
+    
+                                    <div class="col-md-6">
+                                        <fieldset> 
+                                            <dn-inputtext 
+                                                label="Dirección" 
+                                                model="ObjectInfo.address" 
+                                                name="address" 
+                                                form="forms.formInfo.address" 
+                                                error="parent.errors.address"
+                                                regex=".*"
+                                                holder="Dirección"
+                                                req = "true"
+                                            >
+                                            </dn-inputtext>
+                                        </fieldset>
+                                    </div> 
+                                    
+                                    <div class="col-md-6">
+                                        <fieldset> 
+                                            <dn-inputtext 
+                                                label="Telefono" 
+                                                model="ObjectInfo.phone" 
+                                                name="phone" 
+                                                form="forms.formInfo.phone" 
+                                                error="parent.errors.phone"
+                                                regex=".*"
+                                                holder="Su teléfono "
+                                                req = "true"
+                                            >
+                                            </dn-inputtext>
+                                        </fieldset>
+                                    </div> 
+                                </div>
+
+
+                                <div class="row">
+    
+                                    <div class="col-md-6">
+                                        <fieldset> 
+                                            <dn-inputemail 
+                                                label="Email" 
+                                                model="ObjectInfo.email" 
+                                                name="email" 
+                                                form="forms.formInfo.email" 
+                                                error="parent.errors.email"
+                                                regex=".*"
+                                                holder="Su Email"
+                                                req = "true"
+                                            >
+                                            </dn-inputemail>
+                                        </fieldset>
+                                    </div> 
+                                    
+                                    <div class="col-md-6">
+                                        <fieldset> 
+                                            <dn-inputtext 
+                                                label="Web Site" 
+                                                model="ObjectInfo.website" 
+                                                name="website" 
+                                                form="forms.formInfo.website" 
+                                                error="parent.errors.website"
+                                                regex=".*"
+                                                holder="Su Página web "
+                                                req = "true"
+                                            >
+                                            </dn-inputtext>
+                                        </fieldset>
+                                    </div> 
+                                </div>
+    
+                                <div class="row">
+    
+                                    <div class="col-md-6">
+                                        <fieldset> 
+                                            <dn-inputtext 
+                                                label="Facebook" 
+                                                model="ObjectInfo.facebook" 
+                                                name="facebook" 
+                                                form="forms.formInfo.facebook" 
+                                                error="parent.errors.facebook"
+                                                regex=".*"
+                                                holder="Facebook"
+                                            >
+                                            </dn-inputtext>
+                                        </fieldset>
+                                    </div> 
+                                    
+                                    <div class="col-md-6">
+                                        <fieldset> 
+                                            <dn-inputtext 
+                                                label="Canal de Youtube" 
+                                                model="ObjectInfo.youtube" 
+                                                name="youtube" 
+                                                form="forms.formInfo.youtube" 
+                                                error="parent.errors.youtube"
+                                                regex=".*"
+                                                holder="su canal de YouTube "
+                                            >
+                                            </dn-inputtext>
+                                        </fieldset>
+                                    </div> 
+                                </div>
+
+
+                                <div class="row">
+    
+                                    <div class="col-md-6">
+                                        <fieldset> 
+                                            <dn-inputtext 
+                                                label="Instagram" 
+                                                model="ObjectInfo.instagram" 
+                                                name="instagram" 
+                                                form="forms.formInfo.instagram" 
+                                                error="parent.errors.instagram"
+                                                regex=".*"
+                                                holder="Instagram"
+                                            >
+                                            </dn-inputtext>
+                                        </fieldset>
+                                    </div> 
+                                    
+                                    <div class="col-md-6">
+                                    </div> 
+                                </div>
+
+                                <div class="fix-col justify-content-center">
+        
+                                    <button 
+                                        class="btn btn-info btn-md" 
+                                        ng:disabled="spin_info || forms.formInfo.$invalid"
+                                    >
+                                        
+                                        <i ng:if="spin_info" class=" fa fa-spin fa-spinner"></i>
+    
+                                        {{ spin_info ? 'Guardando ... ' : 'Guardar' }}    
+                                    
+                                    </button>
+                                    
+                                </div>
+                                
+                            </form>
+
+                        </div>
+                        
+                    </div>
+
+                </div>
+              
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<dn-modal name="modal-base-form" title-modal="{{title}}" size="lg" scale="12">
+
+    <div class="card-body pt-0" ng:show = "!loading">
+
+        <div class="row">
+        
+            <div class="container-fluid">
+                    
+                <div id="myGalleryBook" class="dropzone down_images"></div>
+                
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <dn-inputtext label="Descripción" model="description.name" regex=".*"></dn-inputtext>
+
+            </div>
+            
+        </div>
+
+        <div class="fix-col justify-content-center">
+
+            <button class="btn btn-info btn sm" 
+                
+                ng:disabled = "spin_gallery || dropzone.getQueuedFiles().length == 0 "
+                
+                ng:click = "sendDataEvent();">
+                
+                {{spin_gallery ? 'Enviando ' : 'Guardar'}}
+                
+                <i ng:if="spin_gallery" class=" fa fa-spin fa-spinner"></i>
+                
+            </button>
+
+        </div>
+
+    </div>
+</dn-modal>
+
+
+<dn-modal name="modal-edit-form" title-modal="{{title}}" size="md">
+
+    <form ng:submit="sendDataEventUpdate();" name="formEdit">
+    
+        <div class="col-md-12">
+            <fieldset>
+                <dn-uploaderfile model="objectItem.image" default="default_image" type="image" 
+                options="archivo_options">
+                </dn-uploaderfile>
+            </fieldset> 
+        </div>
+
+        <div class="col-md-12">
+            <fieldset>
+
+                <dn-inputtext label="Descripción" 
+                    model="objectItem.description" name="description"  form="formEdit.description" regex=".*">
+                </dn-inputtext>
+                
+            </fieldset> 
+        </div>
+    
+        <div class="fix-col justify-content-center">
+
+            <button class="btn btn-info btn sm" 
+                
+                type="submit"
+
+                ng:disabled = "spin"
+                
+                ng:click = "sendDataEventUpdate();">
+                
+                <i ng:if="spin" class=" fa fa-spin fa-spinner"></i>
+
+                <i ng:if="!spin" class="fa fa-save"></i>
+
+                {{spin ? 'Enviando ...  ' : 'Guardar'}}
+                
+            </button>
+        </div>
+
+        <div dn-spinner="loading_modal"></div>
+
+    </form>
+</dn-modal>

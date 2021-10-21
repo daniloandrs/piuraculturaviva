@@ -1,0 +1,138 @@
+<div class="dn-administrar" ng:init="onInit()">
+    <div class="container-fluid no-padding">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">
+                    <i class="fa fa-users"></i> Registrar Usuario</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info" role="alert">
+                    <div class="container">
+                        <strong>Atención!</strong> Tenga en cuenta las siguientes reglas.
+                        <ol>
+                            <li>Tanto el
+                                <strong>nick</strong> de usuario como el
+                                <strong>email</strong> deben ser únicos.</li>
+                            <li>La
+                                <strong>contraseña</strong>  debe incluir numeros
+                                y letras.</li>
+                        </ol>
+                    </div>
+                </div>
+                <br>
+                <div class="container-fluid"> 
+                   <form name="formUsuario"> 
+                        <wizard on-finish="$ctrl.store()" on-cancel="cancelEvent()" indicators-position="top" >
+                            <wz-step wz-title="Información Personal" wz-icon="fa fa-user " wz-heading-title="Información Personal">
+                                <div class="container">
+                                    <div class="row justify-content-center">
+                                        <div class="col-10">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <dn-inputtext label="Nombres" name="nombres" model="main_obj.nombres" req="true"
+                                                        form="formUsuario.nombres" maxl="250" minl="2" error="parent.errors.nombres">
+                                                    </dn-inputtext>
+                                                </div>
+                                                <div class="col">
+                                                    <dn-inputtext label="Apellidos" name="apellidos" model="main_obj.apellidos" req="true"
+                                                        form="formUsuario.apellidos" maxl="250" minl="2" error="parent.errors.apellidos">
+                                                    </dn-inputtext>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <dn-inputtext label="DNI" name="dni" model="main_obj.dni" req="true" form="formUsuario.dni" maxl="8"
+                                                        minl="8" regex="[0-9 .-]+" pat="Solo se aceptan números de 8 dígitos" error="parent.errors.dni">
+                                                    </dn-inputtext>
+                                                </div>
+                                                <div class="col">
+                                                    <dn-inputtext label="Dirección" name="direccion" model="main_obj.direccion" 
+                                                        form="forms.formUsuario.direccion" maxl="250" minl="5" error="parent.errors.direccion" regex=".*">
+                                                    </dn-inputtext>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <dn-inputemail label="Email" name="email" model="main_obj.email" form="formUsuario.email"
+                                                        maxl="250" error="parent.errors.email" req="true">
+                                                    </dn-inputemail>
+                                                </div>
+                                            </div>
+                                        </div>	
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="container" align="center">
+                                    <div class="row justify-content-center">
+                                        <div class="col-10">
+                                            <input type="submit" ng-disabled="(!formUsuario.nombres.$invalid && 
+                                                !formUsuario.apellidos.$invalid && !formUsuario.dni.$invalid && 
+                                            !formUsuario.email.$invalid && !formUsuario.email.$invalid) ? false : true"  
+                                            ng-click="" class="btn btn-info" wz-next value="Continuar" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </wz-step>
+                            <wz-step wz-title="Información de Usuario" wz-icon="fa fa-user " wz-heading-title="Registro de Usuario">
+                                <section>
+                                    <div class="container">
+                                        <div align="col-10">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <dn-inputtext label="Nick" name="nick" model="main_obj.nick" req="true" form="formUsuario.nick" maxl="50" minl="5"
+                                                        error="errors.nick">
+                                                    </dn-inputtext>
+                                                </div>
+                                                <div class="col">
+                                                    <dn-inputselect label="Rol" name="rol_id" model="main_obj.rol_id" req="true" form="formUsuario.rol_id" list="list_roles"
+                                                        error="errors.rol_id" ng:click="see()">
+                                                    </dn-inputselect>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <dn-inputpassword label="Contraseña" name="password" model="main_obj.password" req="true" form="formUsuario.password" maxl="150"
+                                                        minl="4" error="errors.password" regex="[A-Za-z0-9-ZñÑáéíóúÁÉÍÓÚ .-]+">
+                                                    </dn-inputpassword>
+                                                </div>
+                                                <div class="col">
+                                                    <dn-inputpassword label="Confirme su contraseña" name="password_confirmation" model="main_obj.password_confirmation"
+                                                        req="true" form="form.password_confirmation" maxl="150" minl="{{main_obj.password}}" error="errors.password_confirmation"
+                                                        regex="[A-Za-z0-9-ZñÑáéíóúÁÉÍÓÚ .-]+">
+                                                    </dn-inputpassword>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <br>
+                                <div class="container" align="center">
+                                    <div class="row justify-content-center">
+                                        <div class="col-10">
+
+                                            <input type="submit" class="btn btn-default" wz-previous value="Regresar"/>
+                                            <input 
+                                                type="submit" 
+                                                ng-disabled="
+                                                    ( !formUsuario.nick.$invalid && !formUsuario.password.$invalid 
+                                                        && !formUsuario.password_confirmation.$invalid && !formUsuario.rol_id.$invalid && !spin) 
+                                                        ? false : true" 
+                                                class="btn btn-success" 
+                                                wz-next value = " {{ spin ? ' registrando  ...' : 'Registrar Usuario' }}" 
+                                                ng-click="verify();"/>
+                                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </wz-step>
+                        </wizard>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="./assets/js/jquery.steps.js"></script>
+<script src="./assets/js/jquery-ui.min.js"></script>

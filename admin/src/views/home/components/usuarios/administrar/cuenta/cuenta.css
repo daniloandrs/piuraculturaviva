@@ -1,0 +1,20 @@
+.dn-cuenta {
+
+}
+.dn-cuenta .card .category {
+    text-transform: initial;
+}
+.dn-cuenta .card-plain .card-title {
+    font-weight: bold;
+    font-size: 3vh;
+}
+.dn-cuenta .card .card-category {
+    text-transform: initial;
+}
+.dn-cuenta .card .icono i {
+    font-weight: bold;
+    font-size: 5vh;
+}
+.dn-cuenta .col-sm-4:nth-child(1) .card { 
+    margin-bottom: 0;
+}

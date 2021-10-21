@@ -1,0 +1,131 @@
+
+<div class="dn-roles" ng:init="OnInit()">
+
+    <div class="container-fluid no-padding">
+
+        <div class="card">
+            
+            <div class="card-header pt-0 pb-0"> 
+                <div class="row">
+                    <div class="col">
+                        <h4 class="card-title">
+                            <i class="fa fa-vr-cardboard"></i> Recorridos Virtuales </h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button class="btn btn-success btn-sm" ng:click="openModal();">
+                            <i class="fa fa-plus"></i> Añadir Recorrido Virtual
+                        </button>
+                    </div>
+                </div>
+
+                <dn-spinner-view ng:if ="loading"></dn-spinner-view>
+
+                <br>
+
+                <div class="row" ng:if ="!loading">
+
+                    <div class="row m-2" style="width: 100%;" ng:if="listVirtualTours.length > 0">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="row">
+
+                                <div class="col-md-3 col-sm-6 mb-2" style="margin-bottom: 1em !important;"
+                                        ng-model="listVirtualTours" 
+                                        dir-paginate="item in listVirtualTours| orderBy:'-created_at'|itemsPerPage:20" pagination-id="item.id"
+                                >
+                                    <div class="card card-galeria-image" ng-model="listVirtualTours">
+
+                                        <img
+                                 
+                                            class="card-img slider-img" 
+                                            loading="lazy" 
+                                            ng:src="{{path + item.background_image}}" 
+                                            alt="{{item.title}}" 
+                                            d-lightbox-open
+                                        >
+                                        
+                                        <div class="text-center actions-card">
+                                            <button class="btn btn-link btn-warning btn-sm m-1 p-1" ng:click="editImage(item);">
+                                                <i class="fa fa-pencil-alt" d:tooltip="Cambiar"></i>
+                                            </button>
+                                            
+                                            <button class="btn btn-link btn-danger btn-sm m-1 p-1" ng:click="deleteImage(item);">
+                                                <i class="fa fa-trash-alt" d:tooltip="Eliminar"></i>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+
+                    <div class="col-md-12 text-center" ng:if="listVirtualTours.length == 0">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Ningún recorrido virtual
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<dn-modal name="modal-base-form" title-modal="{{titleModal}}" size="md">
+
+    <form ng:submit="sendDataEvent();" name="forms.formData">
+    
+        <div class="col-md-12">
+
+            <dn-inputtext 
+                name="title"
+                label="Título" req="true"  form="forms.formData.title"
+                model="objectData.title" regex=".*">
+            </dn-inputtext>
+
+        </div>
+
+        <div class="col-md-12">
+
+            <dn-inputtext label="url"   
+                name="url"
+                holder="URL del recorrido virtual" 
+                req="true" maxl="255" form="forms.formData.url"
+                model="objectData.url" regex=".*">
+            </dn-inputtext>
+
+        </div>
+            
+        <div class="col-md-12">
+            <label style="font-size: 12px;">Imagen de Fondo</label>
+            <fieldset>
+                <dn-uploaderfile model="objectData.image" default="default_image" type="image" 
+                options="gallery_options">
+                </dn-uploaderfile>
+            </fieldset> 
+        </div>
+
+        <div class="fix-col justify-content-center">
+        
+            <button class="btn btn-info" ng:disabled = "forms.formData.$invalid || (objectData.image == undefined) || spin_form">
+                
+                <i  class="fa" ng:class="{'fa-save' : !spin_form , 'fa-spin fa-spinner' : spin_form }"></i>
+                
+                <span> {{ spin_form ? 'Registrando ... ' : 'Guardar' }} </span>
+
+            </button>
+
+        </div>
+        
+    </form>
+
+</dn-modal>

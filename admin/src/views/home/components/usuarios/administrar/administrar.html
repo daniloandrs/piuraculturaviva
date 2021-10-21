@@ -1,0 +1,206 @@
+<div class="dn-administrar" ng:init="onInit()">
+    <div class="container-fluid no-padding">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="card-title">
+                            <i class="fa fa-hand-paper"></i> Administrar</h4>
+                    </div>
+                    <div class="col text-right">
+                        <button class="btn btn-simple" ng:click="toggleView()">
+                            <div ng:show="normal_view">
+                                <i class="fa fa-eye"></i>
+                                <span>usuarios suspendidos</span>
+                            </div>
+                            <div ng:hide="normal_view">
+                                <i class="fa fa-arrow-left"></i>
+                                <span>volver</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6" ng:if="normal_view">
+                        <label for="">Filtrar por Rol</label>
+                        <select name="" id="" class="form-control" ng:model="role" ng:options="row as row.nombre for row in list_roles"
+                            ng:change="listUsers(role)">
+                            <option value="">Seleccione</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6" ng:class="{ 'col-md-12': !normal_view }">
+                        <div class="input-group" style="margin-top: 29px;">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <input type="text" placeholder="Buscar" ng:model="search" class="form-control" ng:model="login.password">
+                        </div>
+                        <div class="note-andheuris">
+                            <span class="badge badge-info">Nota</span>
+                            <i>La búsqueda es sensile a tildes.</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng:if="normal_view">
+                    <div class="container-fluid">
+                        <br>
+                        <div class="table-responsive">
+                            <table class="table table-andheuris table-hover">
+                                <thead class="active">
+                                    <tr>
+                                        <th>Nick</th>
+                                        <th>Email</th>
+                                        <th>Fecha de Registro</th>
+                                        <th>Última Actualización de datos</th>
+                                        <th>Administrar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng:repeat="row in list_data | filter: search">
+                                        <td ng:bind="row.nick"></td>
+                                        <td ng:bind="row.email"></td>
+                                        <td ng:bind="row.created_at | amDateFormat:'dddd, DD MMMM YYYY, h:mm:ss a'"></td>
+                                        <td ng:bind="row.updated_at | amDateFormat:'dddd, DD MMMM YYYY, h:mm:ss a'"></td>
+                                        <td>
+                                            <button class="btn btn-info btn-icon btn-sm" ng:click="managerView(row)">
+                                                <i class="fa fa-check"></i>
+                                            </button>
+                                            <button class="btn btn-warning btn-icon btn-sm" ng:click="EditUser(row)">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div ng:if="!normal_view">
+                    <div class="container-fluid">
+                        <div class="table-responsive">
+                            <table class="table table-andheuris table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Nick</th>
+                                        <th>Email</th>
+                                        <th>Fecha de Suspención</th>
+                                        <th class="text-right">Restaurar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng:repeat="row in list_data | filter: search">
+                                        <td ng:bind="row.nick"></td>
+                                        <td ng:bind="row.email"></td>
+                                        <td ng:bind="row.deleted_at"></td>
+                                        <td class="text-right">
+                                            <button class="btn btn-success btn-icon btn-sm" ng:click="openModal(0, row)">
+                                                <i class="fa fa-check"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<dn-modal name="modal-edit-user" title-modal="Actualizar Usuario" scale="6">
+    <form name="formUsuario" ng:submit="saveUser()">
+        <wizard on-finish="saveUser();" on-cancel="cancelEvent();" indicators-position="top">
+            <wz-step wz-title="Datos Personales" wz-icon="fa fa-user " wz-heading-title="Datos Personales">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-6">
+                            <dn-inputtext label="Nombres" name="nombres" model="userObject.persona.nombres" req="true"
+                                form="formUsuario.nombres" maxl="250" minl="2" error="parent.errors.nombres">
+                            </dn-inputtext>
+                        </div>
+
+                        <div class="col-6">
+                            <dn-inputtext label="Apellidos" name="apellidos" model="userObject.persona.apellidos" req="true"
+                                form="formUsuario.apellidos" maxl="250" minl="2" error="parent.errors.apellidos">
+                            </dn-inputtext>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-6">
+                            <dn-inputtext label="DNI" name="dni" model="userObject.persona.dni" req="true" form="formUsuario.dni" maxl="8"
+                                minl="8" regex="[0-9 .-]+" pat="Solo se aceptan números de 8 dígitos" error="parent.errors.dni">
+                            </dn-inputtext>
+                        </div>
+                        <div class="col-6">
+                            <dn-inputtext label="Dirección" name="direccion" model="userObject.persona.direccion" 
+                                form="forms.form_promotor.direccion" maxl="250" minl="5" error="parent.errors.direccion" regex=".*">
+                            </dn-inputtext>
+
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-12">
+                            <dn-inputemail label="Email" name="email" model="userObject.persona.email" form="formUsuario.email"
+                                maxl="100" error="parent.errors.email">
+                            </dn-inputemail>
+                        </div>	
+                    </div>
+                </div>
+                <br>
+                <div class="container" align="center">
+                    <div class="row justify-content-center">
+                        <div class="col-8">
+                            <input type="submit" ng-disabled="(!formUsuario.nombres.$invalid && !formUsuario.apellidos.$invalid && !formUsuario.dni.$invalid && 
+                            !formUsuario.email.$invalid) ? false : true"  
+                            ng-click="" class="btn btn-info" wz-next value="Continuar" />
+                        </div>
+                    </div>
+                </div>
+            </wz-step>
+            <wz-step wz-title="Datos de Usuario" wz-icon="fa fa-user" wz-heading-title="Datos de Usuario">
+                <section>
+                    <div class="container">
+                        <div align="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <dn-inputtext label="Nick" name="nick" model="userObject.user.nick" req="true" form="form.nick" maxl="50" minl="4"
+                                        error="errors.nick">
+                                    </dn-inputtext>
+                                </div>
+                                <div class="col-md-6">
+                                    <dn-inputpassword  ng:if="change_password" label="Nueva Contraseña" name="password" model="userObject.user.password" req="true" form="form.password" maxl="50"
+                                        minl="5" error="errors.password" regex="[A-Za-z0-9-ZñÑáéíóúÁÉÍÓÚ .-]+">
+                                    </dn-inputpassword>
+                                    <span class="link-password" ng:if="!change_password" class="btn btn-link" ng:click="changePassword();">¿ Deseo cambiar Contraseña ? </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6">
+                                    <span class="link-password link-reset-password" ng:if="change_password" class="btn btn-link" ng:click="changePassword();">Deseo mantener mi contraseña actual</span>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <br>
+                <div class="container" align="center">
+                    <div class="row justify-content-center">
+                        <div class="col-8">
+                            <input type="submit"   class="btn btn-default" wz-previous value="Regresar"/>
+                            <input type="submit" class="btn btn-success" 
+                            ng-disabled="(formUsuario.$invalid || modal.spin_form ) ? true : false "  wz-next value="{{ modal.spin_form ? 'Procesando ... ' : 'Actualizar Usuario' }}" ng-click="verify();" />
+                        </div>
+                    </div>
+                </div>
+            </wz-step>
+        </wizard>
+    </form>
+</dn-modal>

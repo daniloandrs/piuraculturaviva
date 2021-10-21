@@ -1,0 +1,61 @@
+
+<footer class="page-footer font-small footer-blue" ng:init="Init();">
+  
+    <div class="col-md-12">
+
+      <div class="row">
+
+			<div class="col-md-4 m-auto p-0 pb-2">
+
+				<a style="display:inline" class="navbar-brand ml-2" href="#!/" data-placement="bottom">
+					<img class="navbar-logo" ng:src="{{ $root.logo_navbar }}" alt="logo">
+			  	</a>  
+
+			</div>
+
+			<div class="col-md-4 text-start m-auto">
+
+				<div class="phone">
+
+					<p  class="m-0" ng:bind="phone.phone" ng:repeat="phone in $root.business.phones"></p>
+				
+				</div>
+
+				<div class="email">
+
+					<p ng:bind="email.email" ng:repeat="email in $root.business.emails"></p>
+
+				</div>
+				
+				<ul class="social-networks-footer" style="padding: 0;">
+
+					<li class="mr-3" ng:repeat="social in $root.business.social_networks">
+
+						<a href="{{social.url}}" target="_blank">
+                            
+							<i class="{{social.icon}} fa-3x"></i>
+						
+						</a>
+
+					</li>
+
+			  	</ul>
+
+			</div>
+
+
+			<div class="col-md-4 m-auto p-0 pb-2 logo-muni-footer">
+
+				<a href="https://www.cajapiura.pe/" target="_blank" class=" m-auto">
+
+					<img class="navbar-logo-muni" ng:src="{{'./assets/img/logo-caja-piura.png'}}" alt="logo">
+				
+				</a>
+
+			</div>
+
+		</div>
+		
+	</div>
+	   
+</footer>

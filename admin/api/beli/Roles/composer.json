@@ -1,0 +1,12 @@
+{
+    "name": "beli/usuarios",
+    "description": "paquete administrador del modulo de menus,permisos,roles y usuarios",
+    "authors": [
+        {
+            "name": "Miguel Eca",
+            "email": "miguelecainf94@hotmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

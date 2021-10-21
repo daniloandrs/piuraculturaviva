@@ -1,0 +1,103 @@
+
+<div ng:init="OnInit();">
+
+    <dn-loader ng:show="loader"></dn-loader>
+
+    <div class="wrapper" ng:show="!loader">
+        
+
+        <div class="main-raised" style="margin-top: 4.5em;">
+
+            <div class="container">
+
+                <div class="row">  
+            
+                    <nav aria-label="breadcrumb" role="navigation" style="padding-left: 1em;">
+                    
+                        <ol class="breadcrumb">
+                        
+                            <li class="breadcrumb-item"><a href="#/">Home</a></li>
+                        
+                            <li class="breadcrumb-item active" aria-current="page">blog</li>
+                        
+                        </ol>
+    
+                    </nav>
+    
+                </div>  
+    
+                <div class="row">
+                        
+                    <div class="col-md-12 p-0">
+    
+                        <div class="left">
+                            <div class="" style="margin-top:10px;">
+                                <div class="col-md-12 m-0">
+                                    BLOG
+                                </div>
+                            </div>
+                            
+                        </div>
+    
+                    </div>
+    
+                </div>
+    
+                <hr>
+
+            </div>
+
+            <div class="row p-4">
+
+                <div class="container-fluid m-auto" style="min-height: 194px;display: flex;" ng:if="listBlog.length == 0">
+
+                    <h5 class="text-center m-auto" style="color: var(--color-red);">
+                        <i class="far fa-frown"></i>
+                        Ninguna entrada registrada.
+                    </h5>
+
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4" ng:repeat="blog in listBlog" ng:if="listBlog.length > 0">
+
+                    <div class="box image-boxes imgboxes_style4 kl-title_style_left">
+
+                        <a class="imgboxes4_link imgboxes-wrapper" ng:click="gotoBlog(blog);">
+                        
+                            <img loading="lazy" ng:src="{{ path + blog.background_image }}"  
+                                class="img-fluid imgbox_image cover-fit-img" alt="{{blog.title}}" title="{{blog.title}}">
+                        
+                            <span class="imgboxes-border-helper"></span>
+                        
+                            <h3 class="m_title imgboxes-title">
+                               {{ blog.title }}
+                            </h3> 
+                        
+                        </a>
+                        
+                        <p class="col-12 mt-0 max-lines">
+                           {{blog.subtitle}} 
+                        </p>
+
+                        <div class="container notas-assets">
+                            <div class="">
+                                <em class="latest_posts-acc-details">
+                                    {{setFecha(blog.publication_date)}} por {{ blog.author }}
+                                </em>
+                            </div>
+                            <div class="mb-2">
+                                <a ng:click="gotoBlog(blog);" class="latest_posts-acc-more">
+                                    LEER MÁS +
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+  
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,227 @@
+<div class="dn-administrar" ng:init="onInit()">
+    <div class="container-fluid no-padding">
+        <div class="card">
+            <div class="card-header pb-0">
+                <h4 class="card-title">
+                    <i class="fas fa-blog"></i>
+                    Blog
+                </h4>
+            </div>  
+            <div class="card-body pt-0">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="btn btn-success btn-sm" ng:click="openModal(0);"> 
+                            <i class="fas fa-plus"></i> Nueva Entrada 
+                        </button>
+                    </div>   
+
+                    <div class="col-md-6">  
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <input type="text" placeholder="Buscar" ng:model="search" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="note-andheuris">
+                    
+                    <span class="badge badge-primary">
+                        Cantidad de registros : <span ng:bind="listData.length"></span>
+                    </span>
+
+                </div>
+                <div class="container-fluid p-0">
+
+                    
+                    <div class="col-md-12 text-center p-4" ng:if="listData.length == 0">
+                        <i class="far fa-folder-open fa-2x"></i>
+                        <p>No se encontraron resultados.</p>
+                    </div>
+
+                    <div class="table-responsive" ng:if="listData.length > 0">
+                        <table class="table table-andheuris table-hover">
+                            <thead class="active">
+                                <tr>
+                                    <th class="text-center">Nombre</th>
+                                    <th class="text-center">Operaciones</th>
+                                </tr>   
+                            </thead>
+                            <tbody>
+                                <tr 
+                                    dir-paginate="row in listData|orderBy:'-publication_date' | filter:search|itemsPerPage: 7"
+                                    pagination-id="row.id">
+
+                                    <td style="width: 80%;">
+
+                                        <div class="row">
+                                                        
+                                            <div class="col-3 col-sm-4">
+            
+                                                <a >
+            
+                                                    <img class="lib-img-show" d:lightbox-open ng:src="{{path + row.background_image}}" alt = "{{ row.name }} ">
+                                                
+                                                </a>
+            
+                                            </div>
+
+                                            <div class="col-8 col-sm-8 text-start m-auto">
+            
+                                                <div class="" style="height: 12em; overflow: hidden;margin: auto !important;display: contents;">
+            
+                                                    <h3 class="card-title-member mb-2" ng:bind="row.title"></h3>
+                    
+                                                    <p class="m-0" ng:bind="'Autor : ' + row.author"></p>
+                                                    
+                                                    <p class="m-0" ng:bind="'publicado el :' + setDate(row.publication_date);"></p>
+                                                    
+                                                </div>
+                                                
+                                            </div>
+
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <button class="btn btn-warning btn-link btn-sm pt-0 pb-0" ng:click="openModal(1, row)">
+                                                        
+                                            <i class="fas fa-pencil-alt" d:tooltip="Editar"></i>
+
+                                        </button>
+                                        
+                                        <button class="btn btn-danger btn-link btn-sm pt-0 pb-0"  ng:click="deleteBlog(row);">
+                                            
+                                            <i class="fa fa-trash" d:tooltip="Eliminar"></i>
+                                            
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div d:spinner="loading"></div>
+                    </div>
+
+                    <div class="text-center">
+                        <dir-pagination-controls pagination-id="row.id"></dir-pagination-controls>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<dn-modal name="modal-form" title-modal="{{titleModal}}" size="lg" scale="12">
+
+    <form ng:submit="saveData();" name="forms.formBlog">
+    
+        <div class="row">
+            
+            <div class="col-md-5">
+
+                <div class="row">
+
+                    <div class="col-md-12">
+
+                        <dn-inputtext label="Titulo" name="title" model="object.title" req="true" 
+                            form="forms.formBlog.title" maxl="250" minl="2" error="parent.errors.title"
+                            regex=".*"
+                        >
+                        </dn-inputtext>
+                        
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <dn-inputarea 
+                            label="Pequeña Descripción" 
+                            model="object.subtitle" 
+                            name="subtitle" 
+                            form="forms.form_base.subtitle" 
+                            error="parent.formBlog.subtitle"
+                            regex=".*"
+                            req = "true"
+                        >
+                        </dn-inputarea>
+                    </div>
+
+                </div>
+
+        
+                <div class="row">
+
+                    <div class="col-md-7">
+        
+                        <dn-inputtext label="Autor" name="author" model="object.author" 
+                            form="forms.formBlog.author" maxl="450" minl="2" error="parent.errors.author"
+                            regex=".*"
+                        >
+                        </dn-inputtext>
+        
+                        
+                    </div>  
+          
+                    <div class="col-md-5">
+        
+                        <dn-inputdate label="Fecha de Publicación" name="publication_date" model="object.publication_date" req="true" 
+                            form="forms.formBlog.publication_date" maxl="450" minl="2" error="parent.errors.publication_date"
+                            regex=".*"
+                        >
+                        </dn-inputdate>
+        
+                    </div>
+                    
+                </div>
+
+                <div class="row">
+                    
+                    <div class="col-md-12">
+                        
+                        <label style="font-size:12px;">Imagen de fondo </label>
+
+                        <fieldset>
+                            <dn-uploaderfile model="object.image" default="default_image" type="image" 
+                            options="gallery_options">
+                            </dn-uploaderfile>
+                        </fieldset> 
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-7">
+
+                <fieldset>
+                    <div>
+                        <label for="">Contenido</label>
+                        <div id="toolbar">
+                        </div>
+                        <div id="editor">
+                            
+                        </div>
+                    </div>
+                </fieldset>
+
+            </div>   
+
+        </div>
+
+        <div class="fix-col justify-content-center">
+        
+            <button class="btn btn-info" 
+                ng:disabled = " (object.image == undefined) || forms.formBlog.$invalid || spin_form">
+                
+                <i  class="fa" ng:class="{'fa-save' : !spin_form , 'fa-spin fa-spinner' : spin_form }"></i>
+                
+                <span> {{ spin_form ? 'Registrando ... ' : 'Guardar' }} </span>
+
+            </button>
+
+        </div>
+
+    </form>
+
+</dn-modal>

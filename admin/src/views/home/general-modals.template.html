@@ -1,0 +1,68 @@
+<dn-modal class="depuration-modal" name="depuration-modal" size="lg" title-modal="Modal de depuración">
+	<ul class="nav nav-pills nav-pills-info nav-pills-icons" role="tablist">
+		<li class="nav-item">
+			<a class="nav-link active" data-toggle="tab" href="...#depuration-modal-preview" role="tab" aria-controls="profile"
+			 aria-selected="true">Preview</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" data-toggle="tab" href="...#depuration-modal-headers" role="tab" aria-controls="home"
+			 aria-selected="false">Headers</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link btn-replay-xhr" role="tab" ng:click="replay()">Replay XHR</a>
+		</li>
+	</ul>
+	<br>
+	<div class="tab-content">
+		<div class="tab-pane fade show active" id="depuration-modal-preview" role="tabpanel">
+			<div ng:if="!isObject(middleware_info_error.value.preview)" class="preview-html-error" d-html-compile="middleware_info_error.value.preview"></div>
+			<ol ng:if="isObject(middleware_info_error.value.preview)">
+				<li ng:repeat="(key, param) in middleware_info_error.value.preview">
+					<strong class="text-danger" ng:bind="key"></strong>: <small ng:bind="param"></small>
+				</li>
+			</ol>
+		</div>
+		<div class="tab-pane fade" id="depuration-modal-headers" role="tabpanel">
+			<ol>
+				<li ng:repeat="(key, param) in middleware_info_error.value.headers">
+					<div ng:if="key !== 'Request Payload'"><strong class="text-danger" ng:bind="key"></strong>: <small ng:bind="param"></small></div>
+					<div ng:if="key === 'Request Payload'">
+						<strong class="text-danger" ng:bind="key"></strong>:
+						<pre>
+									<code class="js language-js" ng:bind="param | json"></code>
+								</pre>
+					</div>
+				</li>
+			</ol>
+		</div>
+		<div app-spinner="middleware_info_error.value.petition" options="{ message: 'Re ejecutando petición', icon: 'fa fa-circle-notch' }"></div>
+	</div>
+</dn-modal>
+
+<dn-modal class="send-notify-general" name="send-notify-general" size="lg" title-modal="Envio de Notificación">
+
+	<div>
+		<form form="forms.form_notify" ng:submit="sendNotify()">
+
+			<dn-inputtext model="info_notify.value.asunto" label="Asunto" form="forms.form_notify.asunto" req="true" regex=".*"></dn-inputtext>
+
+			<!-- <dn-inputarea model="info_notify.value.message" label="Contenido" form="forms.form_notify.message" req="true"></dn-inputarea> -->
+
+			<div class="form-group">
+				<label for="">Contenido</label>
+
+				<textarea cols="30" rows="10" ng:model="info_notify.value.message" class="form-control" required style="height: 300px; max-height: 300px;"></textarea>
+			</div>
+
+			<div class="text-right">
+				<dn-button-submit label="Enviar Notificación" form="forms.form_notify" icon="fa fa-paper-plane" spinner="loading_modal"></dn-button-submit>
+				<button class="btn btn-warning" type="button" ng:click="closeModalNotify()">
+					<i class="fa fa-ban"></i>
+					Omitir
+				</button>
+			</div>
+		</form>
+		<div app-spinner="spin_send_notify" options="{ message: 'Enviando notificación', icon: 'fa fa-circle-notch' }"></div>
+	</div>
+
+</dn-modal>

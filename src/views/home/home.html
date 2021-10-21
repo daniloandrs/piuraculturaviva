@@ -1,0 +1,416 @@
+
+<div class="init" ng:init="Init();">
+
+    <dn-loader ng:if="loader"></dn-loader>
+
+    <div class="wrapper" ng:if="!loader">
+        
+        <div class="page-header page-header-small">
+
+            <div id="carousel_slider" class="carousel slide" data-ride="carousel"  d-carousel>
+                
+                <div class="carousel-inner" role="listbox">
+
+                    <div class="carousel-item" ng:class="{active:$index == 0 }" data-interval="2000" ng:repeat="item in listSlider|orderBy:'num_orden'">
+                    
+                        <img 
+                            imgs="item.misImgs"  d:view-resize="image"
+                            class="d-block image-slider" 
+                            ng:src="{{ misImgs.web }}" 
+                            alt="{{ item.titulo }}"   
+                        >
+                        
+                        <div class="content-center">
+
+                            <div class="container">
+                            
+                                <h1 class="title" ng:bind="item.titulo"></h1>
+                            
+                                <h5 class="sub-title" ng:bind="item.texto"></h5>
+                            
+                            </div>
+                        
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>   
+
+        <div class="main-raised">
+
+            <div class="section">
+                
+                <div class="container" style="margin-top: 45px;">
+                    
+                    <ul class="list-categories m-auto owl-carousel" id="list-categories">
+
+                        <li  class="item box-1" ng:style = "{'background-color': category.color }" ng:repeat="category in ListCategories">
+                            
+                            <div class="container ">
+
+                                    <div class="first">
+                                        <p ng:bind="category.tag_name"></p>
+                                        <img  class="img-touch" src="assets/img/touch.png" alt="">
+                                        <hr class="hr-category">
+                                        <h2 class="m-0" ng:bind="category.name"></h2>
+                                    
+                                    </div>
+
+                                    <ul style="list-style: none;" class="second p-0">
+
+                                        <li  class="li-category" ng:repeat="sub in category.sub_category">
+                                            
+                                            <a 
+                                                href="#!/repositorio_cultural" 
+                                                class="sub-category" 
+                                                style="display: inline-flex !important;"
+                                                ng:click="gotoCulturalRepository(category,sub);"
+                                            >
+
+                                                <span class="text-sub">{{ $index+1 + '. - ' + sub.name }} </span>
+                                            </a>
+                                            
+                                            <i ng:style = "{'color': category.color }" style="font-size: 18px !important;" class="fas fa-caret-right fa-2x"></i>
+                                            
+                                        </li>
+                                    </ul>
+                            </div>
+                        
+                        </li>
+                    
+                    </ul>
+
+                </div>
+
+                
+                <div class="container" style=" margin-top:2em;">
+
+                    <div class="d-flex align-items-center justify-content-center">
+
+                        <div class="bg-recorrido">
+
+                            <div class="btn-container">
+
+                                <a class="btn btn-primary btn-lg btn-recorrido" href="#!/recorridos_virtuales">
+                                    Ver Recorridos Virtuales
+                                </a>
+
+                            </div>
+                            
+                            <img ng:src="{{path + 'recorrido/lg.png'}}" class="img-fluid rounded d-none d-sm-block" alt="Responsive image">
+
+                            <img ng:src="{{path + 'recorrido/sm.png'}}" class="img-fluid rounded d-block d-sm-none" alt="Responsive image">
+
+                        </div>
+
+                    </div>
+                    
+                </div>
+                
+                <div class="col-md-12 navegation-container">
+
+                    <div class="events-contain row">
+
+                        <div class="col-md-12">
+                            <div class="row align-items-center">
+                                <div class="col-sm-6">
+                                    <h4 class="title-list">Próximos Eventos </h4>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12 mt-3" ng:if="listEvents.length == 0 ">
+                                
+                            <h5 class="text-center" style="color: var(--color-red);">
+                                <i class="far fa-frown"></i>
+                                Ningún evento registrado.
+                            </h5>
+
+                        </div>
+
+                        <div class="owl-carousel owl-them" id="list-events" ng:show="listEvents.length > 0 ">
+                            <div class="item" ng:repeat = "item in listEvents">  
+                                <div class="col-md-12 p-0">
+                                    <a href="#!/eventos/{{item.url_detail}}" class="link-yellow">
+                                        <img class="" style="border-radius: 5px;" ng:src="{{path + item.background_image}}" alt="{{ item.title }}">  
+                                    </a>
+                                    
+                                    <div class="bg-event p-2">
+
+                                        <div class="p-2 elipsis-title-eventos"> 
+                                            <a href="#!/eventos/{{item.url_detail}}" class="link-yellow">
+                                                <h5 class="mb-0 elipsis-title-eventos" ng:bind="item.title"></h5>   
+                                            </a>                                           
+                                        </div>    
+                                        
+                                        <div class="p-2 elipsis-text-event">
+                                            <span ng:bind="item.description"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 p-0">
+                                    
+                                    <div class="" style="display: flex;">
+                                        <div class="col-md-4 col-sm-4 col-xs-4 p-2 bg-yellow">
+                                            <a href="" class="link-yellow" d:tooltip = "{{item.location}}">
+                                                <img style="width: 40%;" class="m-auto" src="./assets/img/ubicacion-web.png" alt="ubicación">
+                                            </a>
+                                        </div>
+                                        <div class="col-md-4 col-sm-4 col-xs-4 p-2 bg-yellow">
+                                            <a href="" class="link-yellow" d:tooltip = "{{setFecha(item.publication_time)}}">
+                                                <img style="width: 40%;" class="m-auto" src="./assets/img/hora-web.png" alt="hora">
+                                            </a>
+                                        </div>
+                                        <div class="col-md-4 col-sm-4 col-xs-4 p-2 bg-yellow">
+                                            <a href="" class="link-yellow" copy-to-clipboard="{{url_copy}}" ng:click="shareModal(item);" d:tooltip="Compartir">
+                                                <img style="width: 40%;" class="m-auto" src="./assets/img/compartir-web.png" alt="share">
+                                            </a>
+                                        </div>
+                                                
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-12 text-md-right" ng:if="listEvents.length > 0 " style="padding-top: 20px;">
+                            <a href="#!/eventos">
+                                <span>
+                                    VER TODOS  
+                                    <i class="fa fa-arrow-right"></i>
+                                </span>
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                
+                <div class="col-md-12 p-0 navegation-container">
+
+                    <div class="events-contain container">
+
+                        <div class="col-md-12">
+                            <div class="row align-items-center">
+                                <div class="col-sm-6">
+                                    <h4 class="title-list">Noticias </h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mt-3" ng:if="listNoticies.length == 0 ">
+                                
+                            <h5 class="text-center" style="color: var(--color-red);">
+                                <i class="far fa-frown"></i>
+                                Ninguna Noticia registrada.
+                            </h5>
+                        
+                        </div>
+
+                        <div class="owl-carousel owl-them" id="list-blog" ng:show="listNoticies.length > 0 ">
+                            <div class="item" ng:repeat = "item in listNoticies">  
+                                <div class="col-md-12 p-0">
+                                    <a href="#!/noticias/{{item.url}}" class="link-yellow">
+                                        <img class="" style="border-radius: 5px;" ng:src="{{path + item.background_image}}" alt="{{ item.title }}">  
+                                    </a>
+                                    
+                                    <div class="bg-event p-2">
+
+                                        <div class="p-2 elipsis-title-eventos"> 
+                                            <a href="#!/noticias/{{item.url}}" class="link-yellow">
+                                                <h5 class="mb-0 elipsis-title-eventos" ng:bind="item.title"></h5>   
+                                            </a>                                           
+                                        </div>    
+                                        
+                                        <div class="p-2 elipsis-text-event">
+                                            <span ng:bind="item.subtitle"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-12 text-md-right" ng:if="listEvents.length > 0 ">
+                            <a href="#!/noticias">
+                                <span>
+                                    VER TODOS  
+                                    <i class="fa fa-arrow-right"></i>
+                                </span>
+                            </a>
+                        </div>
+
+                    </div>   
+
+                </div>
+
+                <br>
+
+                <div class="col-md-12 p-0">
+
+                    <div class="section-contact" imgs="misImgsContact"  d:view-resize="background" ng:style="getBackgroundStyleContact(misImgsContact.web);">
+
+                        <div class="col-md-12">
+
+                            <div class="row pt-4 pb-4">
+
+
+                                <div class="col-md-6 mt-4 mb-4 contact-description">
+
+                                    <h3 style="color:#ffff; font-weight:bold;" ng:bind="$root.business.contact_title"></h3>
+
+                                    <p style="color:#ffff; font-weight:bold;" ng:bind="$root.business.contact_description"></p>
+
+                                </div>
+
+                                <div class="col-md-5">
+
+                                    <section class="form-contact mt-4 mb-4">
+
+                                        <div class="header-form">
+
+                                            <h3 class="h3-responsive m-0 color-write">
+                                                Descubre mucho más
+                                            </h3>
+                                        
+                                            <span class="text-center w-responsive mx-auto color-write">
+                                                Vive la emoción e historia de de nuestra región.
+                                            </span>
+                                            
+                                        </div>
+                                        
+                                        <div class="container">
+
+                                            <div class="col-md-12 mb-md-0">
+
+                                                <form name="forms.formContact" ng:submit="sendContact();">
+
+                                                    <div class="row">
+
+                                                        <div class="col-md-12">
+
+                                                            <div class="md-form mb-0">
+                                                            
+                                                                <input type="text" name="name" ng:model="contactObject.name" class="form-control" required>
+                                                            
+                                                                <label class="top-0">Nombre</label>
+                                                            
+                                                            </div>
+                                                        
+                                                        </div>
+
+                                                        <div class="col-md-12">
+
+                                                            <div class="md-form mb-0">
+                                                            
+                                                                <input type="text" ng:model="contactObject.city" name="city" class="form-control" required>
+                                                            
+                                                                <label for="ciudad" class="top-0">Ciudad</label>
+                                                            
+                                                            </div>
+                                                        
+                                                        </div>
+                                                        
+                                                    </div>
+
+                                                    <div class="row">
+
+                                                        <div class="col-md-12">
+                                                               
+                                                            <div class="md-form mb-0">
+                                                            
+                                                                <input type="text" ng:model="contactObject.phone" name="phone" class="form-control" required>
+                                                            
+                                                                <label for="telefono" class="top-0">Teléfono</label>
+                                                            
+                                                            </div>
+                                                        
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                        
+                                                            <div class="md-form mb-0">
+                                                        
+                                                                <input type="email" ng:model="contactObject.email" name="email" class="form-control" required>
+                                                        
+                                                                <label for="email" class="top-0">Correo</label>
+                                                        
+                                                            </div>
+                                                        
+                                                        </div>
+                                                    
+                                                    </div>
+                                                    
+                                                    <div class="row">
+
+                                                        <div class="col-md-12">
+
+                                                            <div class="md-form">
+
+                                                                <textarea type="text" ng:model="contactObject.comment" name="comment" rows="2" class="form-control md-textarea" required>
+
+                                                                </textarea>
+                                                                
+                                                                <label for="commentario" >Tu comentario </label>
+                                                            
+                                                            </div>
+
+                                                        </div>
+                                                    
+                                                    </div>
+                                                    
+                                                </form>
+
+                                                <div class="text-md-right">
+                         
+                                                    <button ng:click="sendContact();"
+                                                        type="submit" 
+                                                        class="btn btn-form-contact btn-sm" 
+                                                        style="font-size: 18px !important;"
+                                                        ng:disabled = "spin_form_contact || forms.formContact.$invalid"
+                                                    > 
+
+                                                        <span class="fa fa ml-2 {{ spin_form_contact ? 'fa-spin fa-spinner' : 'fa-send'}}"></span>
+
+                                                        {{ spin_form_contact ? 'ENVIANDO ... ' : 'ENVIAR' }}
+
+                                                    </button>
+
+                                                </div>
+
+                                                <div class="status"></div>
+                                            
+                                            </div>
+
+                                        </div>
+
+                                    </section>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        
+    </div>
+
+</div>

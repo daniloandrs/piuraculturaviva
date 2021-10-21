@@ -1,0 +1,72 @@
+.float-fondo {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 0px;
+    -webkit-transition: 1s;
+    -moz-transition: 1s;
+    -ms-transition: 1s;
+    -o-transition: 1s;
+    transition: 1s;
+    z-index: 1500;
+}
+
+.float-fondo img {
+    height: 0% !important;
+    -webkit-transition: 1s;
+    -moz-transition: 1s;
+    -ms-transition: 1s;
+    -o-transition: 1s;
+    transition: 1s;
+}
+
+.float-fondo.show-fondo {
+    top: 0;
+    width: 28em;
+
+    -webkit-transition: 1s;
+    -moz-transition: 1s;
+    -ms-transition: 1s;
+    -o-transition: 1s;
+    transition: 1s;
+}
+
+.logo-caja{
+    position: absolute;
+    bottom: -18px;
+    left: -3em;
+    color: #f2bf27;
+    cursor: pointer;
+}
+
+
+.float-fondo.show-fondo img{
+    height: 100% !important;
+
+}
+
+
+@media only screen and (max-width: 766px) { 
+
+    .wrapper {
+        margin-top: 0em;
+    }
+
+    .logo-caja{
+        position: fixed;
+        bottom: 0;
+        left: 87%;
+        color: #f2bf27;
+        z-index: 10000;
+        cursor: pointer;
+    }
+
+    .float-fondo.show-fondo {
+        width: 28em;
+        -webkit-transition: 1s;
+        -moz-transition: 1s;
+        -ms-transition: 1s;
+        -o-transition: 1s;
+        transition: 1s;
+    }
+}
